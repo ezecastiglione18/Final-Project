@@ -1,0 +1,10 @@
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.exe.config
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.exe
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.pdb
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csprojResolveAssemblyReference.cache
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form1.resources
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form2.resources
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Properties.Resources.resources
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csproj.GenerateResource.Cache
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.exe
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.pdb
