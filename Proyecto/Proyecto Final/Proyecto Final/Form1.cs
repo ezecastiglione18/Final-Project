@@ -17,7 +17,7 @@ namespace Proyecto_Final
         {
             InitializeComponent(); 
         }        
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private void ptbWelcome_Click_1(object sender, EventArgs e)
         {
             //lblNombre.Font = Resources.GetFont(Resources.FontResources.meatloaf);
             string Nombre = "";
@@ -27,7 +27,8 @@ namespace Proyecto_Final
                 if (!Nombre.Any(char.IsDigit))
                 {
                     lblError.Visible = false;
-                    MessageBox.Show("Bienvenido/a, " + Nombre + ". Vamos a aprender inglés juntos!");
+                    
+                    MessageBox.Show("Vamos a aprender inglés juntos!","Bienvenido/a " + Nombre);
                     f2 = new Form2();
                     f2.Show();
                     this.Hide();

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.lblNivel = new System.Windows.Forms.Label();
             this.cboNiveles = new System.Windows.Forms.ComboBox();
             this.btnJugar = new System.Windows.Forms.Button();
@@ -39,6 +40,7 @@
             // lblNivel
             // 
             this.lblNivel.AutoSize = true;
+            this.lblNivel.BackColor = System.Drawing.Color.Transparent;
             this.lblNivel.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNivel.Location = new System.Drawing.Point(138, 59);
             this.lblNivel.Name = "lblNivel";
@@ -77,6 +79,7 @@
             // lblGo
             // 
             this.lblGo.AutoSize = true;
+            this.lblGo.BackColor = System.Drawing.Color.Transparent;
             this.lblGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGo.ForeColor = System.Drawing.Color.Firebrick;
             this.lblGo.Location = new System.Drawing.Point(163, 173);
@@ -94,6 +97,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(441, 261);
             this.Controls.Add(this.lblGo);
             this.Controls.Add(this.btnJugar);
