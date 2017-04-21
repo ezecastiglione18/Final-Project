@@ -1,0 +1,43 @@
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.exe.config
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.exe
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.pdb
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csprojResolveAssemblyReference.cache
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form1.resources
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form2.resources
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Properties.Resources.resources
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csproj.GenerateResource.Cache
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.exe
+Z:\Proyecto final\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.pdb
+Z:\Final-Project\Proyecto\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.exe.config
+Z:\Final-Project\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.exe
+Z:\Final-Project\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.pdb
+Z:\Final-Project\Proyecto\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.exe
+Z:\Final-Project\Proyecto\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.pdb
+Z:\Final-Project\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csprojResolveAssemblyReference.cache
+Z:\Final-Project\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Easy.resources
+Z:\Final-Project\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form1.resources
+Z:\Final-Project\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form2.resources
+Z:\Final-Project\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Properties.Resources.resources
+Z:\Final-Project\Proyecto\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csproj.GenerateResource.Cache
+C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.exe.config
+C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.exe
+C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.pdb
+C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.exe
+C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.pdb
+C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csprojResolveAssemblyReference.cache
+C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Easy.resources
+C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form1.resources
+C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form2.resources
+C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Properties.Resources.resources
+C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csproj.GenerateResource.Cache
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.exe.config
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.exe
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.pdb
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csprojResolveAssemblyReference.cache
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Easy.resources
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form1.resources
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form2.resources
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csproj.GenerateResource.Cache
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.exe
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.pdb
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Properties.Resources.resources
