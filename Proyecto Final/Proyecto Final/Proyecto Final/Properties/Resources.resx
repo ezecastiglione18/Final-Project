@@ -133,6 +133,9 @@
   <data name="Empezar_a_Jugar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Empezar a Jugar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Medium" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Medium1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Easy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Easy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -151,7 +154,7 @@
   <data name="Meatloaf" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Meatloaf.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Medium" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Medium1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Salir" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Salir.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

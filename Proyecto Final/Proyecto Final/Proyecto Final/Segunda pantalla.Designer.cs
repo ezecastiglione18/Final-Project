@@ -34,7 +34,9 @@
             this.lblGo = new System.Windows.Forms.Label();
             this.Timer = new System.Windows.Forms.Timer(this.components);
             this.ptbJugar = new System.Windows.Forms.PictureBox();
+            this.ptbSalir = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.ptbJugar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptbSalir)).BeginInit();
             this.SuspendLayout();
             // 
             // lblNivel
@@ -95,6 +97,18 @@
             this.ptbJugar.TabStop = false;
             this.ptbJugar.Click += new System.EventHandler(this.ptbJugar_Click_1);
             // 
+            // ptbSalir
+            // 
+            this.ptbSalir.BackColor = System.Drawing.Color.Transparent;
+            this.ptbSalir.Image = global::Proyecto_Final.Properties.Resources.Salir;
+            this.ptbSalir.Location = new System.Drawing.Point(448, 248);
+            this.ptbSalir.Name = "ptbSalir";
+            this.ptbSalir.Size = new System.Drawing.Size(119, 65);
+            this.ptbSalir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ptbSalir.TabIndex = 6;
+            this.ptbSalir.TabStop = false;
+            this.ptbSalir.Click += new System.EventHandler(this.ptbSalir_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -102,6 +116,7 @@
             this.BackgroundImage = global::Proyecto_Final.Properties.Resources._6_vector_game_backgrounds_8003_imgs_8003_1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(579, 321);
+            this.Controls.Add(this.ptbSalir);
             this.Controls.Add(this.cboNiveles);
             this.Controls.Add(this.lblGo);
             this.Controls.Add(this.ptbJugar);
@@ -109,6 +124,7 @@
             this.Name = "Form2";
             this.Text = "Welcome!";
             ((System.ComponentModel.ISupportInitialize)(this.ptbJugar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptbSalir)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -121,5 +137,6 @@
         private System.Windows.Forms.Label lblGo;
         private System.Windows.Forms.Timer Timer;
         private System.Windows.Forms.PictureBox ptbJugar;
+        private System.Windows.Forms.PictureBox ptbSalir;
     }
 }

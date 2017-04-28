@@ -23,8 +23,7 @@ namespace Proyecto_Final
         }
         private void ptbWelcome_Click_1(object sender, EventArgs e)
         {
-            //lblNombre.Font = Resources.GetFont(Resources.FontResources.Meatloaf);
-
+            //AGREGAR FONT
             string Nombre = "";
             Nombre = txtNombreUsuario.Text;
             if (Nombre != "")
@@ -63,6 +62,9 @@ namespace Proyecto_Final
             }
         }
 
-
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

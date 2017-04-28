@@ -32,7 +32,9 @@
             this.txtNombreUsuario = new System.Windows.Forms.TextBox();
             this.lblError = new System.Windows.Forms.Label();
             this.ptbWelcome = new System.Windows.Forms.PictureBox();
+            this.ptbSalir = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.ptbWelcome)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptbSalir)).BeginInit();
             this.SuspendLayout();
             // 
             // lblNombre
@@ -81,6 +83,18 @@
             this.ptbWelcome.TabStop = false;
             this.ptbWelcome.Click += new System.EventHandler(this.ptbWelcome_Click_1);
             // 
+            // ptbSalir
+            // 
+            this.ptbSalir.BackColor = System.Drawing.Color.Transparent;
+            this.ptbSalir.Image = global::Proyecto_Final.Properties.Resources.Salir;
+            this.ptbSalir.Location = new System.Drawing.Point(448, 247);
+            this.ptbSalir.Name = "ptbSalir";
+            this.ptbSalir.Size = new System.Drawing.Size(119, 65);
+            this.ptbSalir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ptbSalir.TabIndex = 5;
+            this.ptbSalir.TabStop = false;
+            this.ptbSalir.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -88,6 +102,7 @@
             this.BackgroundImage = global::Proyecto_Final.Properties.Resources._6_vector_game_backgrounds_8003_imgs_8003_1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(579, 321);
+            this.Controls.Add(this.ptbSalir);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.txtNombreUsuario);
             this.Controls.Add(this.lblNombre);
@@ -95,6 +110,7 @@
             this.Name = "Form1";
             this.Text = "Amazenglish";
             ((System.ComponentModel.ISupportInitialize)(this.ptbWelcome)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptbSalir)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -106,6 +122,7 @@
         private System.Windows.Forms.TextBox txtNombreUsuario;
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.PictureBox ptbWelcome;
+        private System.Windows.Forms.PictureBox ptbSalir;
     }
 }
 

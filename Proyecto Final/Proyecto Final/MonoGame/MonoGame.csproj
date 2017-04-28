@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{34065C06-A5B8-4AC7-B924-34563538CFED}</ProjectGuid>
+    <ProjectGuid>{F853A8E7-2BE0-490F-9DCB-4CD461977584}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MonoGame</RootNamespace>

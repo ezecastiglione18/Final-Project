@@ -30,14 +30,35 @@ C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\
 C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form2.resources
 C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Properties.Resources.resources
 C:\Users\lilac\Downloads\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csproj.GenerateResource.Cache
-Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.exe.config
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.exe
-Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.pdb
-Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csprojResolveAssemblyReference.cache
-Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Easy.resources
-Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form1.resources
-Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form2.resources
-Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csproj.GenerateResource.Cache
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.exe.config
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.exe
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\Proyecto Final.pdb
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\MonoGame.exe
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\MonoGame.Framework.dll
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.XAudio2.dll
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.dll
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.DXGI.dll
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.Direct3D11.dll
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.Direct2D1.dll
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.XInput.dll
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.MediaFoundation.dll
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\MonoGame.pdb
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\MonoGame.Framework.xml
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.XAudio2.xml
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.xml
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.DXGI.xml
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.Direct3D11.xml
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.Direct2D1.xml
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.XInput.xml
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.MediaFoundation.xml
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csprojResolveAssemblyReference.cache
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csproj.Proyecto Final.exe.config
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Advanced.resources
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Difficult.resources
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Medium.resources
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form1.resources
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Form2.resources
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Properties.Resources.resources
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csproj.GenerateResource.Cache
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.pdb

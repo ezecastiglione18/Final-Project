@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,11 +59,11 @@
     <Compile Include="Difficult.Designer.cs">
       <DependentUpon>Difficult.cs</DependentUpon>
     </Compile>
-    <Compile Include="Easy.cs">
+    <Compile Include="Medium.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Easy.Designer.cs">
-      <DependentUpon>Easy.cs</DependentUpon>
+    <Compile Include="Medium.Designer.cs">
+      <DependentUpon>Medium.cs</DependentUpon>
     </Compile>
     <Compile Include="Pantalla principal.cs">
       <SubType>Form</SubType>
@@ -76,12 +77,6 @@
     <Compile Include="Segunda pantalla.Designer.cs">
       <DependentUpon>Segunda pantalla.cs</DependentUpon>
     </Compile>
-    <Compile Include="Medium.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Medium.Designer.cs">
-      <DependentUpon>Medium.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Advanced.resx">
@@ -89,9 +84,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Difficult.resx">
       <DependentUpon>Difficult.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Easy.resx">
-      <DependentUpon>Easy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Medium.resx">
       <DependentUpon>Medium.cs</DependentUpon>
@@ -128,6 +120,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Easy.png" />
+    <None Include="Resources\Salir.png" />
     <None Include="Resources\Medium1.jpg" />
     <None Include="Resources\Difficult.jpg" />
     <None Include="Resources\Tronco.png" />
@@ -135,7 +129,6 @@
     <None Include="Resources\Medium.jpg" />
     <None Include="Resources\Hard.jpg" />
     <None Include="Resources\Empezar a Jugar.png" />
-    <None Include="Resources\Easy.png" />
     <None Include="Resources\6-vector-game-backgrounds-8003_imgs_8003_1.png" />
     <None Include="Resources\Advanced.jpg" />
     <Content Include="Resources\Boton.mp3" />
@@ -144,7 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame\MonoGame.csproj">
-      <Project>{34065c06-a5b8-4ac7-b924-34563538cfed}</Project>
+      <Project>{f853a8e7-2be0-490f-9dcb-4cd461977584}</Project>
       <Name>MonoGame</Name>
     </ProjectReference>
   </ItemGroup>

@@ -9,9 +9,10 @@ namespace MonoGame
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        GraphicsDeviceManager graphics;
 
+        private Texture2D background;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -37,9 +38,10 @@ namespace MonoGame
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            background = Content.Load<Texture2D>("Easy.png");
+            
             // TODO: use this.Content to load your game content here
         }
 
@@ -73,9 +75,13 @@ namespace MonoGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            spriteBatch.Draw(background, new Rectangle(0, 0, 800, 480), Color.White);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

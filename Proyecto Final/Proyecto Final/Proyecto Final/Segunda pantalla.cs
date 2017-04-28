@@ -7,12 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MonoGame;
 
 namespace Proyecto_Final
 {
     public partial class Form2 : Form
     {
-        Form Easy = new Form();
         Form Medium = new Form();
         Form Difficult = new Form();
         Form Advanced = new Form();
@@ -52,7 +52,7 @@ namespace Proyecto_Final
             switch (cboNiveles.Text)
             {
                 case "Easy":
-                    Easy.Show();
+                    //Easy.Show();
                     this.Close();
                     break;
                 case "Medium":
@@ -69,5 +69,11 @@ namespace Proyecto_Final
                     break;
             }
         }
+
+        private void ptbSalir_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
     }
 }
