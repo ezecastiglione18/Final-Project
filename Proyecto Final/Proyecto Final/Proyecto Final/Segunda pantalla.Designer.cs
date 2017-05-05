@@ -35,6 +35,7 @@
             this.Timer = new System.Windows.Forms.Timer(this.components);
             this.ptbJugar = new System.Windows.Forms.PictureBox();
             this.ptbSalir = new System.Windows.Forms.PictureBox();
+            this.lblError = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ptbJugar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptbSalir)).BeginInit();
             this.SuspendLayout();
@@ -89,7 +90,6 @@
             this.ptbJugar.BackColor = System.Drawing.Color.Transparent;
             this.ptbJugar.BackgroundImage = global::Proyecto_Final.Properties.Resources.Empezar_a_Jugar;
             this.ptbJugar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ptbJugar.Enabled = false;
             this.ptbJugar.Location = new System.Drawing.Point(61, 117);
             this.ptbJugar.Name = "ptbJugar";
             this.ptbJugar.Size = new System.Drawing.Size(264, 101);
@@ -109,6 +109,20 @@
             this.ptbSalir.TabStop = false;
             this.ptbSalir.Click += new System.EventHandler(this.ptbSalir_Click);
             // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.BackColor = System.Drawing.Color.Transparent;
+            this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblError.ForeColor = System.Drawing.Color.Black;
+            this.lblError.Location = new System.Drawing.Point(124, 215);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(85, 29);
+            this.lblError.TabIndex = 7;
+            this.lblError.Text = "label1";
+            this.lblError.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblError.Visible = false;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -116,6 +130,7 @@
             this.BackgroundImage = global::Proyecto_Final.Properties.Resources._6_vector_game_backgrounds_8003_imgs_8003_1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(579, 321);
+            this.Controls.Add(this.lblError);
             this.Controls.Add(this.ptbSalir);
             this.Controls.Add(this.cboNiveles);
             this.Controls.Add(this.lblGo);
@@ -138,5 +153,6 @@
         private System.Windows.Forms.Timer Timer;
         private System.Windows.Forms.PictureBox ptbJugar;
         private System.Windows.Forms.PictureBox ptbSalir;
+        private System.Windows.Forms.Label lblError;
     }
 }

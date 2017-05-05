@@ -59,6 +59,12 @@
     <Compile Include="Difficult.Designer.cs">
       <DependentUpon>Difficult.cs</DependentUpon>
     </Compile>
+    <Compile Include="Easy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Easy.Designer.cs">
+      <DependentUpon>Easy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Medium.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Difficult.resx">
       <DependentUpon>Difficult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Easy.resx">
+      <DependentUpon>Easy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Medium.resx">
       <DependentUpon>Medium.cs</DependentUpon>
@@ -121,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Easy.png" />
+    <None Include="Resources\Volver1.png" />
     <None Include="Resources\Salir.png" />
     <None Include="Resources\Medium1.jpg" />
     <None Include="Resources\Difficult.jpg" />
@@ -136,10 +146,13 @@
     <None Include="Resources\Incorrecto.wav" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MonoGame\MonoGame.csproj">
-      <Project>{f853a8e7-2be0-490f-9dcb-4cd461977584}</Project>
+    <ProjectReference Include="..\MonoGame\MonoGame\MonoGame.csproj">
+      <Project>{05e561bd-4ad2-4f25-aa07-cbc4cd938ae8}</Project>
       <Name>MonoGame</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

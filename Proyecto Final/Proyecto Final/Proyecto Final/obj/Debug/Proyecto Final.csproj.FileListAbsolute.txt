@@ -52,7 +52,6 @@ Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.Direct2D1.xml
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.XInput.xml
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\bin\Debug\SharpDX.MediaFoundation.xml
-Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csprojResolveAssemblyReference.cache
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csproj.Proyecto Final.exe.config
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Advanced.resources
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Difficult.resources
@@ -62,3 +61,5 @@ Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Properties.Resources.resources
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csproj.GenerateResource.Cache
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.pdb
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csprojResolveAssemblyReference.cache
+Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Easy.resources
