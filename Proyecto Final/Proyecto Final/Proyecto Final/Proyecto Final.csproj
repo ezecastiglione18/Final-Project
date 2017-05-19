@@ -77,6 +77,11 @@
     <Compile Include="Pantalla principal.Designer.cs">
       <DependentUpon>Pantalla principal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Segunda pantalla.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,11 +117,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -129,18 +129,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Easy.png" />
     <None Include="Resources\Volver1.png" />
     <None Include="Resources\Salir.png" />
-    <None Include="Resources\Medium1.jpg" />
-    <None Include="Resources\Difficult.jpg" />
     <None Include="Resources\Tronco.png" />
     <None Include="Resources\Tronco bien.png" />
-    <None Include="Resources\Medium.jpg" />
-    <None Include="Resources\Hard.jpg" />
     <None Include="Resources\Empezar a Jugar.png" />
     <None Include="Resources\6-vector-game-backgrounds-8003_imgs_8003_1.png" />
-    <None Include="Resources\Advanced.jpg" />
     <Content Include="Resources\Boton.mp3" />
     <None Include="Resources\Correcto.wav" />
     <None Include="Resources\Incorrecto.wav" />

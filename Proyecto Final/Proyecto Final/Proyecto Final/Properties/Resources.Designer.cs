@@ -71,16 +71,6 @@ namespace Proyecto_Final.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Advanced {
-            get {
-                object obj = ResourceManager.GetObject("Advanced", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
         internal static System.IO.UnmanagedMemoryStream Correcto {
@@ -96,26 +86,6 @@ namespace Proyecto_Final.Properties {
             get {
                 object obj = ResourceManager.GetObject("DANCING_JUNGLE", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Difficult {
-            get {
-                object obj = ResourceManager.GetObject("Difficult", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Easy {
-            get {
-                object obj = ResourceManager.GetObject("Easy", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -145,16 +115,6 @@ namespace Proyecto_Final.Properties {
             get {
                 object obj = ResourceManager.GetObject("Meatloaf", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Medium {
-            get {
-                object obj = ResourceManager.GetObject("Medium", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

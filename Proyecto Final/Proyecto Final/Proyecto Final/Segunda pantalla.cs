@@ -13,6 +13,7 @@ namespace Proyecto_Final
 {
     public partial class Form2 : Form
     {
+        Form1 f1;
         System.Media.SoundPlayer player = new System.Media.SoundPlayer();
         System.IO.Stream str;
         public Form2()
@@ -79,6 +80,13 @@ namespace Proyecto_Final
         private void ptbSalir_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void ptbVolver_Click(object sender, EventArgs e)
+        {
+            f1 = new Form1();
+            f1.Show();
+            this.Hide();
         }
     }
 }

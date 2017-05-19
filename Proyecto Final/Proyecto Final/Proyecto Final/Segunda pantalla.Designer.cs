@@ -36,8 +36,10 @@
             this.ptbJugar = new System.Windows.Forms.PictureBox();
             this.ptbSalir = new System.Windows.Forms.PictureBox();
             this.lblError = new System.Windows.Forms.Label();
+            this.ptbVolver = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.ptbJugar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptbSalir)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptbVolver)).BeginInit();
             this.SuspendLayout();
             // 
             // lblNivel
@@ -123,6 +125,18 @@
             this.lblError.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblError.Visible = false;
             // 
+            // ptbVolver
+            // 
+            this.ptbVolver.BackColor = System.Drawing.Color.Transparent;
+            this.ptbVolver.BackgroundImage = global::Proyecto_Final.Properties.Resources.Volver1;
+            this.ptbVolver.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ptbVolver.Location = new System.Drawing.Point(12, 13);
+            this.ptbVolver.Name = "ptbVolver";
+            this.ptbVolver.Size = new System.Drawing.Size(57, 50);
+            this.ptbVolver.TabIndex = 8;
+            this.ptbVolver.TabStop = false;
+            this.ptbVolver.Click += new System.EventHandler(this.ptbVolver_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -130,6 +144,7 @@
             this.BackgroundImage = global::Proyecto_Final.Properties.Resources._6_vector_game_backgrounds_8003_imgs_8003_1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(579, 321);
+            this.Controls.Add(this.ptbVolver);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.ptbSalir);
             this.Controls.Add(this.cboNiveles);
@@ -140,6 +155,7 @@
             this.Text = "Welcome!";
             ((System.ComponentModel.ISupportInitialize)(this.ptbJugar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptbSalir)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptbVolver)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -154,5 +170,6 @@
         private System.Windows.Forms.PictureBox ptbJugar;
         private System.Windows.Forms.PictureBox ptbSalir;
         private System.Windows.Forms.Label lblError;
+        private System.Windows.Forms.PictureBox ptbVolver;
     }
 }
