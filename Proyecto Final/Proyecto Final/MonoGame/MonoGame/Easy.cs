@@ -21,18 +21,21 @@ namespace MonoGame
         private SpriteFont Font;
         private SpriteFont fontsmall;
         private Texture2D grilla;
-        private int ampera = 0;
-        string elemento;
-        string selected;
+        private SoundEffect incorrecto;
+        private SoundEffect correcto;
+        string encontrado = "";
         int num;
-        int posicion=1;
+        int posicion = 1;
         int posx;
         int posy;
         private bool SopaCreada = false;
+        private bool ImagenesCreadas = false;
         Random random = new Random();
 
 
         string[,] matriz = new string[8, 8];
+        string[,] matrizOK = new string[8, 8];
+        int[,] posiciones = new int[6, 2]{ { 520, 200 }, { 660, 230 }, { 520, 130 }, { 610, 80 }, { 530, 350 }, { 730, 120 } };
         string[] Palabras = { "arm", "leg", "eyes", "head", "elbow", "mouth" };
         Texture2D[] Imagenes = new Texture2D [6];
         public Easy()
@@ -72,7 +75,6 @@ namespace MonoGame
         }
         protected override void UnloadContent()
         {
-
         }
         protected override void Update(GameTime gameTime)
         {
@@ -82,44 +84,68 @@ namespace MonoGame
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    int PosSelecx = (mousePosition.X / 50)-1;
-                    int PosSelecy = (mousePosition.Y / 50)-1;
+                    int PosSelecx = (mousePosition.X / 50) - 1;
+                    int PosSelecy = (mousePosition.Y / 50) - 1;
                     spriteBatch.Begin();
-                    spriteBatch.DrawString(Font, matriz[PosSelecx,PosSelecy], new Vector2((PosSelecx+1)*50+10, (PosSelecy+1)*50+10), Color.Red);
-                    selected += matriz[PosSelecx, PosSelecy];
-                    for (int i = 0; i < Palabras.Length; i++)
-                    {
-                        if (selected == Palabras[i])
-                        {
-                            Imagenes[i]
-                        }
-                    }
+                    spriteBatch.DrawString(Font, matriz[PosSelecx, PosSelecy], new Vector2((PosSelecx + 1) * 50 + 10, (PosSelecy + 1) * 50 + 10), Color.Red);
+                    matrizOK[PosSelecx, PosSelecy] = matriz[PosSelecx, PosSelecy];
                     spriteBatch.End();
                 }
+                else
+                {
+                   
+                }
             }
-                
+            for (int i = 0; i < Palabras.Length; i++)
+            {
+                string ABuscar = BuscarPalabraMatrizOK();
+                if (ABuscar == Palabras[i])
+                {
+                    Imagenes[i] = null;
+                    ImagenesCreadas = false;
+                    LimpiarMatrizOK();
+                }
+            }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             base.Update(gameTime);
         }
+
+        public string BuscarPalabraMatrizOK()
+        {
+            string Palabra = "";
+            for (int i = 0; i <= 7; i++)
+            {
+                for (int j = 0; j <= 7; j++)
+                {
+                    if (matrizOK[i, j] != null)
+                    {
+                        Palabra += matrizOK[i, j];
+                    }
+                    
+                }
+            }
+            return Palabra;
+        }
+        public void LimpiarMatrizOK()
+        {
+            for (int i = 0; i <= 7; i++)
+            {
+                for (int j = 0; j <= 7; j++)
+                {
+                    matrizOK[i, j] = null;
+                }
+            }
+        }
         protected override void Draw(GameTime gameTime)
         {
+            spriteBatch.Begin();
             if (!SopaCreada)
             {
                 GraphicsDevice.Clear(Color.CornflowerBlue);
-
-                spriteBatch.Begin();
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
-                spriteBatch.DrawString(fontsmall, "Find these body parts!", new Vector2(480, 60), Color.Black);
-                spriteBatch.Draw(arm, new Vector2(520, 200),Color.White);
-                spriteBatch.Draw(leg, new Vector2(660, 230),Color.White);
-                spriteBatch.Draw(eyes, new Vector2(520, 130),Color.White);
-                spriteBatch.Draw(head, new Vector2(610, 80),Color.White);
-                spriteBatch.Draw(elbow, new Vector2(530, 350), Color.White);
-                spriteBatch.Draw(mouth, new Vector2(730, 120), Color.White);
-
-
+                
 
                 grilla = new Texture2D(graphics.GraphicsDevice, 1, 1);
                 grilla.SetData(new Color[] { Color.White });
@@ -228,11 +254,11 @@ namespace MonoGame
                                     }
                                 }
                             }
-                            break;
-
+                        break;
                     }
                 }
 
+                //LETRAS RANDOM
                 for (int fila = 0; fila <= 7; fila++)
                 {
                     for (int columna = 0; columna <= 7; columna++)
@@ -253,23 +279,26 @@ namespace MonoGame
                     }
                 }
 
-                spriteBatch.End();
                 SopaCreada = true;
                 base.Draw(gameTime);
             }
-
-    }
-
-        internal class Size
-        {
-            private int v1;
-            private int v2;
-
-            public Size(int v1, int v2)
+            if (!ImagenesCreadas)
             {
-                this.v1 = v1;
-                this.v2 = v2;
+                spriteBatch.DrawString(fontsmall, "Find these body parts!", new Vector2(480, 60), Color.Black);
+                for (int i = 0; i <= Imagenes.Length - 1; i++)
+                {
+                    if (Imagenes[i] != null)
+                    {
+                        spriteBatch.Draw(Imagenes[i], new Vector2(posiciones[i, 0], posiciones[i, 1]), Color.White);
+                    }
+                }
+                ImagenesCreadas = true;
             }
+            spriteBatch.End();
+
         }
+       
+
+       
     }
 }

@@ -87,7 +87,7 @@
             // 
             this.ptbSalir.BackColor = System.Drawing.Color.Transparent;
             this.ptbSalir.Image = global::Proyecto_Final.Properties.Resources.Salir;
-            this.ptbSalir.Location = new System.Drawing.Point(448, 247);
+            this.ptbSalir.Location = new System.Drawing.Point(448, 254);
             this.ptbSalir.Name = "ptbSalir";
             this.ptbSalir.Size = new System.Drawing.Size(119, 65);
             this.ptbSalir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -109,6 +109,7 @@
             this.Controls.Add(this.ptbWelcome);
             this.Name = "Form1";
             this.Text = "Amazenglish";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ptbWelcome)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptbSalir)).EndInit();
             this.ResumeLayout(false);

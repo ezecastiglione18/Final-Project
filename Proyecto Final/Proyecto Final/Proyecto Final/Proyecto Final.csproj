@@ -59,12 +59,6 @@
     <Compile Include="Difficult.Designer.cs">
       <DependentUpon>Difficult.cs</DependentUpon>
     </Compile>
-    <Compile Include="Easy.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Easy.Designer.cs">
-      <DependentUpon>Easy.cs</DependentUpon>
-    </Compile>
     <Compile Include="Medium.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,9 +89,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Difficult.resx">
       <DependentUpon>Difficult.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Easy.resx">
-      <DependentUpon>Easy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Medium.resx">
       <DependentUpon>Medium.cs</DependentUpon>

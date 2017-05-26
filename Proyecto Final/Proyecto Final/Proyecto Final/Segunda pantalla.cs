@@ -13,6 +13,7 @@ namespace Proyecto_Final
 {
     public partial class Form2 : Form
     {
+        
         Form1 f1;
         System.Media.SoundPlayer player = new System.Media.SoundPlayer();
         System.IO.Stream str;
@@ -44,9 +45,7 @@ namespace Proyecto_Final
 
         private void ptbJugar_Click_1(object sender, EventArgs e)
         {
-            using (MonoGame.Easy game = new MonoGame.Easy())
             {
-                game.Window.BeginScreenDeviceChange(false);
                 switch (cboNiveles.Text)
                 {
                     default:
@@ -56,7 +55,8 @@ namespace Proyecto_Final
                         break;
                     case "Easy":
                         str = Properties.Resources.Correcto;
-                        game.Run();
+                        //Easy.Run();
+                        Easy.Run();
                         this.Close();
                         break;
                     case "Medium":

@@ -15,6 +15,7 @@ namespace Proyecto_Final
 {    
     public partial class Form1 : Form
     {
+        static String Nombre;
         Form2 f2;
         System.Media.SoundPlayer player = new System.Media.SoundPlayer();
         public Form1()
@@ -23,8 +24,6 @@ namespace Proyecto_Final
         }
         private void ptbWelcome_Click_1(object sender, EventArgs e)
         {
-            //AGREGAR FONT
-            string Nombre = "";
             Nombre = txtNombreUsuario.Text;
             if (Nombre != "")
             {
@@ -65,6 +64,12 @@ namespace Proyecto_Final
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            txtNombreUsuario.Text = Nombre;
+            ptbWelcome.Focus();
         }
     }
 }

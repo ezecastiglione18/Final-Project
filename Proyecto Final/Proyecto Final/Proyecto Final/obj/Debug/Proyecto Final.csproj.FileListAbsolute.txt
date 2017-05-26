@@ -62,4 +62,3 @@ Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csproj.GenerateResource.Cache
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.pdb
 Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto Final.csprojResolveAssemblyReference.cache
-Z:\Final-Project\Proyecto Final\Proyecto Final\Proyecto Final\obj\Debug\Proyecto_Final.Easy.resources

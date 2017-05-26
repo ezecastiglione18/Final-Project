@@ -103,7 +103,7 @@
             // 
             this.ptbSalir.BackColor = System.Drawing.Color.Transparent;
             this.ptbSalir.Image = global::Proyecto_Final.Properties.Resources.Salir;
-            this.ptbSalir.Location = new System.Drawing.Point(448, 248);
+            this.ptbSalir.Location = new System.Drawing.Point(448, 256);
             this.ptbSalir.Name = "ptbSalir";
             this.ptbSalir.Size = new System.Drawing.Size(119, 65);
             this.ptbSalir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;

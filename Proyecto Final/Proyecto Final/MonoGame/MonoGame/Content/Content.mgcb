@@ -123,3 +123,15 @@
 /processorParam:TextureFormat=Compressed
 /build:small.spritefont
 
+#begin Sonidos/Correcto.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sonidos/Correcto.wav
+
+#begin Sonidos/Incorrecto.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sonidos/Incorrecto.wav
+
