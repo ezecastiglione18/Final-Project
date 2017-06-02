@@ -32,6 +32,8 @@ namespace MonoGame
         private bool SopaCreada = false;
         private bool ImagenesCreadas = false;
         private bool PalabraEncontrada = false;
+        private bool Ok = false;
+        string ABuscar = "";
         Random random = new Random();
 
 
@@ -88,6 +90,7 @@ namespace MonoGame
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
+                    Ok = true;
                     int PosSelecx = (mousePosition.X / 50) - 1;
                     int PosSelecy = (mousePosition.Y / 50) - 1;
                     selected[cont, 0] = PosSelecx;
@@ -100,37 +103,36 @@ namespace MonoGame
                     spriteBatch.Begin();
                     spriteBatch.DrawString(Font, matriz[PosSelecx, PosSelecy], new Vector2((PosSelecx + 1) * 50 + 10, (PosSelecy + 1) * 50 + 10), Color.Red);
                     matrizOK[PosSelecx, PosSelecy] = matriz[PosSelecx, PosSelecy];
+                    ABuscar = BuscarPalabraMatrizOK();
                     spriteBatch.End();
                 }
                 else
                 {
-                    for (int i = 0; i < 6; i++)
+                    /*if (!PalabraEncontrada && Ok)
+                      {
+                          Colorear(false, ABuscar);
+                          Ok = false;
+                      }*/
+                    for (int i = 0; i < Palabras.Length; i++)
                     {
-                        if (PalabraEncontrada)
+                        if (ABuscar == Palabras[i])
                         {
-                            spriteBatch.Begin();
-                            spriteBatch.DrawString(Font, matriz[selected[i, 0], selected[i, 1]], new Vector2((selected[i, 0] + 1) * 50 + 10, (selected[i, 1] + 1) * 50 + 10), Color.Green);
-                            spriteBatch.End();
+                            Imagenes[i] = null;
+                            ImagenesCreadas = false;
+                            PalabraEncontrada = true;
+                            Colorear(true, ABuscar);
+                            for (int j = 0; j < 6; j++)
+                            {
+                                for (int k = 0; k < 2; k++)
+                                {
+                                    selected[j, k] = 0;
+                                }
+                            }
+                            correcto.Play();
+                            LimpiarMatrizOK();
                         }
-                        else
-                        {
-                            spriteBatch.Begin();
-                            spriteBatch.DrawString(Font, matriz[selected[i, 0], selected[i, 1]], new Vector2((selected[i, 0] + 1) * 50 + 10, (selected[i, 1] + 1) * 50 + 10), Color.Black);
-                            spriteBatch.End();
-                        }
-                    }
-                }
-            }
-            string ABuscar = BuscarPalabraMatrizOK();
-            for (int i = 0; i < Palabras.Length; i++)
-            {
-                if (ABuscar == Palabras[i])
-                {
-                    Imagenes[i] = null;
-                    ImagenesCreadas = false;
-                    PalabraEncontrada = true;
-                    correcto.Play();
-                    LimpiarMatrizOK();
+                      
+                    } 
                 }
             }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -149,8 +151,7 @@ namespace MonoGame
                     if (matrizOK[i, j] != null)
                     {
                         Palabra += matrizOK[i, j];
-                    }
-                    
+                    }  
                 }
             }
             return Palabra;
@@ -164,6 +165,29 @@ namespace MonoGame
                     matrizOK[i, j] = null;
                 }
             }
+        }
+
+        public void Colorear(bool color, string Palabra)
+        {
+            if (color)
+            {
+                for (int i = 0; i < Palabra.Length; i++)
+                {
+                    spriteBatch.Begin();
+                    spriteBatch.DrawString(Font,Palabra[i].ToString(), new Vector2((selected[i, 0]+1) * 50 + 10, (selected[i, 1]+1) * 50 + 10), Color.LimeGreen);
+                    spriteBatch.End();
+                }
+            }
+            else
+            {
+                for (int i = 0; i <= 5; i++)
+                {
+                    spriteBatch.Begin();
+                    spriteBatch.DrawString(Font, matriz[selected[i,0],selected[i,1]], new Vector2((selected[i, 0] + 1) * 50 + 10, (selected[i, 1] + 1) * 50 + 10), Color.Black);
+                    spriteBatch.End();
+                }
+            }
+            ABuscar = "";
         }
         protected override void Draw(GameTime gameTime)
         {
@@ -323,9 +347,6 @@ namespace MonoGame
             }
             spriteBatch.End();
 
-        }
-       
-
-       
+        }  
     }
 }
