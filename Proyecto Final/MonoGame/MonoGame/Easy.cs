@@ -22,6 +22,8 @@ namespace MonoGame
         private SpriteFont Font;
         private SpriteFont fontsmall;
         private Texture2D grilla;
+        private Texture2D salir;
+        private Texture2D DSalir;
         private SoundEffect incorrecto;
         private SoundEffect correcto;
         int num;
@@ -77,6 +79,8 @@ namespace MonoGame
             fontsmall = Content.Load<SpriteFont>("small");
             correcto = Content.Load<SoundEffect>("Sonidos/Correcto");
             incorrecto = Content.Load<SoundEffect>("Sonidos/Incorrecto");
+            salir = Content.Load<Texture2D>("salir");
+            DSalir = Content.Load<Texture2D>("DSalir");
 
         }
         protected override void UnloadContent()
@@ -111,6 +115,7 @@ namespace MonoGame
                     /*if (!PalabraEncontrada && Ok)
                       {
                           Colorear(false, ABuscar);
+                          incorrecto.Play();
                           Ok = false;
                       }*/
                     for (int i = 0; i < Palabras.Length; i++)
@@ -131,12 +136,35 @@ namespace MonoGame
                             correcto.Play();
                             LimpiarMatrizOK();
                         }
-                      
                     } 
                 }
             }
+
+            if (mousePosition.X <= 880 && mousePosition.X >= 730 && mousePosition.Y <= 525 && mousePosition.Y >= 450)
+            {
+                Boolean Dibujar = true;
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    spriteBatch.Begin();
+                    if (Dibujar)
+                    {
+                        spriteBatch.Draw(DSalir, new Rectangle(10, 10, 890, 520), Color.White);
+                        if (mousePosition.X >= 298 && mousePosition.X <= 385 && mousePosition.Y >= 305 && mousePosition.Y <= 422) 
+                        {
+                                spriteBatch.DrawString(Font, "hola", new Vector2(400, 400), Color.Pink);
+                        }
+                        if (mousePosition.X >= 491 && mousePosition.X <= 578 && mousePosition.Y >= 305 && mousePosition.Y <= 422)
+                        {
+                            spriteBatch.DrawString(Font, "hola", new Vector2(400, 400), Color.Pink);
+                            Dibujar = false;
+                        }
+                    }
+                    spriteBatch.End();
+                }
+
+            }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            Exit();
 
             base.Update(gameTime);
         }
@@ -174,19 +202,21 @@ namespace MonoGame
                 for (int i = 0; i < Palabra.Length; i++)
                 {
                     spriteBatch.Begin();
-                    spriteBatch.DrawString(Font,Palabra[i].ToString(), new Vector2((selected[i, 0]+1) * 50 + 10, (selected[i, 1]+1) * 50 + 10), Color.LimeGreen);
+                    spriteBatch.DrawString(Font,Palabra[i].ToString(), new Vector2((selected[i, 0]+1) * 50 + 10, (selected[i, 1]+1) * 50 + 10), Color.Green);
                     spriteBatch.End();
                 }
             }
             else
             {
-                for (int i = 0; i <= 5; i++)
+                for (int i = 0; i < Palabra.Length; i++)
                 {
                     spriteBatch.Begin();
                     spriteBatch.DrawString(Font, matriz[selected[i,0],selected[i,1]], new Vector2((selected[i, 0] + 1) * 50 + 10, (selected[i, 1] + 1) * 50 + 10), Color.Black);
                     spriteBatch.End();
+                    
                 }
             }
+            Palabra = "";
             ABuscar = "";
         }
         protected override void Draw(GameTime gameTime)
@@ -194,10 +224,8 @@ namespace MonoGame
             spriteBatch.Begin();
             if (!SopaCreada)
             {
-                GraphicsDevice.Clear(Color.CornflowerBlue);
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
-                
-
+                spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
                 grilla = new Texture2D(graphics.GraphicsDevice, 1, 1);
                 grilla.SetData(new Color[] { Color.White });
                 for (float x = -7; x < 7; x++)
@@ -330,8 +358,7 @@ namespace MonoGame
                     }
                 }
 
-                SopaCreada = true;
-                base.Draw(gameTime);
+                SopaCreada = true;   
             }
             if (!ImagenesCreadas)
             {
@@ -345,8 +372,9 @@ namespace MonoGame
                 }
                 ImagenesCreadas = true;
             }
-            spriteBatch.End();
 
+            spriteBatch.End();
+            base.Draw(gameTime);
         }  
     }
 }
