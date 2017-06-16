@@ -3,11 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using System;
-
-
 namespace MonoGame
 {
-
     public class Easy : Game
     {
         GraphicsDeviceManager graphics;
@@ -24,24 +21,28 @@ namespace MonoGame
         private Texture2D grilla;
         private Texture2D salir;
         private Texture2D DSalir;
+        private Texture2D Ganar;
         private SoundEffect incorrecto;
         private SoundEffect correcto;
         int num;
+        int ImagenABorrar = -1;
         int cont = 0;
         int posicion = 1;
         int posx;
         int posy;
+        int posxOri;
+        int posyOri;
+        int ContEncontradas = 0;
         private bool SopaCreada = false;
         private bool ImagenesCreadas = false;
         private bool PalabraEncontrada = false;
-        private bool Ok = false;
         string ABuscar = "";
         Random random = new Random();
 
 
         string[,] matriz = new string[8, 8];
         string[,] matrizOK = new string[8, 8];
-        int[,] selected = new int[6, 2]; 
+        int[,] selected = new int[5, 2]; 
         int[,] posiciones = new int[6, 2]{ { 520, 200 }, { 660, 230 }, { 520, 130 }, { 610, 80 }, { 530, 350 }, { 730, 120 } };
         string[] Palabras = { "arm", "leg", "eyes", "head", "elbow", "mouth" };
         Texture2D[] Imagenes = new Texture2D [6];
@@ -81,6 +82,7 @@ namespace MonoGame
             incorrecto = Content.Load<SoundEffect>("Sonidos/Incorrecto");
             salir = Content.Load<Texture2D>("salir");
             DSalir = Content.Load<Texture2D>("DSalir");
+            Ganar = Content.Load<Texture2D>("Ganar");
 
         }
         protected override void UnloadContent()
@@ -90,20 +92,13 @@ namespace MonoGame
         {
             MouseState mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
+   
             if (mousePosition.X <= 450 && mousePosition.X >= 50 && mousePosition.Y <= 450 && mousePosition.Y >= 50)
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    Ok = true;
                     int PosSelecx = (mousePosition.X / 50) - 1;
                     int PosSelecy = (mousePosition.Y / 50) - 1;
-                    selected[cont, 0] = PosSelecx;
-                    selected[cont, 1] = PosSelecy;
-                    cont++;
-                    if (cont > 5)
-                    {
-                        cont = 0;
-                    }
                     spriteBatch.Begin();
                     spriteBatch.DrawString(Font, matriz[PosSelecx, PosSelecy], new Vector2((PosSelecx + 1) * 50 + 10, (PosSelecy + 1) * 50 + 10), Color.Red);
                     matrizOK[PosSelecx, PosSelecy] = matriz[PosSelecx, PosSelecy];
@@ -112,57 +107,45 @@ namespace MonoGame
                 }
                 else
                 {
-                    /*if (!PalabraEncontrada && Ok)
-                      {
-                          Colorear(false, ABuscar);
-                          incorrecto.Play();
-                          Ok = false;
-                      }*/
                     for (int i = 0; i < Palabras.Length; i++)
                     {
                         if (ABuscar == Palabras[i])
                         {
-                            Imagenes[i] = null;
+                            ImagenABorrar = i;
+                            //Imagenes[i] = null;
                             ImagenesCreadas = false;
                             PalabraEncontrada = true;
                             Colorear(true, ABuscar);
-                            for (int j = 0; j < 6; j++)
-                            {
-                                for (int k = 0; k < 2; k++)
-                                {
-                                    selected[j, k] = 0;
-                                }
-                            }
                             correcto.Play();
-                            LimpiarMatrizOK();
-                        }
-                    } 
-                }
-            }
-
-            if (mousePosition.X <= 880 && mousePosition.X >= 730 && mousePosition.Y <= 525 && mousePosition.Y >= 450)
-            {
-                Boolean Dibujar = true;
-                if (mouseState.LeftButton == ButtonState.Pressed)
-                {
-                    spriteBatch.Begin();
-                    if (Dibujar)
-                    {
-                        spriteBatch.Draw(DSalir, new Rectangle(10, 10, 890, 520), Color.White);
-                        if (mousePosition.X >= 298 && mousePosition.X <= 385 && mousePosition.Y >= 305 && mousePosition.Y <= 422) 
-                        {
-                                spriteBatch.DrawString(Font, "hola", new Vector2(400, 400), Color.Pink);
-                        }
-                        if (mousePosition.X >= 491 && mousePosition.X <= 578 && mousePosition.Y >= 305 && mousePosition.Y <= 422)
-                        {
-                            spriteBatch.DrawString(Font, "hola", new Vector2(400, 400), Color.Pink);
-                            Dibujar = false;
+                            ContEncontradas++;
                         }
                     }
-                    spriteBatch.End();
+                    /*if (!PalabraEncontrada)
+                    {
+                        Colorear(false, ABuscar);
+                        incorrecto.Play();
+                    }*/
+                    cont = 0;
+                    LimpiarMatrizOK();
+                    LimpiarSelected();
                 }
-
             }
+
+            if (ContEncontradas == 6)
+            {
+                spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
+                if (mousePosition.X >= 298 && mousePosition.X <= 385 && mousePosition.Y >= 305 && mousePosition.Y <= 422)
+                {
+                    //LLENAR
+                }
+                if (mousePosition.X >= 491 && mousePosition.X <= 578 && mousePosition.Y >= 305 && mousePosition.Y <= 422)
+                {
+                }
+            }
+
+            Salir();
+
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
@@ -172,6 +155,7 @@ namespace MonoGame
         public string BuscarPalabraMatrizOK()
         {
             string Palabra = "";
+            cont = 0;
             for (int i = 0; i <= 7; i++)
             {
                 for (int j = 0; j <= 7; j++)
@@ -179,7 +163,10 @@ namespace MonoGame
                     if (matrizOK[i, j] != null)
                     {
                         Palabra += matrizOK[i, j];
-                    }  
+                        selected[cont, 0] = i;
+                        selected[cont, 1] = j;
+                        cont++;
+                    }
                 }
             }
             return Palabra;
@@ -195,6 +182,17 @@ namespace MonoGame
             }
         }
 
+        public void LimpiarSelected()
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                for (int k = 0; k < 2; k++)
+                {
+                    selected[j, k] = 0;
+                }
+            }
+        }
+
         public void Colorear(bool color, string Palabra)
         {
             if (color)
@@ -202,7 +200,7 @@ namespace MonoGame
                 for (int i = 0; i < Palabra.Length; i++)
                 {
                     spriteBatch.Begin();
-                    spriteBatch.DrawString(Font,Palabra[i].ToString(), new Vector2((selected[i, 0]+1) * 50 + 10, (selected[i, 1]+1) * 50 + 10), Color.Green);
+                    spriteBatch.DrawString(Font,Palabra[i].ToString(), new Vector2((selected[i, 0]+1) * 50 + 10, (selected[i, 1]+1) * 50 + 10), Color.DarkGreen);
                     spriteBatch.End();
                 }
             }
@@ -213,11 +211,39 @@ namespace MonoGame
                     spriteBatch.Begin();
                     spriteBatch.DrawString(Font, matriz[selected[i,0],selected[i,1]], new Vector2((selected[i, 0] + 1) * 50 + 10, (selected[i, 1] + 1) * 50 + 10), Color.Black);
                     spriteBatch.End();
-                    
                 }
             }
             Palabra = "";
             ABuscar = "";
+        }
+
+        public void Salir()
+        {
+            MouseState mouseState = Mouse.GetState();
+            var mousePosition = new Point(mouseState.X, mouseState.Y);
+            if (mousePosition.X <= 880 && mousePosition.X >= 730 && mousePosition.Y <= 525 && mousePosition.Y >= 450)
+            {
+                Boolean Dibujar = true;
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    spriteBatch.Begin();
+                    if (Dibujar)
+                    {
+                        spriteBatch.Draw(DSalir, new Rectangle(10, 10, 890, 520), Color.White);
+                        if (mousePosition.X >= 298 && mousePosition.X <= 385 && mousePosition.Y >= 305 && mousePosition.Y <= 422)
+                        {
+                            spriteBatch.DrawString(Font, "hola", new Vector2(400, 400), Color.Pink);
+                        }
+                        if (mousePosition.X >= 491 && mousePosition.X <= 578 && mousePosition.Y >= 305 && mousePosition.Y <= 422)
+                        {
+                            spriteBatch.DrawString(Font, "hola", new Vector2(400, 400), Color.Pink);
+                            Dibujar = false;
+                        }
+                    }
+                    spriteBatch.End();
+                }
+
+            }
         }
         protected override void Draw(GameTime gameTime)
         {
@@ -238,8 +264,6 @@ namespace MonoGame
                     Rectangle rectangle = new Rectangle(50, (int)(150 + y * 50), 400, 1);
                     spriteBatch.Draw(grilla, rectangle, Color.Black);
                 }
-                int posxOri;
-                int posyOri;
                 foreach (string elemento in Palabras)
                 {
                     posicion = random.Next(0,3);
@@ -360,14 +384,20 @@ namespace MonoGame
 
                 SopaCreada = true;   
             }
+
+            //CORREGIR
             if (!ImagenesCreadas)
             {
                 spriteBatch.DrawString(fontsmall, "Find these body parts!", new Vector2(480, 60), Color.Black);
                 for (int i = 0; i <= Imagenes.Length - 1; i++)
                 {
-                    if (Imagenes[i] != null)
+                    if (i != ImagenABorrar)
                     {
                         spriteBatch.Draw(Imagenes[i], new Vector2(posiciones[i, 0], posiciones[i, 1]), Color.White);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(Imagenes[i], new Vector2(posiciones[i, 0], posiciones[i, 1]), Color.Green);
                     }
                 }
                 ImagenesCreadas = true;
