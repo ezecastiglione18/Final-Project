@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 
 namespace MonoGame
@@ -25,7 +20,10 @@ namespace MonoGame
         private Texture2D salir;
         private Texture2D DSalir;
         private Rectangle si = new Rectangle(298, 305, 87, 117);
+        private Rectangle no = new Rectangle(491,305, 87, 117);
         Boolean Creado = false;
+        Boolean SalirBool = false;
+        Boolean Dibujar = true;
 
         public Medium()
         {
@@ -64,22 +62,36 @@ namespace MonoGame
             var mousePosition = new Point(mouseState.X, mouseState.Y);
             if (mousePosition.X <= 880 && mousePosition.X >= 730 && mousePosition.Y <= 525 && mousePosition.Y >= 450)
             {
-                Boolean Dibujar = true;
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
+                    SalirBool = true;
                     spriteBatch.Begin();
-                    spriteBatch.Draw(DSalir, new Rectangle(10, 10, 890, 520), Color.White);
-                    if (si.Contains(mousePosition))
+                    if (Dibujar)
                     {
-                        Exit();
+                        spriteBatch.Draw(DSalir, new Rectangle(10, 10, 890, 520), Color.White);
                     }
-                   
+                    spriteBatch.End();
+               }
+            }
+            if (SalirBool)
+            {
+                mousePosition = new Point(mouseState.X, mouseState.Y);
+                if (si.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    Exit();
+                }
+                if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    //PROVISIONAL
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
+                    spriteBatch.Draw(playSound, new Rectangle(400, 50, 120, 100), Color.White);
+                    spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
                     spriteBatch.End();
                 }
             }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
             base.Update(gameTime);
         }
 

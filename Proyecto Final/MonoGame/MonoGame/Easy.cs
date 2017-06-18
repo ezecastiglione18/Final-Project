@@ -36,6 +36,10 @@ namespace MonoGame
         private bool SopaCreada = false;
         private bool ImagenesCreadas = false;
         private bool PalabraEncontrada = false;
+        private Rectangle si = new Rectangle(298, 305, 87, 117);
+        private Rectangle no = new Rectangle(491, 578, 87, 117);
+        Boolean SalirBool = false;
+        Boolean Dibujar = true;
         string ABuscar = "";
         Random random = new Random();
 
@@ -140,6 +144,7 @@ namespace MonoGame
                 }
                 if (mousePosition.X >= 491 && mousePosition.X <= 578 && mousePosition.Y >= 305 && mousePosition.Y <= 422)
                 {
+
                 }
             }
 
@@ -223,26 +228,28 @@ namespace MonoGame
             var mousePosition = new Point(mouseState.X, mouseState.Y);
             if (mousePosition.X <= 880 && mousePosition.X >= 730 && mousePosition.Y <= 525 && mousePosition.Y >= 450)
             {
-                Boolean Dibujar = true;
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
+                    SalirBool = true;
                     spriteBatch.Begin();
                     if (Dibujar)
                     {
                         spriteBatch.Draw(DSalir, new Rectangle(10, 10, 890, 520), Color.White);
-                        if (mousePosition.X >= 298 && mousePosition.X <= 385 && mousePosition.Y >= 305 && mousePosition.Y <= 422)
-                        {
-                            spriteBatch.DrawString(Font, "hola", new Vector2(400, 400), Color.Pink);
-                        }
-                        if (mousePosition.X >= 491 && mousePosition.X <= 578 && mousePosition.Y >= 305 && mousePosition.Y <= 422)
-                        {
-                            spriteBatch.DrawString(Font, "hola", new Vector2(400, 400), Color.Pink);
-                            Dibujar = false;
-                        }
                     }
                     spriteBatch.End();
                 }
-
+            }
+            if (SalirBool)
+            {
+                mousePosition = new Point(mouseState.X, mouseState.Y);
+                if (si.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    Exit();
+                }
+                if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    //LLENAR
+                }
             }
         }
         protected override void Draw(GameTime gameTime)
