@@ -10,12 +10,12 @@ namespace MonoGame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Texture2D background;
-        public Texture2D arm;
-        private Texture2D leg;
-        private Texture2D eyes;
-        private Texture2D head;
-        private Texture2D elbow;
-        private Texture2D mouth;
+        public static Texture2D arm;
+        private static Texture2D leg;
+        private static Texture2D eyes;
+        private static Texture2D head;
+        private static Texture2D elbow;
+        private static Texture2D mouth;
         private SpriteFont Font;
         private SpriteFont fontsmall;
         private Texture2D grilla;
@@ -49,7 +49,7 @@ namespace MonoGame
         int[,] selected = new int[5, 2]; 
         int[,] posiciones = new int[6, 2]{ { 520, 200 }, { 660, 230 }, { 520, 130 }, { 610, 80 }, { 530, 350 }, { 730, 120 } };
         string[] Palabras = { "arm", "leg", "eyes", "head", "elbow", "mouth" };
-        Texture2D[] Imagenes = new Texture2D [6];
+        Texture2D[] Imagenes = new Texture2D[] { arm, leg, eyes, head, elbow, mouth};
         public Easy()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -74,12 +74,6 @@ namespace MonoGame
             head = Content.Load<Texture2D>("Body/head");
             elbow = Content.Load<Texture2D>("Body/elbow");
             mouth = Content.Load<Texture2D>("Body/mouth");
-            Imagenes[0] = arm;
-            Imagenes[1] = leg;
-            Imagenes[2] = eyes;
-            Imagenes[3] = head;
-            Imagenes[4] = elbow;
-            Imagenes[5] = mouth;
             Font = Content.Load<SpriteFont>("AgentOrange");
             fontsmall = Content.Load<SpriteFont>("small");
             correcto = Content.Load<SoundEffect>("Sonidos/Correcto");
@@ -140,11 +134,11 @@ namespace MonoGame
                 spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
                 if (mousePosition.X >= 298 && mousePosition.X <= 385 && mousePosition.Y >= 305 && mousePosition.Y <= 422)
                 {
-                    //LLENAR
+                    //JUGAR DE NUEVO
                 }
                 if (mousePosition.X >= 491 && mousePosition.X <= 578 && mousePosition.Y >= 305 && mousePosition.Y <= 422)
                 {
-
+                    Exit();
                 }
             }
 

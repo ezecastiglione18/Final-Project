@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace MonoGame
 {
@@ -10,20 +11,32 @@ namespace MonoGame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Texture2D background;
-        private Texture2D giraffe;
-        private Texture2D dolphin;
-        private Texture2D tiger;
-        private Texture2D snake;
-        private Texture2D dog;
-        private Texture2D hippo;
+        public static Texture2D giraffe;
+        private static Texture2D dolphin;
+        private static Texture2D tiger;
+        private static Texture2D snake; 
+        private static Texture2D dog;
+        private static Texture2D hippo;
+        private static SoundEffect giraffeSound;
+        private static SoundEffect dolphinSound;
+        private static SoundEffect tigerSound;
+        private static SoundEffect snakeSound;
+        private static SoundEffect dogSound;
+        private static SoundEffect hippoSound;
         private Texture2D playSound;
         private Texture2D salir;
         private Texture2D DSalir;
         private Rectangle si = new Rectangle(298, 305, 87, 117);
         private Rectangle no = new Rectangle(491,305, 87, 117);
+        private Rectangle boton = new Rectangle(400, 35, 500, 45);
+        private SpriteFont Font;
+        Random random = new Random();
         Boolean Creado = false;
         Boolean SalirBool = false;
         Boolean Dibujar = true;
+        int escuchar = 0;
+
+        private Texture2D[] Imagenes = new Texture2D[] { giraffe,dolphin, tiger, snake, dog, hippo };
 
         public Medium()
         {
@@ -51,6 +64,13 @@ namespace MonoGame
             playSound = Content.Load<Texture2D>("PlaySound");
             salir = Content.Load<Texture2D>("salir");
             DSalir = Content.Load<Texture2D>("DSalir");
+            Font = Content.Load<SpriteFont>("AgentOrange");
+            giraffeSound = Content.Load<SoundEffect>("Animals/giraffeSound");
+            dolphinSound = Content.Load<SoundEffect>("Animals/dolphinSound");
+            tigerSound = Content.Load<SoundEffect>("Animals/tigerSound");
+            snakeSound = Content.Load<SoundEffect>("Animals/snakeSound");
+            dogSound = Content.Load<SoundEffect>("Animals/dogSound");
+            hippoSound = Content.Load<SoundEffect>("Animals/hippoSound");
         }
         protected override void UnloadContent()
         {
@@ -58,6 +78,7 @@ namespace MonoGame
         }
         protected override void Update(GameTime gameTime)
         {
+            //SALIR
             MouseState mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
             if (mousePosition.X <= 880 && mousePosition.X >= 730 && mousePosition.Y <= 525 && mousePosition.Y >= 450)
@@ -82,13 +103,21 @@ namespace MonoGame
                 }
                 if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    //PROVISIONAL
+                    //CAMBIAR   
                     spriteBatch.Begin();
                     spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
                     spriteBatch.Draw(playSound, new Rectangle(400, 50, 120, 100), Color.White);
                     spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
                     spriteBatch.End();
                 }
+            }
+
+            escuchar = random.Next(0, 5);
+
+
+            if (boton.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+            {
+                
             }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -101,8 +130,15 @@ namespace MonoGame
             if (!Creado)
             {
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
-                spriteBatch.Draw(playSound, new Rectangle(400, 50, 120, 100), Color.White);
+                spriteBatch.Draw(playSound, new Rectangle(400, 35, 100, 80), Color.White);
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
+                spriteBatch.DrawString(Font, "Which animal did you hear?", new Vector2(170, 150), Color.Black);
+                spriteBatch.Draw(giraffe, new Rectangle(40, 322, 100, 145), Color.White);
+                spriteBatch.Draw(dolphin, new Rectangle(120, 340, 160, 130), Color.White);
+                spriteBatch.Draw(tiger, new Rectangle(265, 330, 115, 140), Color.White);
+                spriteBatch.Draw(snake, new Rectangle(380, 330, 110, 140), Color.White);
+                spriteBatch.Draw(dog, new Rectangle(465, 350, 150, 120), Color.White);
+                spriteBatch.Draw(hippo, new Rectangle(590, 375, 150, 100), Color.White);
                 Creado = true;
             }
             spriteBatch.End();

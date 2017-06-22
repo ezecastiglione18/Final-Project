@@ -267,3 +267,39 @@
 /processorParam:TextureFormat=Color
 /build:Medium.png
 
+#begin Animals/dolphinSound.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Animals/dolphinSound.mp3
+
+#begin Animals/giraffeSound.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Animals/giraffeSound.mp3
+
+#begin Animals/hippoSound.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Animals/hippoSound.mp3
+
+#begin Animals/snakeSound.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Animals/snakeSound.mp3
+
+#begin Animals/tigerSound.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Animals/tigerSound.mp3
+
+#begin Animals/dogSound.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Animals/dogSound.mp3
+
