@@ -49,7 +49,7 @@ namespace MonoGame
         int[,] selected = new int[5, 2]; 
         int[,] posiciones = new int[6, 2]{ { 520, 200 }, { 660, 230 }, { 520, 130 }, { 610, 80 }, { 530, 350 }, { 730, 120 } };
         string[] Palabras = { "arm", "leg", "eyes", "head", "elbow", "mouth" };
-        Texture2D[] Imagenes = new Texture2D[] { arm, leg, eyes, head, elbow, mouth};
+        Texture2D[] Imagenes = new Texture2D[6];
         public Easy()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -74,6 +74,12 @@ namespace MonoGame
             head = Content.Load<Texture2D>("Body/head");
             elbow = Content.Load<Texture2D>("Body/elbow");
             mouth = Content.Load<Texture2D>("Body/mouth");
+            Imagenes[0] = arm;
+            Imagenes[1] = leg;
+            Imagenes[2] = eyes;
+            Imagenes[3] = head;
+            Imagenes[4] = elbow;
+            Imagenes[5] = mouth;
             Font = Content.Load<SpriteFont>("AgentOrange");
             fontsmall = Content.Load<SpriteFont>("small");
             correcto = Content.Load<SoundEffect>("Sonidos/Correcto");

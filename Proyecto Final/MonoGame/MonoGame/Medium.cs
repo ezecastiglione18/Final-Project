@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -14,7 +15,7 @@ namespace MonoGame
         public static Texture2D giraffe;
         private static Texture2D dolphin;
         private static Texture2D tiger;
-        private static Texture2D snake; 
+        private static Texture2D snake;
         private static Texture2D dog;
         private static Texture2D hippo;
         private static SoundEffect giraffeSound;
@@ -27,8 +28,9 @@ namespace MonoGame
         private Texture2D salir;
         private Texture2D DSalir;
         private Rectangle si = new Rectangle(298, 305, 87, 117);
-        private Rectangle no = new Rectangle(491,305, 87, 117);
+        private Rectangle no = new Rectangle(491, 305, 87, 117);
         private Rectangle boton = new Rectangle(400, 35, 500, 45);
+
         private SpriteFont Font;
         Random random = new Random();
         Boolean Creado = false;
@@ -36,7 +38,9 @@ namespace MonoGame
         Boolean Dibujar = true;
         int escuchar = 0;
 
-        private Texture2D[] Imagenes = new Texture2D[] { giraffe,dolphin, tiger, snake, dog, hippo };
+        int[] v = new int[6] { 7, 7, 7, 7, 7, 7 };
+        public Texture2D[] Imagenes = new Texture2D[6];
+        public SoundEffect[] sonidos = new SoundEffect[] { giraffeSound, dolphinSound, tigerSound, snakeSound, dogSound, hippoSound };
 
         public Medium()
         {
@@ -59,8 +63,14 @@ namespace MonoGame
             dolphin = Content.Load<Texture2D>("Animals/dolphin");
             tiger = Content.Load<Texture2D>("Animals/tiger");
             snake = Content.Load<Texture2D>("Animals/snake");
-            dog = Content.Load<Texture2D>("Animals/dog"); 
+            dog = Content.Load<Texture2D>("Animals/dog");
             hippo = Content.Load<Texture2D>("Animals/hippo");
+            Imagenes[0] = giraffe;
+            Imagenes[1] = dolphin;
+            Imagenes[2] = tiger;
+            Imagenes[3] = snake;
+            Imagenes[4] = dog;
+            Imagenes[5] = hippo;
             playSound = Content.Load<Texture2D>("PlaySound");
             salir = Content.Load<Texture2D>("salir");
             DSalir = Content.Load<Texture2D>("DSalir");
@@ -71,6 +81,12 @@ namespace MonoGame
             snakeSound = Content.Load<SoundEffect>("Animals/snakeSound");
             dogSound = Content.Load<SoundEffect>("Animals/dogSound");
             hippoSound = Content.Load<SoundEffect>("Animals/hippoSound");
+            sonidos[0] = giraffeSound;
+            sonidos[1] = dolphinSound;
+            sonidos[2] = tigerSound;
+            sonidos[3] = snakeSound;
+            sonidos[4] = dogSound;
+            sonidos[5] = hippoSound; 
         }
         protected override void UnloadContent()
         {
@@ -92,7 +108,7 @@ namespace MonoGame
                         spriteBatch.Draw(DSalir, new Rectangle(10, 10, 890, 520), Color.White);
                     }
                     spriteBatch.End();
-               }
+                }
             }
             if (SalirBool)
             {
@@ -104,20 +120,31 @@ namespace MonoGame
                 if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                 {
                     //CAMBIAR   
-                    spriteBatch.Begin();
-                    spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
-                    spriteBatch.Draw(playSound, new Rectangle(400, 50, 120, 100), Color.White);
-                    spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
-                    spriteBatch.End();
                 }
             }
 
-            escuchar = random.Next(0, 5);
-
+            //PROVISIONAL ARRASTRAR
+            foreach (Texture2D textura in Imagenes)
+            {
+                if (textura.Bounds.Contains(mousePosition))
+                {
+                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                    }
+                }
+            }
 
             if (boton.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
             {
-                
+                Randomize();
+                if (sonidos[escuchar] != null)
+                {
+                    sonidos[escuchar].Play();
+                    sonidos[escuchar] = null;
+                }
+                else
+                {
+                }
             }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -129,6 +156,7 @@ namespace MonoGame
             spriteBatch.Begin();
             if (!Creado)
             {
+
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
                 spriteBatch.Draw(playSound, new Rectangle(400, 35, 100, 80), Color.White);
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
@@ -145,6 +173,22 @@ namespace MonoGame
             base.Draw(gameTime);
         }
 
+        public void Randomize()
+        {
+            escuchar = random.Next(0, 5);
+            v[escuchar] = escuchar;
+            for (int i = 0; i < 6; i++)
+            {
+                if (v[i] == escuchar)
+                {
+                    while(v[i] == escuchar)
+                    {
+                        escuchar = random.Next(0, 5);
+                    }
+                }
+            }
+            
+        }
 
     }
 }

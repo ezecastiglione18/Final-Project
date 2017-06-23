@@ -267,39 +267,39 @@
 /processorParam:TextureFormat=Color
 /build:Medium.png
 
-#begin Animals/dolphinSound.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
+#begin Animals/dogSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Animals/dolphinSound.mp3
+/build:Animals/dogSound.wav
 
-#begin Animals/giraffeSound.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
+#begin Animals/dolphinSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Animals/giraffeSound.mp3
+/build:Animals/dolphinSound.wav
 
-#begin Animals/hippoSound.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
+#begin Animals/giraffeSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Animals/hippoSound.mp3
+/build:Animals/giraffeSound.wav
 
-#begin Animals/snakeSound.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
+#begin Animals/hippoSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Animals/snakeSound.mp3
+/build:Animals/hippoSound.wav
 
-#begin Animals/tigerSound.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
+#begin Animals/snakeSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Animals/tigerSound.mp3
+/build:Animals/snakeSound.wav
 
-#begin Animals/dogSound.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
+#begin Animals/tigerSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Animals/dogSound.mp3
+/build:Animals/tigerSound.wav
 
