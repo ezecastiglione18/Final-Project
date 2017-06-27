@@ -36,9 +36,10 @@ namespace MonoGame
         Boolean Creado = false;
         Boolean SalirBool = false;
         Boolean Dibujar = true;
-        int escuchar = 0;
+        int escuchar = 7;
+        int i = 0;
 
-        int[] v = new int[6] { 7, 7, 7, 7, 7, 7 };
+        int[] vUsados = new int[6] { 7, 7, 7, 7, 7, 7 };
         public Texture2D[] Imagenes = new Texture2D[6];
         public SoundEffect[] sonidos = new SoundEffect[] { giraffeSound, dolphinSound, tigerSound, snakeSound, dogSound, hippoSound };
 
@@ -49,6 +50,7 @@ namespace MonoGame
             graphics.PreferredBackBufferHeight = 530;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
+            IsFixedTimeStep = false;
         }
         protected override void Initialize()
         {
@@ -119,33 +121,18 @@ namespace MonoGame
                 }
                 if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    //CAMBIAR   
-                }
-            }
-
-            //PROVISIONAL ARRASTRAR
-            foreach (Texture2D textura in Imagenes)
-            {
-                if (textura.Bounds.Contains(mousePosition))
-                {
-                    if (mouseState.LeftButton == ButtonState.Pressed)
-                    {
-                    }
+                    Dibujar = false;
+                    base.Update(gameTime);   
                 }
             }
 
             if (boton.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
             {
                 Randomize();
-                if (sonidos[escuchar] != null)
-                {
-                    sonidos[escuchar].Play();
-                    sonidos[escuchar] = null;
-                }
-                else
-                {
-                }
+                sonidos[escuchar].Play();
             }
+
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             base.Update(gameTime);
@@ -176,18 +163,11 @@ namespace MonoGame
         public void Randomize()
         {
             escuchar = random.Next(0, 5);
-            v[escuchar] = escuchar;
-            for (int i = 0; i < 6; i++)
+            while (vUsados[i] == escuchar || i > 5)
             {
-                if (v[i] == escuchar)
-                {
-                    while(v[i] == escuchar)
-                    {
-                        escuchar = random.Next(0, 5);
-                    }
-                }
-            }
-            
+                escuchar = random.Next(0, 5);
+                i++;
+            }        
         }
 
     }

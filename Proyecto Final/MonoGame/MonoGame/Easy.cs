@@ -35,7 +35,7 @@ namespace MonoGame
         int ContEncontradas = 0;
         private bool SopaCreada = false;
         private bool ImagenesCreadas = false;
-        private bool PalabraEncontrada = false;
+        private bool PalabraEncontrada;
         private Rectangle si = new Rectangle(298, 305, 87, 117);
         private Rectangle no = new Rectangle(491, 578, 87, 117);
         Boolean SalirBool = false;
@@ -116,7 +116,6 @@ namespace MonoGame
                         if (ABuscar == Palabras[i])
                         {
                             ImagenABorrar = i;
-                            //Imagenes[i] = null;
                             ImagenesCreadas = false;
                             PalabraEncontrada = true;
                             Colorear(true, ABuscar);
@@ -138,7 +137,7 @@ namespace MonoGame
             if (ContEncontradas == 6)
             {
                 spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
-                if (mousePosition.X >= 298 && mousePosition.X <= 385 && mousePosition.Y >= 305 && mousePosition.Y <= 422)
+                if (si.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                 {
                     //JUGAR DE NUEVO
                 }
@@ -205,7 +204,7 @@ namespace MonoGame
                 for (int i = 0; i < Palabra.Length; i++)
                 {
                     spriteBatch.Begin();
-                    spriteBatch.DrawString(Font,Palabra[i].ToString(), new Vector2((selected[i, 0]+1) * 50 + 10, (selected[i, 1]+1) * 50 + 10), Color.DarkGreen);
+                    spriteBatch.DrawString(Font,Palabra[i].ToString(), new Vector2((selected[i, 0]+1) * 50 + 10, (selected[i, 1]+1) * 50 + 10), Color.Green);
                     spriteBatch.End();
                 }
             }
