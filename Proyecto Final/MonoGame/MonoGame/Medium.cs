@@ -35,9 +35,10 @@ namespace MonoGame
 
         private SpriteFont Font;
         Random random = new Random();
-        Boolean Creado = false;
-        Boolean SalirBool = false;
-        Boolean Dibujar = false;
+        bool Creado = false;
+        bool SalirBool = false;
+        bool Dibujar = false;
+        bool escuchado = false;
         int escuchar = 7;
         int i = 0;
 
@@ -128,12 +129,18 @@ namespace MonoGame
                     Dibujar = false;
                 }
             }
-
-            if (boton.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+            if (boton.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed && !escuchado)
             {
-                Randomize();
-                sonidos[escuchar].Play();
+                    Randomize();
+                    sonidos[escuchar].Play();
+                    escuchado = true;
             }
+
+            if (escuchado && boton.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Released)
+            {
+                escuchado = false;
+            }
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             base.Update(gameTime);
