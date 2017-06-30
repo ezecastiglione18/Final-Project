@@ -9,8 +9,10 @@ namespace MonoGame
 {
     class Medium : Game
     {
+        GraphicsDevice graphicsDevice;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        BasicEffect basicEffect;
         private Texture2D background;
         public static Texture2D giraffe;
         private static Texture2D dolphin;
@@ -35,7 +37,7 @@ namespace MonoGame
         Random random = new Random();
         Boolean Creado = false;
         Boolean SalirBool = false;
-        Boolean Dibujar = true;
+        Boolean Dibujar = false;
         int escuchar = 7;
         int i = 0;
 
@@ -104,13 +106,15 @@ namespace MonoGame
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     SalirBool = true;
-                    spriteBatch.Begin();
-                    if (Dibujar)
-                    {
-                        spriteBatch.Draw(DSalir, new Rectangle(10, 10, 890, 520), Color.White);
-                    }
-                    spriteBatch.End();
+                    Dibujar = true;
+                    
                 }
+            }
+            if (Dibujar)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(DSalir, new Rectangle(10, 10, 890, 520), Color.White);
+                spriteBatch.End();
             }
             if (SalirBool)
             {
@@ -122,7 +126,6 @@ namespace MonoGame
                 if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                 {
                     Dibujar = false;
-                    base.Update(gameTime);   
                 }
             }
 
@@ -131,8 +134,6 @@ namespace MonoGame
                 Randomize();
                 sonidos[escuchar].Play();
             }
-
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             base.Update(gameTime);
@@ -143,7 +144,6 @@ namespace MonoGame
             spriteBatch.Begin();
             if (!Creado)
             {
-
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
                 spriteBatch.Draw(playSound, new Rectangle(400, 35, 100, 80), Color.White);
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
