@@ -43,7 +43,7 @@ namespace MonoGame
         int i = 0;
 
         int[] vUsados = new int[6] { 7, 7, 7, 7, 7, 7 };
-        public Texture2D[] Imagenes = new Texture2D[6];
+        public static Texture2D[] Imagenes = new Texture2D[6];
         public SoundEffect[] sonidos = new SoundEffect[] { giraffeSound, dolphinSound, tigerSound, snakeSound, dogSound, hippoSound };
 
         public Medium()
@@ -175,6 +175,11 @@ namespace MonoGame
                 escuchar = random.Next(0, 5);
                 i++;
             }        
+        }
+
+        public void Seleccionar()
+        {
+
         }
 
     }

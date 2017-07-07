@@ -38,8 +38,8 @@ namespace MonoGame
         private bool PalabraEncontrada;
         private Rectangle si = new Rectangle(298, 305, 87, 117);
         private Rectangle no = new Rectangle(491, 578, 87, 117);
-        Boolean SalirBool = false;
-        Boolean Dibujar = true;
+        bool SalirBool = false;
+        bool Dibujar = true;
         string ABuscar = "";
         Random random = new Random();
 
@@ -409,7 +409,7 @@ namespace MonoGame
                         }
                         else
                         {
-                            spriteBatch.Draw(Imagenes[i], new Vector2(posiciones[i, 0], posiciones[i, 1]), Color.Green);
+                            spriteBatch.Draw(Imagenes[ImagenABorrar], new Vector2(posiciones[ImagenABorrar, 0], posiciones[ImagenABorrar, 1]), Color.Green);
                             ImagenesCreadas = true;
                         }
                     }
