@@ -60,7 +60,8 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Arrastrar.cs" />
+    <Compile Include="Animal.cs" />
+    <Compile Include="dbConexion.cs" />
     <Compile Include="Easy.cs" />
     <Compile Include="Medium.cs" />
     <Compile Include="Program.cs" />

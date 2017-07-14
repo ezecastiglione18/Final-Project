@@ -63,6 +63,116 @@ namespace MonoGame
         {
             this.IsMouseVisible = true;
             base.Initialize();
+            foreach (string elemento in Palabras)
+            {
+                posicion = random.Next(0, 3);
+                switch (posicion)
+                {
+                    case 0:
+                        bool PalabraOK = false;
+                        posxOri = 0;
+                        while (!PalabraOK)
+                        {
+                            posx = random.Next(0, 8 - elemento.Length);
+                            posxOri = posx;
+                            posy = random.Next(0, 8);
+                            PalabraOK = true;
+                            foreach (char Letra in elemento)
+                            {
+                                if (matriz[posx, posy] != null && matriz[posx, posy] != Letra.ToString())
+                                {
+                                    PalabraOK = false;
+                                }
+                                posx++;
+                            }
+                            if (PalabraOK)
+                            {
+                                posx = posxOri;
+                                foreach (char Letra in elemento)
+                                {
+                                    matriz[posx, posy] = Letra.ToString();
+                                    posx++;
+                                }
+                            }
+                        }
+                        break;
+                    case 1:
+                        PalabraOK = false;
+                        posyOri = 0;
+                        while (!PalabraOK)
+                        {
+                            posx = random.Next(0, 8);
+                            posxOri = posx;
+                            posy = random.Next(0, 8 - elemento.Length);
+                            PalabraOK = true;
+                            foreach (char Letra in elemento)
+                            {
+                                if (matriz[posx, posy] != null && matriz[posx, posy] != Letra.ToString())
+                                {
+                                    PalabraOK = false;
+                                }
+                                posy++;
+                            }
+                            if (PalabraOK)
+                            {
+                                posy = posyOri;
+                                foreach (char Letra in elemento)
+                                {
+                                    matriz[posx, posy] = Letra.ToString();
+                                    posy++;
+                                }
+                            }
+                        }
+                        break;
+                    case 2:
+                        PalabraOK = false;
+                        posyOri = 0;
+                        posxOri = 0;
+                        while (!PalabraOK)
+                        {
+                            posx = random.Next(0, 8 - elemento.Length);
+                            posxOri = posx;
+                            posy = random.Next(0, 8 - elemento.Length);
+                            posyOri = posy;
+                            PalabraOK = true;
+                            foreach (char Letra in elemento)
+                            {
+                                if (matriz[posx, posy] != null && matriz[posx, posy] != Letra.ToString())
+                                {
+                                    PalabraOK = false;
+                                }
+                                posy++;
+                                posx++;
+                            }
+                            if (PalabraOK)
+                            {
+                                posx = posxOri;
+                                posy = posyOri;
+                                foreach (char Letra in elemento)
+                                {
+                                    matriz[posx, posy] = Letra.ToString();
+                                    posy++;
+                                    posx++;
+                                }
+                            }
+                        }
+                        break;
+                }
+            }
+
+            //LETRAS RANDOM
+            for (int fila = 0; fila <= 7; fila++)
+            {
+                for (int columna = 0; columna <= 7; columna++)
+                {
+                    if (matriz[fila, columna] == null)
+                    {
+                        num = random.Next(0, 26);
+                        char let = (char)('a' + num);
+                        matriz[fila, columna] = let.ToString();
+                    }
+                }
+            }
         }
 
         protected override void LoadContent()
@@ -117,7 +227,7 @@ namespace MonoGame
                         if (ABuscar == Palabras[i])
                         {
                             ImagenABorrar = i;
-                            PalabraYaSeEncontro[i] = true;//LO NUEVO PARTE 2
+                            PalabraYaSeEncontro[i] = true;
                             ImagenesCreadas = false;
                             PalabraEncontrada = true;
                             Colorear(true, ABuscar);
@@ -125,18 +235,13 @@ namespace MonoGame
                             ContEncontradas++;
                         }
                     }
-                    /*if (!PalabraEncontrada)
-                    {
-                        Colorear(false, ABuscar);
-                        incorrecto.Play();
-                    }*/
                     cont = 0;
                     LimpiarMatrizOK();
                     LimpiarSelected();
                 }
             }
 
-            if (ContEncontradas == 6 /*&& PalabraYaSeEncontro[0] == true && PalabraYaSeEncontro[] == true && PalabraYaSeEncontro[2] == true && PalabraYaSeEncontro[3] == true && PalabraYaSeEncontro[4] == true && PalabraYaSeEncontro[5] == true*/)
+            if (ContEncontradas == 6)
             {
                 spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
                 if (si.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
@@ -148,9 +253,6 @@ namespace MonoGame
                     Exit();
                 }
             }
-
-            Salir();
-
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -201,24 +303,22 @@ namespace MonoGame
 
         public void Colorear(bool color, string Palabra)
         {
+            spriteBatch.Begin();
             if (color)
             {
                 for (int i = 0; i < Palabra.Length; i++)
                 {
-                    spriteBatch.Begin();
                     spriteBatch.DrawString(Font, Palabra[i].ToString(), new Vector2((selected[i, 0] + 1) * 50 + 10, (selected[i, 1] + 1) * 50 + 10), Color.LightGreen);
-                    spriteBatch.End();
                 }
             }
             else
             {
                 for (int i = 0; i < Palabra.Length; i++)
                 {
-                    spriteBatch.Begin();
                     spriteBatch.DrawString(Font, matriz[selected[i, 0], selected[i, 1]], new Vector2((selected[i, 0] + 1) * 50 + 10, (selected[i, 1] + 1) * 50 + 10), Color.Black);
-                    spriteBatch.End();
                 }
             }
+            spriteBatch.End();
             Palabra = "";
             ABuscar = "";
         }
@@ -255,9 +355,9 @@ namespace MonoGame
         }
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.White);
             spriteBatch.Begin();
-            if (!SopaCreada)
-            {
+            
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
                 grilla = new Texture2D(graphics.GraphicsDevice, 1, 1);
@@ -272,150 +372,47 @@ namespace MonoGame
                     Rectangle rectangle = new Rectangle(50, (int)(150 + y * 50), 400, 1);
                     spriteBatch.Draw(grilla, rectangle, Color.Black);
                 }
-                foreach (string elemento in Palabras)
-                {
-                    posicion = random.Next(0, 3);
-                    switch (posicion)
-                    {
-                        case 0:
-                            bool PalabraOK = false;
-                            posxOri = 0;
-                            while (!PalabraOK)
-                            {
-                                posx = random.Next(0, 8 - elemento.Length);
-                                posxOri = posx;
-                                posy = random.Next(0, 8);
-                                PalabraOK = true;
-                                foreach (char Letra in elemento)
-                                {
-                                    if (matriz[posx, posy] != null && matriz[posx, posy] != Letra.ToString())
-                                    {
-                                        PalabraOK = false;
-                                    }
-                                    posx++;
-                                }
-                                if (PalabraOK)
-                                {
-                                    posx = posxOri;
-                                    foreach (char Letra in elemento)
-                                    {
-                                        matriz[posx, posy] = Letra.ToString();
-                                        posx++;
-                                    }
-                                }
-                            }
-                            break;
-                        case 1:
-                            PalabraOK = false;
-                            posyOri = 0;
-                            while (!PalabraOK)
-                            {
-                                posx = random.Next(0, 8);
-                                posxOri = posx;
-                                posy = random.Next(0, 8 - elemento.Length);
-                                PalabraOK = true;
-                                foreach (char Letra in elemento)
-                                {
-                                    if (matriz[posx, posy] != null && matriz[posx, posy] != Letra.ToString())
-                                    {
-                                        PalabraOK = false;
-                                    }
-                                    posy++;
-                                }
-                                if (PalabraOK)
-                                {
-                                    posy = posyOri;
-                                    foreach (char Letra in elemento)
-                                    {
-                                        matriz[posx, posy] = Letra.ToString();
-                                        posy++;
-                                    }
-                                }
-                            }
-                            break;
-                        case 2:
-                            PalabraOK = false;
-                            posyOri = 0;
-                            posxOri = 0;
-                            while (!PalabraOK)
-                            {
-                                posx = random.Next(0, 8 - elemento.Length);
-                                posxOri = posx;
-                                posy = random.Next(0, 8 - elemento.Length);
-                                posyOri = posy;
-                                PalabraOK = true;
-                                foreach (char Letra in elemento)
-                                {
-                                    if (matriz[posx, posy] != null && matriz[posx, posy] != Letra.ToString())
-                                    {
-                                        PalabraOK = false;
-                                    }
-                                    posy++;
-                                    posx++;
-                                }
-                                if (PalabraOK)
-                                {
-                                    posx = posxOri;
-                                    posy = posyOri;
-                                    foreach (char Letra in elemento)
-                                    {
-                                        matriz[posx, posy] = Letra.ToString();
-                                        posy++;
-                                        posx++;
-                                    }
-                                }
-                            }
-                            break;
-                    }
-                }
-
-                //LETRAS RANDOM
+               
+                
                 for (int fila = 0; fila <= 7; fila++)
                 {
                     for (int columna = 0; columna <= 7; columna++)
                     {
-                        if (matriz[fila, columna] == null)
+                        if (matrizOK[fila, columna] != null)
                         {
-                            num = random.Next(0, 26);
-                            char let = (char)('a' + num);
-                            matriz[fila, columna] = let.ToString();
-                        }
-                    }
-                }
-                for (int fila = 0; fila <= 7; fila++)
-                {
-                    for (int columna = 0; columna <= 7; columna++)
-                    {
-                        spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Black);
-                    }
-                }
-
-                SopaCreada = true;
-            }
-
-            //CORREGIR
-            if (!ImagenesCreadas)
-            {
-                spriteBatch.DrawString(fontsmall, "Find these body parts!", new Vector2(480, 60), Color.Black);
-                for (int i = 0; i <= Imagenes.Length - 1; i++)
-                {
-                    if (i != ImagenABorrar)
-                    {
-                        //spriteBatch.Draw(Imagenes[i], new Vector2(posiciones[i, 0], posiciones[i, 1]), Color.White);
-                        if (PalabraYaSeEncontro[i] != true)//LO NUEVO PARTE 3
-                        {
-                            spriteBatch.Draw(Imagenes[i], new Vector2(posiciones[i, 0], posiciones[i, 1]), Color.White);
-                            ImagenesCreadas = false;
+                        //LLENAR MATRIZ OK CON ASTERISCOS IF (!= NULL) Y ASTERISCOS ENTONCES VERDE
+/*                            if (selected[fila,columna] != 0)
+                            {
+                                spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Green);
+                            }
+                            else
+                            {*/
+                                spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Red);
+//                            }
                         }
                         else
                         {
-                            spriteBatch.Draw(Imagenes[ImagenABorrar], new Vector2(posiciones[ImagenABorrar, 0], posiciones[ImagenABorrar, 1]), Color.Green);
-                            ImagenesCreadas = true;
+                            spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Black);
+
                         }
                     }
                 }
-                
+
+            SopaCreada = true;
+            spriteBatch.DrawString(fontsmall, "Find these body parts!", new Vector2(480, 60), Color.Black);
+            for (int i = 0; i <= Imagenes.Length - 1; i++)
+            {
+                if (i != ImagenABorrar)
+                {
+                    if (PalabraYaSeEncontro[i] != true)
+                    {
+                        spriteBatch.Draw(Imagenes[i], new Vector2(posiciones[i, 0], posiciones[i, 1]), Color.White);
+                        ImagenesCreadas = false;
+                    }
+                }
             }
+                
+            Salir();
             spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -155,12 +155,6 @@ namespace MonoGame
                 spriteBatch.Draw(playSound, new Rectangle(400, 35, 100, 80), Color.White);
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
                 spriteBatch.DrawString(Font, "Which animal did you hear?", new Vector2(170, 150), Color.Black);
-                spriteBatch.Draw(giraffe, new Rectangle(40, 322, 100, 145), Color.White);
-                spriteBatch.Draw(dolphin, new Rectangle(120, 340, 160, 130), Color.White);
-                spriteBatch.Draw(tiger, new Rectangle(265, 330, 115, 140), Color.White);
-                spriteBatch.Draw(snake, new Rectangle(380, 330, 110, 140), Color.White);
-                spriteBatch.Draw(dog, new Rectangle(465, 350, 150, 120), Color.White);
-                spriteBatch.Draw(hippo, new Rectangle(590, 375, 150, 100), Color.White);
                 Creado = true;
             }
             spriteBatch.End();
@@ -175,11 +169,6 @@ namespace MonoGame
                 escuchar = random.Next(0, 5);
                 i++;
             }        
-        }
-
-        public void Seleccionar()
-        {
-
         }
 
     }
