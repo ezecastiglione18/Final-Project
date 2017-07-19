@@ -39,7 +39,9 @@ namespace MonoGame
         private Rectangle si = new Rectangle(298, 305, 87, 117);
         private Rectangle no = new Rectangle(491, 578, 87, 117);
         bool SalirBool = false;
-        bool Dibujar = true;
+        bool DibujarSalir = false;
+        bool GanarBool = false;
+        bool DibujarGanar = false;
         string ABuscar = "";
         Random random = new Random();
 
@@ -65,7 +67,7 @@ namespace MonoGame
             base.Initialize();
             foreach (string elemento in Palabras)
             {
-                posicion = random.Next(0, 3);
+                posicion = random.Next(0, 2);
                 switch (posicion)
                 {
                     case 0:
@@ -120,39 +122,6 @@ namespace MonoGame
                                 {
                                     matriz[posx, posy] = Letra.ToString();
                                     posy++;
-                                }
-                            }
-                        }
-                        break;
-                    case 2:
-                        PalabraOK = false;
-                        posyOri = 0;
-                        posxOri = 0;
-                        while (!PalabraOK)
-                        {
-                            posx = random.Next(0, 8 - elemento.Length);
-                            posxOri = posx;
-                            posy = random.Next(0, 8 - elemento.Length);
-                            posyOri = posy;
-                            PalabraOK = true;
-                            foreach (char Letra in elemento)
-                            {
-                                if (matriz[posx, posy] != null && matriz[posx, posy] != Letra.ToString())
-                                {
-                                    PalabraOK = false;
-                                }
-                                posy++;
-                                posx++;
-                            }
-                            if (PalabraOK)
-                            {
-                                posx = posxOri;
-                                posy = posyOri;
-                                foreach (char Letra in elemento)
-                                {
-                                    matriz[posx, posy] = Letra.ToString();
-                                    posy++;
-                                    posx++;
                                 }
                             }
                         }
@@ -241,18 +210,64 @@ namespace MonoGame
                 }
             }
 
+            #region ganar
             if (ContEncontradas == 6)
             {
-                spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
-                if (si.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                //EFECTOS DE GANASTE
+                GanarBool = true;
+                DibujarGanar = true;
+                if (DibujarGanar)
                 {
-                    //JUGAR DE NUEVO
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
+                    spriteBatch.End();
                 }
-                if (mousePosition.X >= 491 && mousePosition.X <= 578 && mousePosition.Y >= 305 && mousePosition.Y <= 422)
+                if (GanarBool)
+                {
+                    mousePosition = new Point(mouseState.X, mouseState.Y);
+                    if (si.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        //JUGAR DE NUEVO
+                    }
+                    if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        DibujarGanar = false;
+                        DibujarSalir = false;
+                    }
+                }
+            }
+            #endregion
+
+
+            #region salir
+            if (mousePosition.X <= 880 && mousePosition.X >= 730 && mousePosition.Y <= 525 && mousePosition.Y >= 450)
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    SalirBool = true;
+                    DibujarSalir = true;
+                }
+            }
+            if (DibujarSalir)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(DSalir, new Rectangle(10, 10, 890, 520), Color.White);
+                spriteBatch.End();
+            }
+            if (SalirBool)
+            {
+                mousePosition = new Point(mouseState.X, mouseState.Y);
+                if (si.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                 {
                     Exit();
                 }
+                if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    DibujarSalir = false;
+                    DibujarGanar = false;
+                }
             }
+            #endregion
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -322,42 +337,14 @@ namespace MonoGame
             Palabra = "";
             ABuscar = "";
         }
-
-        public void Salir()
-        {
-            MouseState mouseState = Mouse.GetState();
-            var mousePosition = new Point(mouseState.X, mouseState.Y);
-            if (mousePosition.X <= 880 && mousePosition.X >= 730 && mousePosition.Y <= 525 && mousePosition.Y >= 450)
-            {
-                if (mouseState.LeftButton == ButtonState.Pressed)
-                {
-                    SalirBool = true;
-                    spriteBatch.Begin();
-                    if (Dibujar)
-                    {
-                        spriteBatch.Draw(DSalir, new Rectangle(10, 10, 890, 520), Color.White);
-                    }
-                    spriteBatch.End();
-                }
-            }
-            if (SalirBool)
-            {
-                mousePosition = new Point(mouseState.X, mouseState.Y);
-                if (si.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
-                {
-                    Exit();
-                }
-                if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
-                {
-                    //LLENAR
-                }
-            }
-        }
+        
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
-            spriteBatch.Begin();
-            
+            if (!DibujarSalir && !DibujarGanar)
+            {
+                GraphicsDevice.Clear(Color.White);
+                spriteBatch.Begin();
+
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
                 grilla = new Texture2D(graphics.GraphicsDevice, 1, 1);
@@ -372,23 +359,23 @@ namespace MonoGame
                     Rectangle rectangle = new Rectangle(50, (int)(150 + y * 50), 400, 1);
                     spriteBatch.Draw(grilla, rectangle, Color.Black);
                 }
-               
-                
+
+                spriteBatch.Draw(head, no, Color.PaleVioletRed);
                 for (int fila = 0; fila <= 7; fila++)
                 {
                     for (int columna = 0; columna <= 7; columna++)
                     {
                         if (matrizOK[fila, columna] != null)
                         {
-                        //LLENAR MATRIZ OK CON ASTERISCOS IF (!= NULL) Y ASTERISCOS ENTONCES VERDE
-/*                            if (selected[fila,columna] != 0)
+                            //LLENAR MATRIZ OK CON ASTERISCOS IF (!= NULL) Y ASTERISCOS ENTONCES VERDE
+                          /* if (selected[fila,columna] != 0)
                             {
                                 spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Green);
                             }
                             else
-                            {*/
-                                spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Red);
-//                            }
+                                                        {*/
+                            spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Red);
+                            //                            }
                         }
                         else
                         {
@@ -398,22 +385,21 @@ namespace MonoGame
                     }
                 }
 
-            SopaCreada = true;
-            spriteBatch.DrawString(fontsmall, "Find these body parts!", new Vector2(480, 60), Color.Black);
-            for (int i = 0; i <= Imagenes.Length - 1; i++)
-            {
-                if (i != ImagenABorrar)
+                SopaCreada = true;
+                spriteBatch.DrawString(fontsmall, "Find these body parts!", new Vector2(480, 60), Color.Black);
+                for (int i = 0; i <= Imagenes.Length - 1; i++)
                 {
-                    if (PalabraYaSeEncontro[i] != true)
+                    if (i != ImagenABorrar)
                     {
-                        spriteBatch.Draw(Imagenes[i], new Vector2(posiciones[i, 0], posiciones[i, 1]), Color.White);
-                        ImagenesCreadas = false;
+                        if (PalabraYaSeEncontro[i] != true)
+                        {
+                            spriteBatch.Draw(Imagenes[i], new Vector2(posiciones[i, 0], posiciones[i, 1]), Color.White);
+                            ImagenesCreadas = false;
+                        }
                     }
                 }
+                spriteBatch.End();
             }
-                
-            Salir();
-            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

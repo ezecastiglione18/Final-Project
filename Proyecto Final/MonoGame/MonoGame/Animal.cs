@@ -10,6 +10,6 @@ namespace MonoGame
     {
         public string sonido = "";
         public string imagen = "";
-        public string ancho = "";
+        public int ancho = 0;
     }
 }
