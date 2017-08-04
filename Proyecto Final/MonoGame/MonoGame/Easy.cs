@@ -184,7 +184,7 @@ namespace MonoGame
                     int PosSelecx = (mousePosition.X / 50) - 1;
                     int PosSelecy = (mousePosition.Y / 50) - 1;
                     spriteBatch.Begin();
-                    spriteBatch.DrawString(Font, matriz[PosSelecx, PosSelecy], new Vector2((PosSelecx + 1) * 50 + 10, (PosSelecy + 1) * 50 + 10), Color.LightGreen/*RED*/);
+                    spriteBatch.DrawString(Font, matriz[PosSelecx, PosSelecy], new Vector2((PosSelecx + 1) * 50 + 10, (PosSelecy + 1) * 50 + 10), Color.Red);
                     matrizOK[PosSelecx, PosSelecy] = matriz[PosSelecx, PosSelecy];
                     ABuscar = BuscarPalabraMatrizOK();
                     spriteBatch.End();
@@ -372,14 +372,14 @@ namespace MonoGame
                         if (matrizOK[fila, columna] != null)
                         {
                             //LLENAR MATRIZ OK CON ASTERISCOS IF (!= NULL) Y ASTERISCOS ENTONCES VERDE
-                          // if (selected[fila,columna] != 0)
-                           // {
+/*                           if (selected[fila,columna] != 0)
+                            {
                                 spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Red);
-                            //}
+                            }
                             else
-                                                        //{
-                            spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.LightGreen);
-                            //                            }
+                            {*/
+                                spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Green);
+/*                            }*/
                         }
                         else 
                         {
