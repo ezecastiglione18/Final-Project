@@ -96,11 +96,11 @@ namespace MonoGame
 
             #endregion
 
-            Conexion.Seleccionar();
+            /*Conexion.Seleccionar();
 
             FileStream file = new FileStream(Conexion.listAnimales[0].imagen, FileMode.Open);
             Texture2D Hola = Texture2D.FromStream(graphicsDevice, file);
-            spriteBatch.Draw(Hola, new Rectangle(100, 100, 100, 100), Color.White);
+            spriteBatch.Draw(Hola, new Rectangle(100, 100, 100, 100), Color.White);*/
             if (boton.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed && !escuchado)
             {
                 Randomize();

@@ -54,12 +54,13 @@ namespace Proyecto_Final
                         break;
                     case "Easy":
                         str = Properties.Resources.Correcto;
-                        MonoGame.Program.Main();
+                        MonoGame.Easy JugarEasy = new MonoGame.Easy();
+                        var JugarNivelSeleccionado = JugarEasy;
                         this.Close();
                         break;
                     case "Medium":
                         str = Properties.Resources.Correcto;
-                        this.Close();
+                        this.Close(); 
                         break;
                     case "Difficult":
                         str = Properties.Resources.Correcto;

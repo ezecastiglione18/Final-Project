@@ -184,7 +184,7 @@ namespace MonoGame
                     int PosSelecx = (mousePosition.X / 50) - 1;
                     int PosSelecy = (mousePosition.Y / 50) - 1;
                     spriteBatch.Begin();
-                    spriteBatch.DrawString(Font, matriz[PosSelecx, PosSelecy], new Vector2((PosSelecx + 1) * 50 + 10, (PosSelecy + 1) * 50 + 10), Color.Red);
+                    spriteBatch.DrawString(Font, matriz[PosSelecx, PosSelecy], new Vector2((PosSelecx + 1) * 50 + 10, (PosSelecy + 1) * 50 + 10), Color.LightGreen/*RED*/);
                     matrizOK[PosSelecx, PosSelecy] = matriz[PosSelecx, PosSelecy];
                     ABuscar = BuscarPalabraMatrizOK();
                     spriteBatch.End();
@@ -205,13 +205,13 @@ namespace MonoGame
                         }
                     }
                     cont = 0;
-                    LimpiarMatrizOK();
+                    //LimpiarMatrizOK();        CAMBIADO POR CASTI Y GUIVI
                     LimpiarSelected();
                 }
             }
 
             #region ganar
-            if (ContEncontradas == 6)
+            if (ContEncontradas == 6 && (PalabraYaSeEncontro[0] && PalabraYaSeEncontro[1] && PalabraYaSeEncontro[2] && PalabraYaSeEncontro[3] && PalabraYaSeEncontro[4] && PalabraYaSeEncontro[5]))
             {
                 //EFECTOS DE GANASTE
                 GanarBool = true;
@@ -227,10 +227,12 @@ namespace MonoGame
                     mousePosition = new Point(mouseState.X, mouseState.Y);
                     if (si.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                     {
-                        //JUGAR DE NUEVO
+                        var JugarDeNuevo = new MonoGame.Easy();
+                        JugarDeNuevo.Run();
                     }
                     if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
-                    {
+                    {                       
+                        //Seleccionar nivel
                         DibujarGanar = false;
                         DibujarSalir = false;
                     }
@@ -263,6 +265,7 @@ namespace MonoGame
                 }
                 if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                 {
+                    //Ocultar spritebatch del cartel
                     DibujarSalir = false;
                     DibujarGanar = false;
                 }
@@ -319,11 +322,12 @@ namespace MonoGame
         public void Colorear(bool color, string Palabra)
         {
             spriteBatch.Begin();
-            if (color)
+
+            if (color == true /*&& PosicionesCorrectas == true*/)
             {
                 for (int i = 0; i < Palabra.Length; i++)
                 {
-                    spriteBatch.DrawString(Font, Palabra[i].ToString(), new Vector2((selected[i, 0] + 1) * 50 + 10, (selected[i, 1] + 1) * 50 + 10), Color.LightGreen);
+                    spriteBatch.DrawString(Font, matriz[selected[i, 0], selected[i, 1]], new Vector2((selected[i, 0] + 1) * 50 + 10, (selected[i, 1] + 1) * 50 + 10), Color.LightGreen);
                 }
             }
             else
@@ -368,19 +372,20 @@ namespace MonoGame
                         if (matrizOK[fila, columna] != null)
                         {
                             //LLENAR MATRIZ OK CON ASTERISCOS IF (!= NULL) Y ASTERISCOS ENTONCES VERDE
-                          /* if (selected[fila,columna] != 0)
-                            {
-                                spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Green);
-                            }
+                          // if (selected[fila,columna] != 0)
+                           // {
+                                spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Red);
+                            //}
                             else
-                                                        {*/
-                            spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Red);
+                                                        //{
+                            spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.LightGreen);
                             //                            }
                         }
-                        else
+                        else 
                         {
+                            
                             spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Black);
-
+                            
                         }
                     }
                 }
