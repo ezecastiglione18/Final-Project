@@ -23,7 +23,9 @@ namespace MonoGame
         private Texture2D Text4;
         private Texture2D Text5;
         private Texture2D Text6;
-        Rectangle back = new Rectangle(0, 0, 900, 530);
+        bool contained = false;
+        bool dragging = false;
+        bool draggingFinished = false;
         Rectangle si = new Rectangle(298, 305, 87, 117);
         Rectangle no = new Rectangle(491, 305, 87, 117);
         Rectangle boton = new Rectangle(400, 35, 500, 45);
@@ -72,6 +74,12 @@ namespace MonoGame
             Text4 = Texture2D.FromStream(GraphicsDevice, file4);
             Text5 = Texture2D.FromStream(GraphicsDevice, file5);
             Text6 = Texture2D.FromStream(GraphicsDevice, file6);
+            Imagenes[0] = Text1;
+            Imagenes[1] = Text2;
+            Imagenes[2] = Text3;
+            Imagenes[3] = Text4;
+            Imagenes[4] = Text5;
+            Imagenes[5] = Text6;
             //FileStream sonido = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[i].sonido, FileMode.Open);
             //sonido = SoundEffect.FromStream(sonido);
             #endregion
@@ -148,10 +156,6 @@ namespace MonoGame
 
         protected override void Draw(GameTime gameTime)
         {
-            MouseState mouseState = Mouse.GetState();
-            var mousePosition = new Point(mouseState.X, mouseState.Y);
-            lastx = mousePosition.X;
-            lasty = mousePosition.Y;
             if (!Dibujar)
             {
                 GraphicsDevice.Clear(Color.White);
@@ -160,22 +164,48 @@ namespace MonoGame
                 spriteBatch.Draw(playSound, new Rectangle(400, 35, 100, 80), Color.White);
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
                 spriteBatch.DrawString(Font, "Which animal did you hear?", new Vector2(170, 150), Color.Black);
-                spriteBatch.Draw(Text1, new Rectangle(45, 400, Conexion.listAnimales[0].ancho, 70), Color.White);
-                
-               
-
+                if (!dragging)
+                {
+                    spriteBatch.Draw(Text1, new Rectangle(45, 400, Conexion.listAnimales[0].ancho, 70), Color.White);
+                    for (int i = 0; i < 6; i++)
+                    {
+                        spriteBatch.Draw(Imagenes[i] ,new Rectangle((i* 45) + 160 , 400, Conexion.listAnimales[i].ancho, 100), Color.White);
+                    }
+                }
                 spriteBatch.End();
             }
 
+            #region drag
+
+            MouseState mouseState = Mouse.GetState();
+            var mousePosition = new Point(mouseState.X, mouseState.Y);
+            Rectangle back = new Rectangle(45, 400, 180, 70);
+            spriteBatch.Begin();
+            spriteBatch.End();
             if (back.Contains(mousePosition))
+            {
+                contained = true;
+            }
+            if (contained)
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
+                    dragging = true;
                     spriteBatch.Begin();
-                    spriteBatch.Draw(Text1, new Rectangle(mousePosition.X, mousePosition.Y, Conexion.listAnimales[0].ancho, 70), Color.White);
+                    spriteBatch.Draw(Text1, new Rectangle(mousePosition.X - 100, mousePosition.Y - 50, Conexion.listAnimales[0].ancho, 70), Color.White);
                     spriteBatch.End();
                 }
+                else
+                {
+                    lastx = mousePosition.X;
+                    lasty = mousePosition.Y;
+                    draggingFinished = true;
+                    dragging = false;
+                    contained = false;
+                }
             }
+
+            #endregion
 
             spriteBatch.Begin();
             spriteBatch.End();
