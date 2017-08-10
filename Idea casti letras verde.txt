@@ -1,0 +1,1 @@
+spriteBatch.DrawString(Font, ABuscar, new Vector2(MatrizLetrasVerde[i,j]), Color.Green);
