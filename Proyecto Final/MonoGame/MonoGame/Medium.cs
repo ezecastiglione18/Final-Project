@@ -23,9 +23,10 @@ namespace MonoGame
         private Texture2D Text4;
         private Texture2D Text5;
         private Texture2D Text6;
-        private Rectangle si = new Rectangle(298, 305, 87, 117);
-        private Rectangle no = new Rectangle(491, 305, 87, 117);
-        private Rectangle boton = new Rectangle(400, 35, 500, 45);
+        Rectangle back = new Rectangle(0, 0, 900, 530);
+        Rectangle si = new Rectangle(298, 305, 87, 117);
+        Rectangle no = new Rectangle(491, 305, 87, 117);
+        Rectangle boton = new Rectangle(400, 35, 500, 45);
 
         private SpriteFont Font;
         Random random = new Random();
@@ -34,6 +35,8 @@ namespace MonoGame
         bool escuchado = false;
         int escuchar = 7;
         int i = 0;
+        int lastx;
+        int lasty;
 
         int[] vUsados = new int[6] { 7, 7, 7, 7, 7, 7 };
         public static Texture2D[] Imagenes = new Texture2D[6];
@@ -88,6 +91,8 @@ namespace MonoGame
         {
 
         }
+
+       
         protected override void Update(GameTime gameTime)
         {
             #region salir
@@ -134,6 +139,8 @@ namespace MonoGame
                 escuchado = false;
             }
 
+            
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             base.Update(gameTime);
@@ -141,6 +148,10 @@ namespace MonoGame
 
         protected override void Draw(GameTime gameTime)
         {
+            MouseState mouseState = Mouse.GetState();
+            var mousePosition = new Point(mouseState.X, mouseState.Y);
+            lastx = mousePosition.X;
+            lasty = mousePosition.Y;
             if (!Dibujar)
             {
                 GraphicsDevice.Clear(Color.White);
@@ -149,8 +160,21 @@ namespace MonoGame
                 spriteBatch.Draw(playSound, new Rectangle(400, 35, 100, 80), Color.White);
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
                 spriteBatch.DrawString(Font, "Which animal did you hear?", new Vector2(170, 150), Color.Black);
-                spriteBatch.Draw(Text1, new Rectangle(100, 350, Conexion.listAnimales[0].ancho, 75), Color.White);
+                spriteBatch.Draw(Text1, new Rectangle(45, 400, Conexion.listAnimales[0].ancho, 70), Color.White);
+                
+               
+
                 spriteBatch.End();
+            }
+
+            if (back.Contains(mousePosition))
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(Text1, new Rectangle(mousePosition.X, mousePosition.Y, Conexion.listAnimales[0].ancho, 70), Color.White);
+                    spriteBatch.End();
+                }
             }
 
             spriteBatch.Begin();
