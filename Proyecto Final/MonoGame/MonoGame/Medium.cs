@@ -17,32 +17,37 @@ namespace MonoGame
         private Texture2D playSound;
         private Texture2D salir;
         private Texture2D DSalir;
-        private Texture2D Text1;
-        private Texture2D Text2;
-        private Texture2D Text3;
-        private Texture2D Text4;
-        private Texture2D Text5;
-        private Texture2D Text6;
-        bool contained = false;
-        bool dragging = false;
-        bool draggingFinished = false;
+        private Texture2D ToDrag;
+        private Texture2D nube;
         Rectangle si = new Rectangle(298, 305, 87, 117);
         Rectangle no = new Rectangle(491, 305, 87, 117);
-        Rectangle boton = new Rectangle(400, 35, 500, 45);
+        Rectangle boton = new Rectangle(395, 35, 105, 80);
+        Rectangle cloud = new Rectangle(330, 150, 250, 170);
 
-        private SpriteFont Font;
         Random random = new Random();
+        private SpriteFont Font;
+        private SoundEffect quit;
+        private SoundEffect incorrecto;
+        private SoundEffect correcto;
+        private SoundEffect select;
         bool SalirBool = false;
         bool Dibujar = false;
         bool escuchado = false;
+        bool played = false;
+        bool contained = false;
+        bool dragging = false;
+        bool acierto = false;
         int escuchar = 7;
-        int i = 0;
         int lastx;
         int lasty;
+        int ToDragIndex;
+        int contAciertos = 0;
 
-        int[] vUsados = new int[6] { 7, 7, 7, 7, 7, 7 };
+        bool [] vUsados = new bool[6] { false, false, false, false, false, false};
         public static Texture2D[] Imagenes = new Texture2D[6];
-        public FileStream[] sonidos = new FileStream [6];
+        public SoundEffect[] sonidos = new SoundEffect [6];
+        int[] posiciones = new int[6];
+        Rectangle[] areas = new Rectangle[6];
         dbConexion Conexion = new dbConexion();
 
         public Medium()
@@ -61,27 +66,31 @@ namespace MonoGame
             base.Initialize();
             Conexion.Seleccionar();
 
-            #region inicializar_texturas
+            #region inicializar_archivos
             FileStream file1 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[0].imagen, FileMode.Open);
             FileStream file2 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[1].imagen, FileMode.Open);
             FileStream file3 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[2].imagen, FileMode.Open);
             FileStream file4 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[3].imagen, FileMode.Open);
             FileStream file5 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[4].imagen, FileMode.Open);
             FileStream file6 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[5].imagen, FileMode.Open);
-            Text1 = Texture2D.FromStream(GraphicsDevice, file1);
-            Text2 = Texture2D.FromStream(GraphicsDevice, file2);
-            Text3 = Texture2D.FromStream(GraphicsDevice, file3);
-            Text4 = Texture2D.FromStream(GraphicsDevice, file4);
-            Text5 = Texture2D.FromStream(GraphicsDevice, file5);
-            Text6 = Texture2D.FromStream(GraphicsDevice, file6);
-            Imagenes[0] = Text1;
-            Imagenes[1] = Text2;
-            Imagenes[2] = Text3;
-            Imagenes[3] = Text4;
-            Imagenes[4] = Text5;
-            Imagenes[5] = Text6;
-            //FileStream sonido = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[i].sonido, FileMode.Open);
-            //sonido = SoundEffect.FromStream(sonido);
+            Imagenes[0] = Texture2D.FromStream(GraphicsDevice, file1);
+            Imagenes[1] = Texture2D.FromStream(GraphicsDevice, file2);
+            Imagenes[2] = Texture2D.FromStream(GraphicsDevice, file3);
+            Imagenes[3] = Texture2D.FromStream(GraphicsDevice, file4);
+            Imagenes[4] = Texture2D.FromStream(GraphicsDevice, file5);
+            Imagenes[5] = Texture2D.FromStream(GraphicsDevice, file6);
+            FileStream snd1 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[0].sonido, FileMode.Open);
+            FileStream snd2 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[1].sonido, FileMode.Open);
+            FileStream snd3 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[2].sonido, FileMode.Open);
+            FileStream snd4 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[3].sonido, FileMode.Open);
+            FileStream snd5 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[4].sonido, FileMode.Open);
+            FileStream snd6 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[5].sonido, FileMode.Open);
+            sonidos[0] = SoundEffect.FromStream(snd1);
+            sonidos[1] = SoundEffect.FromStream(snd2);
+            sonidos[2] = SoundEffect.FromStream(snd3);
+            sonidos[3] = SoundEffect.FromStream(snd4);
+            sonidos[4] = SoundEffect.FromStream(snd5);
+            sonidos[5] = SoundEffect.FromStream(snd6);
             #endregion
 
 
@@ -94,13 +103,16 @@ namespace MonoGame
             salir = Content.Load<Texture2D>("salir");
             DSalir = Content.Load<Texture2D>("DSalir");
             Font = Content.Load<SpriteFont>("AgentOrange");
+            nube = Content.Load<Texture2D>("nube");
+            quit = Content.Load<SoundEffect>("Sonidos/Agarrar");
+            incorrecto = Content.Load<SoundEffect>("Sonidos/Incorrecto_Medium");
+            correcto = Content.Load<SoundEffect>("Sonidos/Correcto_Medium");
+            select = Content.Load<SoundEffect>("Sonidos/Select");
         }
         protected override void UnloadContent()
         {
 
         }
-
-       
         protected override void Update(GameTime gameTime)
         {
             #region salir
@@ -108,7 +120,7 @@ namespace MonoGame
             var mousePosition = new Point(mouseState.X, mouseState.Y);
             if (mousePosition.X <= 880 && mousePosition.X >= 730 && mousePosition.Y <= 525 && mousePosition.Y >= 450)
             {
-                if (mouseState.LeftButton == ButtonState.Pressed)
+                if (mouseState.LeftButton == ButtonState.Pressed && !dragging)
                 {
                     SalirBool = true;
                     Dibujar = true; 
@@ -117,28 +129,47 @@ namespace MonoGame
             if (Dibujar)
             {
                 spriteBatch.Begin();
+                if (!played)
+                {
+                    quit.Play();
+                    played = true;
+                }
                 spriteBatch.Draw(DSalir, new Rectangle(10, 10, 890, 520), Color.White);
                 spriteBatch.End();
             }
             if (SalirBool)
             {
                 mousePosition = new Point(mouseState.X, mouseState.Y);
-                if (si.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                if (si.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed && !dragging)
                 {
                     Exit();
                 }
                 if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                 {
+                    SalirBool = false;
                     Dibujar = false;
+                    played = false;
                 }
             }
 
             #endregion
 
-            if (boton.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed && !escuchado)
+            #region ganar
+
+            if (contAciertos == 6)
+            {
+                spriteBatch.Begin();
+                spriteBatch.End();
+            }
+
+            #endregion
+
+
+            if (boton.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed && !escuchado && !dragging && !Dibujar )
             {
                 Randomize();
-                //sonidos[escuchar].Play();
+                sonidos[escuchar].Play();
+                vUsados[escuchar] = true;
                 escuchado = true;
             }
 
@@ -147,7 +178,23 @@ namespace MonoGame
                 escuchado = false;
             }
 
-            
+            if (cloud.Contains(mousePosition) && dragging)
+            {
+                if (mouseState.LeftButton == ButtonState.Released)
+                {
+                    if (ToDragIndex == escuchar)
+                    {
+                        acierto = true;
+                        Conexion.listAnimales[ToDragIndex].ok = true;
+                    }
+                    else
+                    {
+                        incorrecto.Play();
+                    }
+                }
+
+            }
+
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -162,63 +209,115 @@ namespace MonoGame
                 spriteBatch.Begin();
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
                 spriteBatch.Draw(playSound, new Rectangle(400, 35, 100, 80), Color.White);
-                spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
-                spriteBatch.DrawString(Font, "Which animal did you hear?", new Vector2(170, 150), Color.Black);
+                spriteBatch.Draw(nube, new Rectangle(330, 150, 250, 170), Color.White);
+                spriteBatch.DrawString(Font, "Which animal do \n \nyou hear?", new Vector2(30, 30), Color.Black);
+                if (acierto)
+                {
+                    correcto.Play();
+                    contAciertos++;
+                    for (int i = 9; i > -1; i--)
+                    {
+                        spriteBatch.Draw(ToDrag, new Rectangle(lastx, lasty, Conexion.listAnimales[ToDragIndex].ancho * (i/10), Conexion.listAnimales[ToDragIndex].alto * (i / 10)), Color.White);
+                    }
+                    acierto = false;
+                }
+
                 if (!dragging)
                 {
-                    spriteBatch.Draw(Text1, new Rectangle(45, 400, Conexion.listAnimales[0].ancho, 70), Color.White);
                     for (int i = 0; i < 6; i++)
                     {
-                        spriteBatch.Draw(Imagenes[i] ,new Rectangle((i* 45) + 160 , 400, Conexion.listAnimales[i].ancho, 100), Color.White);
+                        Animal oAnimal = Conexion.listAnimales[i];
+                        if (!oAnimal.ok)
+                        {
+                            if (i > 0)
+                            {
+                                spriteBatch.Draw(Imagenes[i], new Rectangle(posiciones[i - 1] + 20, 465 - Conexion.listAnimales[i].alto, Conexion.listAnimales[i].ancho, Conexion.listAnimales[i].alto), Color.White);
+                                posiciones[i] = posiciones[i - 1] + 20 + Conexion.listAnimales[i].ancho;
+                                areas[i] = new Rectangle(posiciones[i - 1] + 20, 465 - Conexion.listAnimales[i].alto, Conexion.listAnimales[i].ancho, Conexion.listAnimales[i].alto);
+                            }
+                            else
+                            {
+                                spriteBatch.Draw(Imagenes[i], new Rectangle(10, 465 - Conexion.listAnimales[i].alto, Conexion.listAnimales[i].ancho, Conexion.listAnimales[i].alto), Color.White);
+                                posiciones[0] = 10 + Conexion.listAnimales[0].ancho;
+                                areas[0] = new Rectangle(10, 465 - Conexion.listAnimales[i].alto, Conexion.listAnimales[i].ancho, Conexion.listAnimales[i].alto);
+                            }
+                        }
+                        
                     }
                 }
+                else
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Animal oAnimal = Conexion.listAnimales[i];
+                        if (!oAnimal.ok && !oAnimal.dragging)
+                        {
+                            if (i > 0)
+                            {
+                                spriteBatch.Draw(Imagenes[i], new Rectangle(posiciones[i - 1] + 20, 465 - Conexion.listAnimales[i].alto, Conexion.listAnimales[i].ancho, Conexion.listAnimales[i].alto), Color.White);
+                            }
+                            else
+                            {
+                                spriteBatch.Draw(Imagenes[i], new Rectangle(10, 465 - Conexion.listAnimales[i].alto, Conexion.listAnimales[i].ancho, Conexion.listAnimales[i].alto), Color.White);   
+                            }
+                        }
+                    }
+                }
+                spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
                 spriteBatch.End();
             }
 
             #region drag
-
             MouseState mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
-            Rectangle back = new Rectangle(45, 400, 180, 70);
-            spriteBatch.Begin();
-            spriteBatch.End();
-            if (back.Contains(mousePosition))
+            for (int i = 0; i < 6; i++)
             {
-                contained = true;
+                if (areas[i].Contains(mousePosition) && !dragging)
+                {
+                    ToDragIndex = i;
+                    contained = true;
+                }
             }
-            if (contained)
+            if (contained && !Dibujar)
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
+                    Conexion.listAnimales[ToDragIndex].dragging = true;
+                    ToDrag = Imagenes[ToDragIndex];
                     dragging = true;
+                    if (!played && !SalirBool)
+                    {
+                        select.Play();
+                        played = true;
+                    }
                     spriteBatch.Begin();
-                    spriteBatch.Draw(Text1, new Rectangle(mousePosition.X - 100, mousePosition.Y - 50, Conexion.listAnimales[0].ancho, 70), Color.White);
+                    spriteBatch.Draw(ToDrag, new Rectangle(mousePosition.X - (ToDrag.Width/2), mousePosition.Y - (ToDrag.Height/ 2), Conexion.listAnimales[ToDragIndex].ancho, Conexion.listAnimales[ToDragIndex].alto), Color.White);
+                    lastx = mousePosition.X;
+                    lasty = mousePosition.Y;
                     spriteBatch.End();
                 }
                 else
                 {
-                    lastx = mousePosition.X;
-                    lasty = mousePosition.Y;
-                    draggingFinished = true;
+                    Conexion.listAnimales[ToDragIndex].dragging = false;
+                    ToDrag = null;
+                    ToDragIndex = 7;
                     dragging = false;
                     contained = false;
+                    played = false;
                 }
             }
 
             #endregion
 
-            spriteBatch.Begin();
-            spriteBatch.End();
             base.Draw(gameTime);
         }
 
         public void Randomize()
         {
-            escuchar = random.Next(0, 5);
-            while (vUsados[i] == escuchar || i > 5)
+            escuchar = random.Next(0, 6);
+            while (vUsados[escuchar] == true)
             {
-                escuchar = random.Next(0, 5);
-                i++;
+                escuchar = random.Next(0, 6);
             }        
         }
 

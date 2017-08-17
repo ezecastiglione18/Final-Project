@@ -11,5 +11,8 @@ namespace MonoGame
         public string sonido = "";
         public string imagen = "";
         public int ancho = 0;
+        public int alto = 0;
+        public bool dragging = false;
+        public bool ok = false;
     }
 }
