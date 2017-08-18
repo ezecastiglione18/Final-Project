@@ -29,6 +29,8 @@ namespace MonoGame
         int cont = 0;
         int posicion = 1;
         int posx;
+        int UltimaY;
+        int UltimaX;
         int posy;
         int posxOri;
         int posyOri;
@@ -179,21 +181,32 @@ namespace MonoGame
         {
             MouseState mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
+            
 
             if (mousePosition.X <= 450 && mousePosition.X >= 50 && mousePosition.Y <= 450 && mousePosition.Y >= 50)
             {
+                
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     int PosSelecx = (mousePosition.X / 50) - 1;
                     int PosSelecy = (mousePosition.Y / 50) - 1;
-                    if (mousePosition.X <= 450 && mousePosition.Y <= 450 && mousePosition.X >= 50 && mousePosition.Y >= 50)
+
+                    UltimaY = PosSelecy;
+                    UltimaX = PosSelecx;
+                    while (PosSelecy == UltimaY || PosSelecx == UltimaX)
                     {
-                        spriteBatch.Begin();
-                        spriteBatch.DrawString(Font, matriz[PosSelecx, PosSelecy], new Vector2((PosSelecx + 1) * 50 + 10, (PosSelecy + 1) * 50 + 10), Color.Red);
-                        matrizOK[PosSelecx, PosSelecy] = matriz[PosSelecx, PosSelecy];
-                        ABuscar = BuscarPalabraMatrizOK();
-                        spriteBatch.End();
-                    }                    
+                        if (mousePosition.X <= 450 && mousePosition.Y <= 450 && mousePosition.X >= 50 && mousePosition.Y >= 50)
+                        {
+                            spriteBatch.Begin();
+                            spriteBatch.DrawString(Font, matriz[PosSelecx, PosSelecy], new Vector2((PosSelecx + 1) * 50 + 10, (PosSelecy + 1) * 50 + 10), Color.Red);
+                            matrizOK[PosSelecx, PosSelecy] = matriz[PosSelecx, PosSelecy];
+                            ABuscar = BuscarPalabraMatrizOK();
+                            spriteBatch.End();
+                            
+                        }
+                        UltimaY = mousePosition.Y;
+                        UltimaX = mousePosition.X;
+                    }                                       
                 }
                 else
                 {
@@ -338,6 +351,9 @@ namespace MonoGame
         
         protected override void Draw(GameTime gameTime)
         {
+            MouseState mouseState = Mouse.GetState();
+            var mousePosition = new Point(mouseState.X, mouseState.Y);
+
             if (!DibujarSalir && !DibujarGanar)
             {
                 GraphicsDevice.Clear(Color.White);
@@ -363,7 +379,7 @@ namespace MonoGame
                 {
                     for (int columna = 0; columna <= 7; columna++)
                     {
-                        if (matrizOK[fila, columna] != null)
+                        if (matrizOK[fila, columna] != null && (matrizOK[fila,columna] != mousePosition.X.ToString() && matrizOK[fila,columna] != mousePosition.Y.ToString()))
                         {
                             spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Red/*color Seleccionado actual*/);
                         }
