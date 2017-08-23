@@ -36,7 +36,7 @@ namespace MonoGame
         int posyOri;
         int ContEncontradas = 0;
         string PosicionPalabra = "";    // Para guardar las posiciones de la palabra seleccionada.
-
+        bool EncontradaOno = false;
         private bool SopaCreada = false;
         private bool ImagenesCreadas = false;
         private bool PalabraEncontrada = false;
@@ -201,8 +201,7 @@ namespace MonoGame
                             spriteBatch.DrawString(Font, matriz[PosSelecx, PosSelecy], new Vector2((PosSelecx + 1) * 50 + 10, (PosSelecy + 1) * 50 + 10), Color.Red);
                             matrizOK[PosSelecx, PosSelecy] = matriz[PosSelecx, PosSelecy];
                             ABuscar = BuscarPalabraMatrizOK();
-                            spriteBatch.End();
-                            
+                            spriteBatch.End();                            
                         }
                         UltimaY = mousePosition.Y;
                         UltimaX = mousePosition.X;
@@ -217,22 +216,27 @@ namespace MonoGame
                         {
                             ImagenABorrar = i;
                             PalabraYaSeEncontro[i] = true;
-
+                            EncontradaOno = true;
                             //Si varia la X o la Y, que tire error(corte seleccion)
+                            PalabraEncontrada = true;                            
                             ImagenesCreadas = false;
-                            PalabraEncontrada = true;
-                            correcto.Play();
                             ContEncontradas++;
                         }
                         i++;                   
                     }
-                                      
+                    
                     LimpiarMatrizOK();
                     LimpiarSelected();
                     cont = 0;
                     PalabraEncontrada = false;
+                    //ReproducirSonido(EncontradaOno);//Si se encontro la palabra, se manda el true al metodo ReproducirSonido()
+                    //EncontradaOno = false;
                 }
+                
             }
+            
+
+
 
             #region ganar
             if (ContEncontradas == 6 && (PalabraYaSeEncontro[0] && PalabraYaSeEncontro[1] && PalabraYaSeEncontro[2] && PalabraYaSeEncontro[3] && PalabraYaSeEncontro[4] && PalabraYaSeEncontro[5]))
@@ -299,6 +303,7 @@ namespace MonoGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             
+
             base.Update(gameTime);
         }
 
@@ -324,6 +329,18 @@ namespace MonoGame
                 }
             }
             return Palabra;
+        }
+
+        public void ReproducirSonido(bool correctoONo)
+        {
+            if (correctoONo == true)
+            {
+                correcto.Play();
+            }
+            else
+            {
+                incorrecto.Play();
+            }
         }
 
         
@@ -385,8 +402,8 @@ namespace MonoGame
                         }
                         else 
                         {
-                            if (PosicionPalabra.IndexOf(fila.ToString() + "," + columna.ToString()) > -1)
-                            {
+                            if (PosicionPalabra.IndexOf(fila.ToString() + "," + columna.ToString()) > -1)//Que pregunte si la palabra elegida es una de las palabras 
+                            {                                                      
                                 spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Green/*Color Palabra Ya encontrada*/);
                             }
                             else
@@ -396,7 +413,7 @@ namespace MonoGame
                         }
                     }
                 }
-
+                EncontradaOno = false;
                 SopaCreada = true;
                 spriteBatch.DrawString(fontsmall, "Find these body parts!", new Vector2(480, 60), Color.Black);
                 for (int i = 0; i <= Imagenes.Length - 1; i++)
