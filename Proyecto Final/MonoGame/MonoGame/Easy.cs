@@ -181,90 +181,90 @@ namespace MonoGame
         {
             MouseState mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
-            
 
-            if (mousePosition.X <= 450 && mousePosition.X >= 50 && mousePosition.Y <= 450 && mousePosition.Y >= 50)
+            if (GanarBool)
             {
-                
-                if (mouseState.LeftButton == ButtonState.Pressed)
-                {
-                    int PosSelecx = (mousePosition.X / 50) - 1;
-                    int PosSelecy = (mousePosition.Y / 50) - 1;
+                spriteBatch.Begin();
+                spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
+                spriteBatch.End();
 
-                    UltimaY = PosSelecy;
-                    UltimaX = PosSelecx;
-                    while (PosSelecy == UltimaY || PosSelecx == UltimaX)
-                    {
-                        if (mousePosition.X <= 450 && mousePosition.Y <= 450 && mousePosition.X >= 50 && mousePosition.Y >= 50)
-                        {
-                            spriteBatch.Begin();
-                            spriteBatch.DrawString(Font, matriz[PosSelecx, PosSelecy], new Vector2((PosSelecx + 1) * 50 + 10, (PosSelecy + 1) * 50 + 10), Color.Red);
-                            matrizOK[PosSelecx, PosSelecy] = matriz[PosSelecx, PosSelecy];
-                            ABuscar = BuscarPalabraMatrizOK();
-                            spriteBatch.End();                            
-                        }
-                        UltimaY = mousePosition.Y;
-                        UltimaX = mousePosition.X;
-                    }                                       
-                }
-                else
+                mousePosition = new Point(mouseState.X, mouseState.Y);
+                if (si.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    int i = 0;
-                    while (i < Palabras.Length && PalabraEncontrada==false)
-                    {
-                        if (ABuscar == Palabras[i])
-                        {
-                            ImagenABorrar = i;
-                            PalabraYaSeEncontro[i] = true;
-                            EncontradaOno = true;
-                            //Si varia la X o la Y, que tire error(corte seleccion)
-                            PalabraEncontrada = true;                            
-                            ImagenesCreadas = false;
-                            ContEncontradas++;
-                        }
-                        i++;                   
-                    }
-                    
-                    LimpiarMatrizOK();
-                    LimpiarSelected();
-                    cont = 0;
-                    PalabraEncontrada = false;
-                    //ReproducirSonido(EncontradaOno);//Si se encontro la palabra, se manda el true al metodo ReproducirSonido()
-                    //EncontradaOno = false;
+                    var JugarDeNuevo = new Easy();
+                    JugarDeNuevo.Run();//Vuelve a jugar el nivel
                 }
-                
+                if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    //Seleccionar nivel
+                    DibujarGanar = false;
+                    DibujarSalir = false;
+                }
             }
-            
+            else
+            {
+                if (mousePosition.X <= 450 && mousePosition.X >= 50 && mousePosition.Y <= 450 && mousePosition.Y >= 50)
+                {
+                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        int PosSelecx = (mousePosition.X / 50) - 1;
+                        int PosSelecy = (mousePosition.Y / 50) - 1;
 
+                        UltimaY = PosSelecy;
+                        UltimaX = PosSelecx;
+                        while (PosSelecy == UltimaY || PosSelecx == UltimaX)
+                        {
+                            if (mousePosition.X <= 450 && mousePosition.Y <= 450 && mousePosition.X >= 50 && mousePosition.Y >= 50)
+                            {
+                                spriteBatch.Begin();
+                                spriteBatch.DrawString(Font, matriz[PosSelecx, PosSelecy], new Vector2((PosSelecx + 1) * 50 + 10, (PosSelecy + 1) * 50 + 10), Color.Red);
+                                matrizOK[PosSelecx, PosSelecy] = matriz[PosSelecx, PosSelecy];
+                                ABuscar = BuscarPalabraMatrizOK();
+                                spriteBatch.End();
+                            }
+                            UltimaY = mousePosition.Y;
+                            UltimaX = mousePosition.X;
+                        }
+                    }
+                    else
+                    {
+                        int i = 0;
+                        while (i < Palabras.Length && PalabraEncontrada == false)
+                        {
+                            if (ABuscar == Palabras[i])
+                            {
+                                ImagenABorrar = i;
+                                PalabraYaSeEncontro[i] = true;
+                                EncontradaOno = true;
+                                //Si varia la X o la Y, que tire error(corte seleccion)
+                                PalabraEncontrada = true;
+                                ImagenesCreadas = false;
 
+                                if (PalabraYaSeEncontro[i] == true)//LO que pasaba es que si seleccionabas la misma palabras dos veces, conencontradas = 2
+                                {
+                                    ContEncontradas++;
+                                }
+                            }
+                            i++;
+                        }
+
+                        LimpiarMatrizOK();
+                        LimpiarSelected();
+                        cont = 0;
+                        PalabraEncontrada = false;
+                    }
+                }
+            }
 
             #region ganar
-            if (ContEncontradas == 6 && (PalabraYaSeEncontro[0] && PalabraYaSeEncontro[1] && PalabraYaSeEncontro[2] && PalabraYaSeEncontro[3] && PalabraYaSeEncontro[4] && PalabraYaSeEncontro[5]))
+            if (PalabraYaSeEncontro[0] && PalabraYaSeEncontro[1] && PalabraYaSeEncontro[2] && PalabraYaSeEncontro[3] && PalabraYaSeEncontro[4] && PalabraYaSeEncontro[5])//Pregunta si se encontro todas
             {
                 //EFECTOS DE GANASTE
                 GanarBool = true;
                 DibujarGanar = true;
-                if (DibujarGanar)
-                {
-                    spriteBatch.Begin();
-                    spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
-                    spriteBatch.End();
-                }
-                if (GanarBool)
-                {
-                    mousePosition = new Point(mouseState.X, mouseState.Y);
-                    if (si.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
-                    {
-                        var JugarDeNuevo = new MonoGame.Easy();
-                        JugarDeNuevo.Run();//Vuelve a jugar el nivel
-                    }
-                    if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
-                    {                       
-                        //Seleccionar nivel
-                        DibujarGanar = false;
-                        DibujarSalir = false;
-                    }
-                }
+               /* spriteBatch.Begin();
+                spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
+                spriteBatch.End();*/
             }
             #endregion
 
@@ -396,19 +396,21 @@ namespace MonoGame
                 {
                     for (int columna = 0; columna <= 7; columna++)
                     {
-                        if (matrizOK[fila, columna] != null && (matrizOK[fila,columna] != mousePosition.X.ToString() && matrizOK[fila,columna] != mousePosition.Y.ToString()))
+                        if (matrizOK[fila, columna] != null && (matrizOK[fila, columna] != mousePosition.X.ToString() && matrizOK[fila, columna] != mousePosition.Y.ToString()))
                         {
                             spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Red/*color Seleccionado actual*/);
                         }
-                        else 
+                        else
                         {
-                            if (PosicionPalabra.IndexOf(fila.ToString() + "," + columna.ToString()) > -1)//Que pregunte si la palabra elegida es una de las palabras 
+                            if (PosicionPalabra.IndexOf(fila.ToString() + "," + columna.ToString()) > -1)
                             {                                                      
                                 spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Green/*Color Palabra Ya encontrada*/);
+                                ReproducirSonido(true);//reproduce el sonido de correcto
                             }
                             else
                             {
                                 spriteBatch.DrawString(Font, matriz[fila, columna], new Vector2((fila + 1) * 50 + 10, (columna + 1) * 50 + 10), Color.Black/*Color Letras default*/);
+                                ReproducirSonido(false);//reproduce el sonido de incorrecto
                             }
                         }
                     }
@@ -428,6 +430,12 @@ namespace MonoGame
                 }
                 spriteBatch.End();
             }
+            /*else
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
+                spriteBatch.End();
+            }*/
             base.Draw(gameTime);
         }
     }
