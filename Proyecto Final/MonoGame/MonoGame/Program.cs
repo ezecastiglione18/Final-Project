@@ -11,8 +11,8 @@ namespace MonoGame
         [STAThread]
         public static void Main()
         {
-            using (var game = new Easy())
-                game.Run();
+            using (var game = new Medium())
+              game.Run();
         }
     }
 #endif
