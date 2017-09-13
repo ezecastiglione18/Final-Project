@@ -334,7 +334,23 @@ namespace MonoGame
                     GanarBool = false;
                     DibujarGanar = false;
                     played = false;
-                    //JUGAR DE NUEVO
+                    SalirBool = false;
+                    GanarBool = false;
+                    Dibujar = false;
+                    DibujarGanar = false;
+                    escuchado = false;
+                    played = false;
+                    contained = false;
+                    dragging = false;
+                    acierto = false;
+                    rand = false;
+                    primeravez = true;
+                    escuchar = 7;
+                    i = 0;
+                    j = 0;
+                    contAciertos = 0;
+                    Initialize();
+                    LoadContent();
                 }
                 if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                 {
