@@ -17,6 +17,8 @@ namespace MonoGame
         private Texture2D salir;
         private Texture2D DSalir;
         private Texture2D ganarcuadro;
+        private Texture2D columna;
+        private Texture2D basket;
         Rectangle yes = new Rectangle(273, 305, 135, 117);
         Rectangle no = new Rectangle(491, 305, 87, 117);
         Rectangle boton = new Rectangle(395, 35, 105, 80);
@@ -36,6 +38,7 @@ namespace MonoGame
         int j = 0;
         int i = 0;
 
+        Texture2D[] Randoms = new Texture2D[5];
 
         public Advanced()
         {
@@ -49,7 +52,7 @@ namespace MonoGame
         }
         protected override void Initialize()
         {
-            this.IsMouseVisible = true;
+            this.IsMouseVisible = false;
             base.Initialize();
 
         }
@@ -61,6 +64,8 @@ namespace MonoGame
             DSalir = Content.Load<Texture2D>("DSalir");
             Font = Content.Load<SpriteFont>("AgentOrange");
             ganarcuadro = Content.Load<Texture2D>("Ganar");
+            columna = Content.Load<Texture2D>("columna");
+            basket = Content.Load<Texture2D>("Sports/basket1");
          }
         protected override void UnloadContent()
         {
@@ -68,11 +73,13 @@ namespace MonoGame
         }
         protected override void Update(GameTime gameTime)
         {
+            this.IsMouseVisible = false;
             #region salir
             MouseState mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
             if (mousePosition.X <= 880 && mousePosition.X >= 730 && mousePosition.Y <= 525 && mousePosition.Y >= 450)
             {
+                this.IsMouseVisible = true;
                 if (mouseState.LeftButton == ButtonState.Pressed && !DibujarGanar)
                 {
                     SalirBool = true;
@@ -81,6 +88,7 @@ namespace MonoGame
             }
             if (Dibujar)
             {
+                this.IsMouseVisible = true;
                 spriteBatch.Begin();
                 if (!played)
                 {
@@ -92,6 +100,7 @@ namespace MonoGame
             }
             if (SalirBool)
             {
+                this.IsMouseVisible = true;
                 mousePosition = new Point(mouseState.X, mouseState.Y);
                 if (yes.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                 {
@@ -99,6 +108,7 @@ namespace MonoGame
                 }
                 if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                 {
+                    this.IsMouseVisible = false;
                     SalirBool = false;
                     Dibujar = false;
                     played = false;
@@ -113,23 +123,38 @@ namespace MonoGame
 
         protected override void Draw(GameTime gameTime)
         {
+            MouseState mouseState = Mouse.GetState();
+            var mousePosition = new Point(mouseState.X, mouseState.Y);
             if (!Dibujar && !DibujarGanar)
             {
                 GraphicsDevice.Clear(Color.White);
                 spriteBatch.Begin();
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
+                spriteBatch.Draw(columna, new Rectangle(730, 30, 144, 430), Color.White);
+                spriteBatch.Draw(basket, new Rectangle(mousePosition.X, 450, 120, 90), Color.White);
                 played = true;
-                if (j % 6 == 0)
-                {
-                    i++;
-                    spriteBatch.Draw(DSalir, new Rectangle(10, i/10 * 15, 20, 10), Color.White);
-
-                }
+                #region caidas
+                i++;
+                spriteBatch.Draw(DSalir, new Rectangle(10, i/10 * 15, 20, 10), Color.White);
+                #endregion
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
                 spriteBatch.End();
             }
 
             base.Draw(gameTime);
+        }
+
+        private void Randomize()
+        {
+            int next = random.Next(0, 5);
+            for (int i = 0; i < Randoms.Length-1; i++)
+            {
+                while (Randoms[i] != null)
+                {
+                    next = random.Next(0, 5);
+                    Randoms[i] = //CAMBIAR
+                }
+            }
         }
     }
 }
