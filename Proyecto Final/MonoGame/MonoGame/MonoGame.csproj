@@ -66,6 +66,7 @@
     <Compile Include="Difficult.cs" />
     <Compile Include="Easy.cs" />
     <Compile Include="Food.cs" />
+    <Compile Include="Advanced.cs" />
     <Compile Include="Medium.cs" />
     <Compile Include="Pantalla principal.cs">
       <SubType>Form</SubType>

@@ -1,0 +1,1 @@
+EL juego consiste en agarrar todos los objetos pedidos en el tiempo determinado. Aparecerá una barra con los objetos a agarrar que se irá actualizando a medida que el usuario agarre los objetos. También caerán objetos que el usuario deberá evitar, y que si los agarra se reiniciará la canasta sin reiniciar el tiempo

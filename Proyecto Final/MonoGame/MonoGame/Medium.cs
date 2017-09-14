@@ -132,7 +132,7 @@ namespace MonoGame
         }
         protected override void UnloadContent()
         {
-
+            Content.Unload();
         }
         protected override void Update(GameTime gameTime)
         {
@@ -163,6 +163,7 @@ namespace MonoGame
                 mousePosition = new Point(mouseState.X, mouseState.Y);
                 if (yes.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed && !dragging)
                 {
+                    UnloadContent();
                     Exit();
                 }
                 if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
@@ -354,6 +355,7 @@ namespace MonoGame
                 }
                 if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                 {
+                    UnloadContent();
                     Exit();
                 }
             }
