@@ -76,7 +76,6 @@ namespace MonoGame
             base.Initialize();
             Conexion.Seleccionar();
 
-            #region inicializar_archivos
             FileStream file1 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[0].imagen, FileMode.Open);
             FileStream file2 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[1].imagen, FileMode.Open);
             FileStream file3 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[2].imagen, FileMode.Open);
@@ -101,8 +100,6 @@ namespace MonoGame
             sonidos[3] = SoundEffect.FromStream(snd4);
             sonidos[4] = SoundEffect.FromStream(snd5);
             sonidos[5] = SoundEffect.FromStream(snd6);
-            #endregion
-
 
         }
         protected override void LoadContent()

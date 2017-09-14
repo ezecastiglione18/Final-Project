@@ -33,6 +33,8 @@ namespace MonoGame
         bool Dibujar = false;
         bool DibujarGanar = false;
         bool played = false;
+        int j = 0;
+        int i = 0;
 
 
         public Advanced()
@@ -111,15 +113,17 @@ namespace MonoGame
 
         protected override void Draw(GameTime gameTime)
         {
-            if(!Dibujar && ! DibujarGanar)
+            if (!Dibujar && !DibujarGanar)
             {
                 GraphicsDevice.Clear(Color.White);
                 spriteBatch.Begin();
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
                 played = true;
-                for (int i = 0; i < 10; i++)
+                if (j % 6 == 0)
                 {
-                    spriteBatch.Draw(DSalir, new Rectangle(10, i * 15, 20, 10), Color.White);
+                    i++;
+                    spriteBatch.Draw(DSalir, new Rectangle(10, i/10 * 15, 20, 10), Color.White);
+
                 }
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
                 spriteBatch.End();
