@@ -61,7 +61,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Animal.cs" />
-    <Compile Include="ConexionBDFood.cs" />
     <Compile Include="dbConexion.cs" />
     <Compile Include="Difficult.cs" />
     <Compile Include="Easy.cs" />

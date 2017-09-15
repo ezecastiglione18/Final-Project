@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGame
 {
     class Food
     {
-        public string Nombre { get; set; }
-        public string Ruta { get; set; }
+        public string posicion { get; set; }
+        public Texture2D textura { get; set; }
     }
 }
