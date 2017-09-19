@@ -76,24 +76,24 @@ namespace MonoGame
             base.Initialize();
             Conexion.Seleccionar();
 
-            FileStream file1 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[0].imagen, FileMode.Open);
-            FileStream file2 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[1].imagen, FileMode.Open);
-            FileStream file3 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[2].imagen, FileMode.Open);
-            FileStream file4 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[3].imagen, FileMode.Open);
-            FileStream file5 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[4].imagen, FileMode.Open);
-            FileStream file6 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[5].imagen, FileMode.Open);
+            FileStream file1 = new FileStream(Properties.Settings.Default.Alt + "\\" + Conexion.listAnimales[0].imagen, FileMode.Open);
+            FileStream file2 = new FileStream(Properties.Settings.Default.Alt + "\\" + Conexion.listAnimales[1].imagen, FileMode.Open);
+            FileStream file3 = new FileStream(Properties.Settings.Default.Alt + "\\" + Conexion.listAnimales[2].imagen, FileMode.Open);
+            FileStream file4 = new FileStream(Properties.Settings.Default.Alt + "\\" + Conexion.listAnimales[3].imagen, FileMode.Open);
+            FileStream file5 = new FileStream(Properties.Settings.Default.Alt + "\\" + Conexion.listAnimales[4].imagen, FileMode.Open);
+            FileStream file6 = new FileStream(Properties.Settings.Default.Alt + "\\" + Conexion.listAnimales[5].imagen, FileMode.Open);
             Imagenes[0] = Texture2D.FromStream(GraphicsDevice, file1);
             Imagenes[1] = Texture2D.FromStream(GraphicsDevice, file2);
             Imagenes[2] = Texture2D.FromStream(GraphicsDevice, file3);
             Imagenes[3] = Texture2D.FromStream(GraphicsDevice, file4);
             Imagenes[4] = Texture2D.FromStream(GraphicsDevice, file5);
             Imagenes[5] = Texture2D.FromStream(GraphicsDevice, file6);
-            FileStream snd1 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[0].sonido, FileMode.Open);
-            FileStream snd2 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[1].sonido, FileMode.Open);
-            FileStream snd3 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[2].sonido, FileMode.Open);
-            FileStream snd4 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[3].sonido, FileMode.Open);
-            FileStream snd5 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[4].sonido, FileMode.Open);
-            FileStream snd6 = new FileStream(Properties.Settings.Default.Ruta + "\\" + Conexion.listAnimales[5].sonido, FileMode.Open);
+            FileStream snd1 = new FileStream(Properties.Settings.Default.Alt + "\\" + Conexion.listAnimales[0].sonido, FileMode.Open);
+            FileStream snd2 = new FileStream(Properties.Settings.Default.Alt + "\\" + Conexion.listAnimales[1].sonido, FileMode.Open);
+            FileStream snd3 = new FileStream(Properties.Settings.Default.Alt + "\\" + Conexion.listAnimales[2].sonido, FileMode.Open);
+            FileStream snd4 = new FileStream(Properties.Settings.Default.Alt + "\\" + Conexion.listAnimales[3].sonido, FileMode.Open);
+            FileStream snd5 = new FileStream(Properties.Settings.Default.Alt + "\\" + Conexion.listAnimales[4].sonido, FileMode.Open);
+            FileStream snd6 = new FileStream(Properties.Settings.Default.Alt + "\\" + Conexion.listAnimales[5].sonido, FileMode.Open);
             sonidos[0] = SoundEffect.FromStream(snd1);
             sonidos[1] = SoundEffect.FromStream(snd2);
             sonidos[2] = SoundEffect.FromStream(snd3);
@@ -172,7 +172,7 @@ namespace MonoGame
             }
             #endregion
 
-            if (contAciertos == 1)
+            if (contAciertos == 6)
             {
                 ganar = true; 
             }  

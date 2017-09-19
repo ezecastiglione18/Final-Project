@@ -10,7 +10,9 @@ namespace MonoGame
 {
     class Food
     {
-        public string posicion { get; set; }
+        public Point posicion { get; set; }
         public Texture2D textura { get; set; }
+        public bool start { get; set; }
+        public int id { get; set; }
     }
 }

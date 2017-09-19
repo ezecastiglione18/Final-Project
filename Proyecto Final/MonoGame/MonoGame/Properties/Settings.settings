@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Alt" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\Gladis\Documents\Lila\Final-Project\Proyecto Final\MonoGame\MonoGame\Content\Animals</Value>
+      <Value Profile="(Default)">C:\Users\Gladis\Final-Project\Proyecto Final\MonoGame\MonoGame\Content\Animals</Value>
     </Setting>
     <Setting Name="Ruta" Type="System.String" Scope="User">
       <Value Profile="(Default)">Z:\Final-Project\Proyecto Final\MonoGame\MonoGame\Content\Animals</Value>

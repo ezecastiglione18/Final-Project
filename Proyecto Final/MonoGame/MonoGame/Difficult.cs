@@ -22,7 +22,7 @@ namespace MonoGame
         public bool SalirBool = false;
         public bool Dibujar = false;
         bool played = false;
-        ConexionBDSports Conexion = new ConexionBDSports();
+        //ConexionBDSports Conexion = new ConexionBDSports();
 
         /*public Texture2D baseball;
         public Texture2D baseballBat;
@@ -55,7 +55,7 @@ namespace MonoGame
         {
             this.IsMouseVisible = true;
             base.Initialize();
-            Conexion.Seleccionar();
+            /*Conexion.Seleccionar();
             FileStream file1 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[0].Ruta, FileMode.Open);// Busco cada imagen que 
             FileStream file2 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[1].Ruta, FileMode.Open);// se selecciono al azar
             FileStream file3 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[2].Ruta, FileMode.Open);// y lo guardo en el vector
@@ -71,7 +71,7 @@ namespace MonoGame
             Imagenes[4] = Texture2D.FromStream(GraphicsDevice, file5);
             Imagenes[5] = Texture2D.FromStream(GraphicsDevice, file6);
             Imagenes[6] = Texture2D.FromStream(GraphicsDevice, file7);
-            Imagenes[7] = Texture2D.FromStream(GraphicsDevice, file8);
+            Imagenes[7] = Texture2D.FromStream(GraphicsDevice, file8);*/
         }
 
         protected override void LoadContent()
