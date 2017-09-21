@@ -61,6 +61,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Animal.cs" />
+    <Compile Include="ConexionBDSports.cs" />
     <Compile Include="dbConexion.cs" />
     <Compile Include="Difficult.cs" />
     <Compile Include="Easy.cs" />
@@ -85,6 +86,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Sports.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

@@ -22,7 +22,7 @@ namespace MonoGame
         public bool SalirBool = false;
         public bool Dibujar = false;
         bool played = false;
-        //ConexionBDSports Conexion = new ConexionBDSports();
+        ConexionBDSports Conexion = new ConexionBDSports();
 
         /*public Texture2D baseball;
         public Texture2D baseballBat;
@@ -39,7 +39,7 @@ namespace MonoGame
         public Texture2D americanFootball;*/
 
         public static Texture2D[] Imagenes = new Texture2D[8];
-        public int[,] PosicionesFichas = new int[4, 4];
+        public int[,] PosicionesFichas = new int[16, 2] { { 100, 75 }, { 100, 175 }, { 100, 275 }, { 100, 375 }, { 200, 75 }, { 200, 175 }, { 200, 275 }, { 200, 375 }, { 300, 75 }, { 300, 175 }, { 300, 275 }, { 300, 375 }, { 400, 75 }, { 400, 175 }, { 400, 275 }, { 400, 375 } };
         public Difficult()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -55,7 +55,9 @@ namespace MonoGame
         {
             this.IsMouseVisible = true;
             base.Initialize();
-            /*Conexion.Seleccionar();
+
+            #region Guardado de Imagenes
+            Conexion.Seleccionar();
             FileStream file1 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[0].Ruta, FileMode.Open);// Busco cada imagen que 
             FileStream file2 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[1].Ruta, FileMode.Open);// se selecciono al azar
             FileStream file3 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[2].Ruta, FileMode.Open);// y lo guardo en el vector
@@ -64,14 +66,25 @@ namespace MonoGame
             FileStream file6 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[5].Ruta, FileMode.Open);
             FileStream file7 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[6].Ruta, FileMode.Open);
             FileStream file8 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[7].Ruta, FileMode.Open);
-            Imagenes[0] = Texture2D.FromStream(GraphicsDevice, file1);
-            Imagenes[1] = Texture2D.FromStream(GraphicsDevice, file2);
+
+            Imagenes[0] = Texture2D.FromStream(GraphicsDevice, file1);  //Busco cada imagen que se selecciono al azar y lo guardo
+            Imagenes[1] = Texture2D.FromStream(GraphicsDevice, file2);  //en el vector de imagenes
             Imagenes[2] = Texture2D.FromStream(GraphicsDevice, file3);
             Imagenes[3] = Texture2D.FromStream(GraphicsDevice, file4);
             Imagenes[4] = Texture2D.FromStream(GraphicsDevice, file5);
             Imagenes[5] = Texture2D.FromStream(GraphicsDevice, file6);
             Imagenes[6] = Texture2D.FromStream(GraphicsDevice, file7);
-            Imagenes[7] = Texture2D.FromStream(GraphicsDevice, file8);*/
+            Imagenes[7] = Texture2D.FromStream(GraphicsDevice, file8);
+
+            #endregion
+
+            for (int i = 0; i < Imagenes.Length; i++)
+            {
+                for (int j = 0; j < Imagenes.Length; j++)
+                {
+                    //Codigo para guardar las imagenes en 8 cuadraditos random de la matriz 
+                }
+            } 
         }
 
         protected override void LoadContent()
@@ -86,7 +99,7 @@ namespace MonoGame
 
         protected override void UnloadContent()
         {
-            
+            Content.Unload();
         }
 
         protected override void Update(GameTime gameTime)
@@ -128,7 +141,8 @@ namespace MonoGame
                 }
             }
             #endregion
-
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
             base.Update(gameTime);
         }
 
@@ -140,7 +154,7 @@ namespace MonoGame
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
                 spriteBatch.DrawString(Font, "Search each word with its image!", new Vector2(20, 12), Color.Black);
 
-                #region 16Cuadraditos 
+                #region 16 Cuadraditos 
                 spriteBatch.Draw(fichaMemo, new Vector2(100/*EJE X*/, 75/*EJE Y*/), Color.White);
                 spriteBatch.Draw(fichaMemo, new Vector2(100, 175), Color.White);
                 spriteBatch.Draw(fichaMemo, new Vector2(100, 275), Color.White);
@@ -162,8 +176,6 @@ namespace MonoGame
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
                 
             }
-
-
 
             spriteBatch.End();
             base.Draw(gameTime);

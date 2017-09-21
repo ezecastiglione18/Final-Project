@@ -56,7 +56,7 @@ namespace MonoGame
         string[,] PalabrasQueSeMarcaron = new string[8,8];
         int[,] posiciones = new int[6, 2] { { 520, 200 }, { 660, 230 }, { 520, 130 }, { 610, 80 }, { 530, 350 }, { 730, 120 } };
         string[] Palabras = { "arm", "leg", "eyes", "head", "elbow", "mouth" };
-        bool[] PalabraYaSeEncontro = { false, false, false, false, false, false }; //LO NUEVO PARTE 1
+        bool[] PalabraYaSeEncontro = { false, false, false, false, false, false };
         Texture2D[] Imagenes = new Texture2D[6];
         public Easy()
         {
@@ -428,12 +428,6 @@ namespace MonoGame
                 }
                 spriteBatch.End();
             }
-            /*else
-            {
-                spriteBatch.Begin();
-                spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
-                spriteBatch.End();
-            }*/
             base.Draw(gameTime);
         }
     }
