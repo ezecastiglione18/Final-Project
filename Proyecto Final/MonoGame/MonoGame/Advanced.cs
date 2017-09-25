@@ -58,22 +58,25 @@ namespace MonoGame
         bool DibujarGanar = false;
         bool played = false;
         bool obj = false;
-        bool start = false;
+        bool play = false;
         int j = 0;
         int i = 0;
         int k = 0;
+        int m = 0;
         int cont = 0;
         int next;
 
         int[] Randoms = new int[5] { 9, 9, 9, 9, 9 };
         int[] xPositions = new int[9] { 10, 100, 197, 291, 389, 448, 517, 585, 662 };
-        int[] yPositions = new int[10];
-        int[] whereToFall = new int[10];
-        int[] nextToFall = new int[10];
+        int[] yPositions = new int[6];
+        int[] whereToFall = new int[6];
+        int[] nextToFall = new int[6];
+        bool[] start = new bool[6] { false, false, false, false, false, false };
+        Rectangle[] rectangles = new Rectangle[6];
         int[] objCount = new int[5] {5,5,5,5,5};
         Food[] Foods = new Food[17];
         int [,] sizes = new int[17, 2] { { 40, 45}, { 50, 25 }, { 40, 40}, { 35, 37 }, { 40, 33 }, { 40, 45 }, { 40, 43}, { 30, 35 }, { 45, 35}, { 50, 43}, { 40, 23 }, { 50, 21}, { 40, 40}, { 35, 53 }, { 50, 28}, { 30, 40}, { 40, 32} };
-        Texture2D[] toDraw = new Texture2D[10];
+        Texture2D[] toDraw = new Texture2D[6];
 
         public Advanced()
         {
@@ -104,9 +107,11 @@ namespace MonoGame
             basket = Content.Load<Texture2D>("Food/basket1");
             empty = Content.Load<Texture2D>("empty");
             correcto = Content.Load<SoundEffect>("Sonidos/Correcto_Adv");
+            incorrecto = Content.Load<SoundEffect>("Sonidos/Incorrecto_Adv");
             for (int i = 0; i < Foods.Length; i++)
             {
                 Foods[i] = new Food();
+                Foods[i].id = i;
             }
             Foods[0].textura = apple = Content.Load<Texture2D>("Food/apples");
             Foods[1].textura = banana = Content.Load<Texture2D>("Food/bananas");
@@ -118,13 +123,13 @@ namespace MonoGame
             Foods[7].textura = strawberry = Content.Load<Texture2D>("Food/strawberries");
             Foods[8].textura = watermelon = Content.Load<Texture2D>("Food/watermelons");
             Foods[9].textura = burger = Content.Load<Texture2D>("Food/burger");
-            Foods[10].textura =cheese = Content.Load<Texture2D>("Food/cheese");
-            Foods[11].textura =chicken = Content.Load<Texture2D>("Food/chicken");
-            Foods[12].textura =donut = Content.Load<Texture2D>("Food/donut");
-            Foods[13].textura =fries = Content.Load<Texture2D>("Food/fries");
-            Foods[14].textura =hotdog = Content.Load<Texture2D>("Food/hotdog");
-            Foods[15].textura =icecream = Content.Load<Texture2D>("Food/ice cream");
-            Foods[16].textura =pizza = Content.Load<Texture2D>("Food/pizza");
+            Foods[10].textura = cheese = Content.Load<Texture2D>("Food/cheese");
+            Foods[11].textura = chicken = Content.Load<Texture2D>("Food/chicken");
+            Foods[12].textura = donut = Content.Load<Texture2D>("Food/donut");
+            Foods[13].textura = fries = Content.Load<Texture2D>("Food/fries");
+            Foods[14].textura = hotdog = Content.Load<Texture2D>("Food/hotdog");
+            Foods[15].textura = icecream = Content.Load<Texture2D>("Food/ice cream");
+            Foods[16].textura = pizza = Content.Load<Texture2D>("Food/pizza");
             for (int i = 0; i < toDraw.Length; i++)
             {
                 toDraw[i] = empty;
@@ -211,49 +216,77 @@ namespace MonoGame
                 i++;
                 if (i % 60 == 0)
                 {
+                    if (j > 5)
+                    {
+                        j = 0;
+                    }
                     cont++;
-                    start = true;
-                    nextToFall[j] = random.Next(0, 17); 
+                    nextToFall[j] = random.Next(0, 17);
                     whereToFall[j] = xPositions[random.Next(0, 9)];
                     toDraw[j] = Foods[nextToFall[j]].textura;
-                    Foods[nextToFall[j]].start = true;
+                    start[j] = true;
                     yPositions[j] = 0 - Foods[nextToFall[j]].textura.Height;
-                }
-                if (start)
+                    rectangles[j] = new Rectangle(whereToFall[j], yPositions[j], Foods[nextToFall[j]].textura.Width, Foods[nextToFall[j]].textura.Height);
+                    j++;
+                } 
+
+                for (int a = 0; a < yPositions.Length; a++)
                 {
-                    k++;
-                    if (k > 600)
+                    if (start[a])
                     {
-                        k = 0;
+                        yPositions[a]+= 2;
                     }
+                    if (yPositions[a] > 530)
+                    {
+                        yPositions[a] = -50;
+                        start[a] = false;
+                    }
+                    rectangles[a].Location = new Point(whereToFall[a], yPositions[a]);
                 }
-                for (int i = 0; i < yPositions.Length; i++)
-                {
-                    if (Foods[nextToFall[i]].start)
-                    {
-                        yPositions[i]+= 2;
-                    }
-                    if (yPositions[i] > 530)
-                    {
-                        yPositions[i] = 0;
-                    }
-                }
+
                 spriteBatch.DrawString(Font, cont.ToString(), new Vector2(300, 300), Color.Red);
-                //Un objeto tarda en caer aprox 6 segundos. Por lo tanto, para dibujar una por segundo se deben utilizar 6 spriteBatch, porque las 6 se deben estar dibujando al mismo tiempo. Cuando finaliza la caída se reutiliza el spriteBatch
                 spriteBatch.Draw(toDraw[0], new Rectangle(whereToFall[0], yPositions[0], sizes[nextToFall[0], 0], sizes[nextToFall[0], 1]), Color.White);
                 spriteBatch.Draw(toDraw[1], new Rectangle(whereToFall[1], yPositions[1], sizes[nextToFall[1], 0], sizes[nextToFall[1], 1]), Color.White);
                 spriteBatch.Draw(toDraw[2], new Rectangle(whereToFall[2], yPositions[2], sizes[nextToFall[2], 0], sizes[nextToFall[2], 1]), Color.White);
                 spriteBatch.Draw(toDraw[3], new Rectangle(whereToFall[3], yPositions[3], sizes[nextToFall[3], 0], sizes[nextToFall[3], 1]), Color.White);
                 spriteBatch.Draw(toDraw[4], new Rectangle(whereToFall[4], yPositions[4], sizes[nextToFall[4], 0], sizes[nextToFall[4], 1]), Color.White);
-                spriteBatch.Draw(toDraw[4], new Rectangle(whereToFall[5], yPositions[5], sizes[nextToFall[5], 0], sizes[nextToFall[5], 1]), Color.White);
-                Foods[nextToFall[j]].posicion = new Point(whereToFall[j], yPositions[j]);
-                Rectangle hola = new Rectangle(whereToFall[j], yPositions[j], Foods[nextToFall[j]].textura.Width, Foods[nextToFall[j]].textura.Height);
-                //PROBAR
-                //Crear un rectangulo por cada objeto que está cayendo. chequear si ese rectángulo toca la canasta y el id (si es de los objetivos chequear si el botón está presionado)
-                j++;
-                if (j > 6)
+                spriteBatch.Draw(toDraw[5], new Rectangle(whereToFall[5], yPositions[5], sizes[nextToFall[5], 0], sizes[nextToFall[5], 1]), Color.White);
+                for (int k = 0; k < rectangles.Length; k++)
                 {
-                    j = 0;
+                    if (canasta.Contains(rectangles[k]))
+                    {
+                        if (Foods[nextToFall[k]].id > 8)
+                        {
+                            if (yPositions[k] > 470)
+                            {
+                                yPositions[k] = 540;
+                            }
+                            if (mousePosition.X > 610)
+                            {
+                                spriteBatch.Draw(basket, new Rectangle(610, 450, 120, 90), Color.Red * 0.5f);
+                            }
+                            else
+                            {
+                                spriteBatch.Draw(basket, new Rectangle(mousePosition.X, 450, 120, 90), Color.Red * 0.5f);
+                            }
+                        }
+                        else
+                        {
+                           //if (Foods[nextToFall[k]].id == Randoms[k] && mouseState.LeftButton == ButtonState.Pressed)
+                           //{
+                           //    objCount[Foods[nextToFall[k]].id]--;
+                           //for (int b = 0; b < objCount.Length; b++)
+                           //{
+                           //    if (objCount[b] == 0)
+                           //    {
+                           //        int contGanar++;
+                           //    }
+                           //}
+                           //}
+
+                        }
+                        
+                    }
                 }
                 #endregion
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
@@ -288,8 +321,8 @@ namespace MonoGame
                     }
                 }
                 Randoms[i] = next;
-                Foods[next].id = i;
             }
         }
+
     }
 }
