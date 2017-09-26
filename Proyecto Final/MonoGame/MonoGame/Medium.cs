@@ -56,7 +56,7 @@ namespace MonoGame
         public static Texture2D[] Imagenes = new Texture2D[6];
         public SoundEffect[] sonidos = new SoundEffect [6];
         int[] posiciones = new int[6];
-        Texture2D[] win = new Texture2D[9];
+        public Texture2D[] win = new Texture2D[9];
         Rectangle[] areas = new Rectangle[6];
         dbConexion Conexion = new dbConexion();
 

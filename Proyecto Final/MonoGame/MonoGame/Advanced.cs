@@ -38,6 +38,8 @@ namespace MonoGame
         private Texture2D strawberry;
         private Texture2D watermelon;
         private Texture2D empty;
+        private Texture2D stutorial;
+        private Texture2D etutorial;
 
         Rectangle yes = new Rectangle(273, 305, 135, 117);
         Rectangle no = new Rectangle(491, 305, 87, 117);
@@ -58,13 +60,17 @@ namespace MonoGame
         bool DibujarGanar = false;
         bool played = false;
         bool obj = false;
-        bool play = false;
+        bool ganar = false;
+        bool begin = true;
         int j = 0;
         int i = 0;
-        int k = 0;
-        int m = 0;
-        int cont = 0;
+        int m = 10;
+        int restar = 10;
+        int contAciertos = 0;
+        int ant;
         int next;
+        TimeSpan timeSpan = TimeSpan.FromMilliseconds(0);
+
 
         int[] Randoms = new int[5] { 9, 9, 9, 9, 9 };
         int[] xPositions = new int[9] { 10, 100, 197, 291, 389, 448, 517, 585, 662 };
@@ -77,6 +83,7 @@ namespace MonoGame
         Food[] Foods = new Food[17];
         int [,] sizes = new int[17, 2] { { 40, 45}, { 50, 25 }, { 40, 40}, { 35, 37 }, { 40, 33 }, { 40, 45 }, { 40, 43}, { 30, 35 }, { 45, 35}, { 50, 43}, { 40, 23 }, { 50, 21}, { 40, 40}, { 35, 53 }, { 50, 28}, { 30, 40}, { 40, 32} };
         Texture2D[] toDraw = new Texture2D[6];
+        Texture2D[] win = new Texture2D[9];
 
         public Advanced()
         {
@@ -108,6 +115,8 @@ namespace MonoGame
             empty = Content.Load<Texture2D>("empty");
             correcto = Content.Load<SoundEffect>("Sonidos/Correcto_Adv");
             incorrecto = Content.Load<SoundEffect>("Sonidos/Incorrecto_Adv");
+            stutorial = Content.Load<Texture2D>("stutorial");
+            etutorial = Content.Load<Texture2D>("etutorial");
             for (int i = 0; i < Foods.Length; i++)
             {
                 Foods[i] = new Food();
@@ -134,6 +143,15 @@ namespace MonoGame
             {
                 toDraw[i] = empty;
             }
+            win[0] = Content.Load<Texture2D>("Animation/1");
+            win[1] = Content.Load<Texture2D>("Animation/2");
+            win[2] = Content.Load<Texture2D>("Animation/3");
+            win[3] = Content.Load<Texture2D>("Animation/4");
+            win[4] = Content.Load<Texture2D>("Animation/5");
+            win[5] = Content.Load<Texture2D>("Animation/6");
+            win[6] = Content.Load<Texture2D>("Animation/7");
+            win[7] = Content.Load<Texture2D>("Animation/8");
+            win[8] = Content.Load<Texture2D>("Animation/9");
         }
         protected override void UnloadContent()
         {
@@ -183,6 +201,76 @@ namespace MonoGame
                 }
             }
             #endregion
+
+            #region ganar
+            if (ganar)
+            {
+                j++;
+                Vector2 origin;
+                origin = new Vector2(win[i].Width / 2, win[i].Height / 2);
+                spriteBatch.Begin();
+                spriteBatch.Draw(win[i], new Rectangle(Convert.ToInt32(450 - origin.X), Convert.ToInt32(265 - origin.Y), win[i].Width, win[i].Height), Color.White);
+                spriteBatch.End();
+                contAciertos = 0;
+                if (j % 6 == 0)
+                {
+                    i++;
+                    if (i == 9)
+                    {
+                        ganar = false;
+                        GanarBool = true;
+                        DibujarGanar = true;
+                    }
+                }
+            }
+
+            if (DibujarGanar)
+            {
+                spriteBatch.Begin();
+                if (!played)
+                {
+                    quit.Play();
+                    played = true;
+                }
+                spriteBatch.Draw(ganarcuadro, new Rectangle(10, 10, 890, 520), Color.White);
+                spriteBatch.End();
+            }
+            if (GanarBool)
+            {
+                mousePosition = new Point(mouseState.X, mouseState.Y);
+                if (yes.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    //ADD
+                    GanarBool = false;
+                    DibujarGanar = false;
+                    played = false;
+                    SalirBool = false;
+                    GanarBool = false;
+                    Dibujar = false;
+                    DibujarGanar = false;
+                    played = false;
+                    i = 0;
+                    j = 0;
+                    Initialize();
+                    LoadContent();
+                }
+                if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    UnloadContent();
+                    Exit();
+                }
+            }
+
+            #endregion
+
+            #region begin
+            if (begin)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(etutorial, new Rectangle(10, 10, 890, 520), Color.White);
+                spriteBatch.End();
+            }
+            #endregion
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             base.Update(gameTime);
@@ -220,7 +308,6 @@ namespace MonoGame
                     {
                         j = 0;
                     }
-                    cont++;
                     nextToFall[j] = random.Next(0, 17);
                     whereToFall[j] = xPositions[random.Next(0, 9)];
                     toDraw[j] = Foods[nextToFall[j]].textura;
@@ -243,8 +330,6 @@ namespace MonoGame
                     }
                     rectangles[a].Location = new Point(whereToFall[a], yPositions[a]);
                 }
-
-                spriteBatch.DrawString(Font, cont.ToString(), new Vector2(300, 300), Color.Red);
                 spriteBatch.Draw(toDraw[0], new Rectangle(whereToFall[0], yPositions[0], sizes[nextToFall[0], 0], sizes[nextToFall[0], 1]), Color.White);
                 spriteBatch.Draw(toDraw[1], new Rectangle(whereToFall[1], yPositions[1], sizes[nextToFall[1], 0], sizes[nextToFall[1], 1]), Color.White);
                 spriteBatch.Draw(toDraw[2], new Rectangle(whereToFall[2], yPositions[2], sizes[nextToFall[2], 0], sizes[nextToFall[2], 1]), Color.White);
@@ -257,9 +342,14 @@ namespace MonoGame
                     {
                         if (Foods[nextToFall[k]].id > 8)
                         {
+                            if (m != k)
+                            {
+                                m = k;
+                                incorrecto.Play();
+                            }
                             if (yPositions[k] > 470)
                             {
-                                yPositions[k] = 540;
+                                yPositions[k] += 6;
                             }
                             if (mousePosition.X > 610)
                             {
@@ -272,20 +362,32 @@ namespace MonoGame
                         }
                         else
                         {
-                           //if (Foods[nextToFall[k]].id == Randoms[k] && mouseState.LeftButton == ButtonState.Pressed)
-                           //{
-                           //    objCount[Foods[nextToFall[k]].id]--;
-                           //for (int b = 0; b < objCount.Length; b++)
-                           //{
-                           //    if (objCount[b] == 0)
-                           //    {
-                           //        int contGanar++;
-                           //    }
-                           //}
-                           //}
+                            for (int f = 0; f < Randoms.Length; f++)
+                            {
+                                if (Foods[nextToFall[k]].id == Randoms[f] && mouseState.LeftButton == ButtonState.Pressed)
+                                {
+                                    if (restar != f || ant == f)
+                                    {
+                                        correcto.Play();
+                                        objCount[f]--;
+                                        restar = f;
+                                        ant = f;
+                                    }
+                                    for (int b = 0; b < objCount.Length; b++)
+                                    {
+                                        if (objCount[b] == 0)
+                                        {
+                                            contAciertos++;
+                                            if (contAciertos == 5)
+                                            {
+                                                ganar = true;
+                                            }
 
+                                        }
+                                    }
+                                }
+                            }
                         }
-                        
                     }
                 }
                 #endregion
