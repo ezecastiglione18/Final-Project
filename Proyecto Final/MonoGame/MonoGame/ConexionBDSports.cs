@@ -42,8 +42,9 @@ namespace MonoGame
             while (drConsulta.Read())
             {
                 Sports oSports = new Sports();
-                oSports.Nombre = drConsulta["Imagen"].ToString();
+                oSports.Nombre = drConsulta["Texto"].ToString();
                 oSports.Ruta = drConsulta["Ruta"].ToString();
+                oSports.Id = Convert.ToInt32(drConsulta["Identificador"]);
 
                 ListaSports.Add(oSports);
             }

@@ -57,6 +57,7 @@ namespace MonoGame
         public Texture2D[,] MatrizConImagenes = new Texture2D[16,2];
         public int[,] PosicionesFichas = new int[16, 2] { { 100, 75 }, { 100, 175 }, { 100, 275 }, { 100, 375 }, { 300, 75 }, { 300, 175 }, { 300, 275 }, { 300, 375 }, { 500, 75 }, { 500, 175 }, { 500, 275 }, { 500, 375 }, { 700, 75 }, { 700, 175 }, { 700, 275 }, { 700, 375 } };
         public Rectangle[] Rectangulos = new Rectangle[16];
+        //public Texture2D[] Fichas = new Texture2D[16];
 
         public int[] NumerosRandomImagen = new int[8];
         public int[] NumerosRandomTexto = new int[8];
@@ -109,7 +110,7 @@ namespace MonoGame
 
             #endregion
 
-            #region Guardado de Palabra en formato PNG
+            #region Guardado de Texto en formato PNG
             Conexion.Seleccionar();
             FileStream file1s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[0].Nombre, FileMode.Open);// Busco cada imagen que 
             FileStream file2s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[1].Nombre, FileMode.Open);// se selecciono al azar
@@ -130,6 +131,9 @@ namespace MonoGame
             Texto[7] = Texture2D.FromStream(GraphicsDevice, file8s);
             #endregion
 
+            Sports Ficha1 = new Sports();
+            Sports Ficha2 = new Sports();
+
             selecRandomImagenes();
             selecRandomTexto();
 
@@ -139,10 +143,8 @@ namespace MonoGame
                 {
                     //Codigo para guardar las imagenes en 8 cuadraditos random de la matriz 
 
-                    //Switch que elija texto o imagen
-                    // Random que elija que posicion del texto/imagen va en la posicion Matriz[i,j]
-                    //Guardas la posicion en la matriz [i,j] el texto/imagen
-                    //Guardar las posiciones que ya se usaron
+                    // Random que elija que posicion del vector texto/imagen va en la posicion Matriz[i,j]
+                    // Guardas la posicion del vector texto/imagen en la matriz [i,j]
 
                     rndImgTxt = randomImgTxt.Next(0, 2);
 
@@ -166,12 +168,12 @@ namespace MonoGame
 
                             while (NumerosYaUsadosTexto[rndTexto] == -1)
                             {
-                                rndTexto = randomTexto.Next(0, 8);
+                                rndTexto = randomTexto.Next(0, 8); //rndTexto es la posicion del vector "Texto" que va en la matriz
                             }
+                            MatrizConImagenes[PosicionesFichas[i,0], PosicionesFichas[i,1]] = Texto[rndTexto];
+                            //
 
-                            //PosicionesFichas[i, j] = Convert.ToInt32(Texto[rndTexto]);
-
-                            NumerosYaUsadosTexto[i] = -1;
+                            NumerosYaUsadosTexto[rndTexto] = -1;
                             break;
                     }
                 }
@@ -197,6 +199,10 @@ namespace MonoGame
         protected override void Update(GameTime gameTime)
         {
             //COMPARAR LAS DOS IMAGENES
+            if(drawed == true)
+            {
+                
+            }
             #region salir
             MouseState mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
@@ -281,6 +287,10 @@ namespace MonoGame
                             {
                                 spriteBatch.Draw(FichaCostado, new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
                                 drawed = true;
+                                if(mouseState.LeftButton == ButtonState.Released)
+                                {
+                                    //Se muestra la parte de atras de la ficha
+                                }
                             }
                         }
                     }

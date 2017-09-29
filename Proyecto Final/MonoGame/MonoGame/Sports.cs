@@ -10,5 +10,6 @@ namespace MonoGame
     {
         public string Nombre { get; set; }
         public string Ruta { get; set; }
+        public int Id { get; set; }
     }
 }
