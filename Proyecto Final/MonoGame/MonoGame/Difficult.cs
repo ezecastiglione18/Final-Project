@@ -21,7 +21,21 @@ namespace MonoGame
         Rectangle no = new Rectangle(491, 305, 87, 117);
         public bool SalirBool = false;
         public bool Dibujar = false;
+        public bool drawed = false;
+        int rnd;
+        int rndTexto;
+        int rndImagen;
+        int rndImgTxt;
+        int ContadorGanaste;
         bool played = false;
+        int PosSeleccionadaX;
+        int PosSeleccionadaY;
+        Texture2D FichaCostado;
+        Texture2D GIFficha;
+        Random random = new Random();
+        Random randomImgTxt = new Random();
+        Random randomImagen = new Random();
+        Random randomTexto = new Random();
         ConexionBDSports Conexion = new ConexionBDSports();
 
         /*public Texture2D baseball;
@@ -39,7 +53,18 @@ namespace MonoGame
         public Texture2D americanFootball;*/
 
         public static Texture2D[] Imagenes = new Texture2D[8];
-        public int[,] PosicionesFichas = new int[16, 2] { { 100, 75 }, { 100, 175 }, { 100, 275 }, { 100, 375 }, { 200, 75 }, { 200, 175 }, { 200, 275 }, { 200, 375 }, { 300, 75 }, { 300, 175 }, { 300, 275 }, { 300, 375 }, { 400, 75 }, { 400, 175 }, { 400, 275 }, { 400, 375 } };
+        public Texture2D[] Texto = new Texture2D[8];
+        public Texture2D[,] MatrizConImagenes = new Texture2D[16,2];
+        public int[,] PosicionesFichas = new int[16, 2] { { 100, 75 }, { 100, 175 }, { 100, 275 }, { 100, 375 }, { 300, 75 }, { 300, 175 }, { 300, 275 }, { 300, 375 }, { 500, 75 }, { 500, 175 }, { 500, 275 }, { 500, 375 }, { 700, 75 }, { 700, 175 }, { 700, 275 }, { 700, 375 } };
+        public Rectangle[] Rectangulos = new Rectangle[16];
+
+        public int[] NumerosRandomImagen = new int[8];
+        public int[] NumerosRandomTexto = new int[8];
+
+        //Hacer dos vectores que van a tener las posiciones ya usadas
+        int[] NumerosYaUsadosTexto = new int[8];
+        int[] NumerosYaUsadosImagen = new int[8];
+
         public Difficult()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -76,13 +101,79 @@ namespace MonoGame
             Imagenes[6] = Texture2D.FromStream(GraphicsDevice, file7);
             Imagenes[7] = Texture2D.FromStream(GraphicsDevice, file8);
 
+            //CARGA DE RECTANGULOS 
+            for (int i = 0; i < Rectangulos.Length; i++)
+            {
+                Rectangulos[i] = new Rectangle(PosicionesFichas[i, 0], PosicionesFichas[i, 1], fichaMemo.Width, fichaMemo.Height);
+            }
+
             #endregion
 
-            for (int i = 0; i < Imagenes.Length; i++)
+            #region Guardado de Palabra en formato PNG
+            Conexion.Seleccionar();
+            FileStream file1s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[0].Nombre, FileMode.Open);// Busco cada imagen que 
+            FileStream file2s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[1].Nombre, FileMode.Open);// se selecciono al azar
+            FileStream file3s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[2].Nombre, FileMode.Open);// y lo guardo en el vector
+            FileStream file4s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[3].Nombre, FileMode.Open);// de imagenes
+            FileStream file5s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[4].Nombre, FileMode.Open);
+            FileStream file6s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[5].Nombre, FileMode.Open);
+            FileStream file7s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[6].Nombre, FileMode.Open);
+            FileStream file8s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[7].Nombre, FileMode.Open);
+
+            Texto[0] = Texture2D.FromStream(GraphicsDevice, file1s);  //Busco cada imagen que se selecciono al azar y lo guardo
+            Texto[1] = Texture2D.FromStream(GraphicsDevice, file2s);  //en el vector de imagenes
+            Texto[2] = Texture2D.FromStream(GraphicsDevice, file3s);
+            Texto[3] = Texture2D.FromStream(GraphicsDevice, file4s);
+            Texto[4] = Texture2D.FromStream(GraphicsDevice, file5s);
+            Texto[5] = Texture2D.FromStream(GraphicsDevice, file6s);
+            Texto[6] = Texture2D.FromStream(GraphicsDevice, file7s);
+            Texto[7] = Texture2D.FromStream(GraphicsDevice, file8s);
+            #endregion
+
+            selecRandomImagenes();
+            selecRandomTexto();
+
+            for (int i = 0; i < 4; i++)
             {
-                for (int j = 0; j < Imagenes.Length; j++)
+                for (int j = 0; j < 4; j++)  //Es cuatro porque la matriz es un cuadrado de 4x4 (posiciones van de 0 a 3 inclusive)
                 {
                     //Codigo para guardar las imagenes en 8 cuadraditos random de la matriz 
+
+                    //Switch que elija texto o imagen
+                    // Random que elija que posicion del texto/imagen va en la posicion Matriz[i,j]
+                    //Guardas la posicion en la matriz [i,j] el texto/imagen
+                    //Guardar las posiciones que ya se usaron
+
+                    rndImgTxt = randomImgTxt.Next(0, 2);
+
+                    switch (rndImgTxt)
+                    {
+                        case 0://CASO 0: Imagen
+                            rndImagen = randomImagen.Next(0, 8);                            
+                          
+                            while (NumerosYaUsadosImagen[rndImagen] == -1)
+                            {
+                                rndImagen = randomImagen.Next(0, 8);
+                            } 
+
+                            //PosicionesFichas[i, j] = Convert.ToInt32(Imagenes[rndImagen]);
+
+                            NumerosYaUsadosImagen[i] = -1;
+                            break;
+
+                        case 1://CASO 1: Texto
+                            rndTexto = randomTexto.Next(0, 8);
+
+                            while (NumerosYaUsadosTexto[rndTexto] == -1)
+                            {
+                                rndTexto = randomTexto.Next(0, 8);
+                            }
+
+                            //PosicionesFichas[i, j] = Convert.ToInt32(Texto[rndTexto]);
+
+                            NumerosYaUsadosTexto[i] = -1;
+                            break;
+                    }
                 }
             } 
         }
@@ -95,6 +186,7 @@ namespace MonoGame
             fichaMemo = Content.Load<Texture2D>("fichaMemotest");
             DSalir = Content.Load<Texture2D>("DSalir");
             salir = Content.Load<Texture2D>("salir");
+            FichaCostado = Content.Load<Texture2D>("ParteCostado");
         }
 
         protected override void UnloadContent()
@@ -104,6 +196,7 @@ namespace MonoGame
 
         protected override void Update(GameTime gameTime)
         {
+            //COMPARAR LAS DOS IMAGENES
             #region salir
             MouseState mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
@@ -141,6 +234,7 @@ namespace MonoGame
                 }
             }
             #endregion
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             base.Update(gameTime);
@@ -148,11 +242,14 @@ namespace MonoGame
 
         protected override void Draw(GameTime gameTime)
         {
+            MouseState mouseState = Mouse.GetState();
+            var mousePosition = new Point(mouseState.X, mouseState.Y);
+
             if (!Dibujar)
             {
                 spriteBatch.Begin();
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
-                spriteBatch.DrawString(Font, "Search each word with its image!", new Vector2(20, 12), Color.Black);
+                spriteBatch.DrawString(Font, "Memotest! Search each word with its image!", new Vector2(20, 12), Color.Black);
 
                 #region 16 Cuadraditos 
                 spriteBatch.Draw(fichaMemo, new Vector2(100/*EJE X*/, 75/*EJE Y*/), Color.White);
@@ -173,12 +270,69 @@ namespace MonoGame
                 spriteBatch.Draw(fichaMemo, new Vector2(700, 375), Color.White);
                 #endregion
 
+                #region Animacion de Ficha
+                for (int i = 0; i < 16; i++)
+                {
+                    if(mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        if (Rectangulos[i].Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)//Se pregunta si el mouse se clickeo sobre uno de los rectangulos que estan en la misma posicion que las fichas
+                        {
+                            if(!drawed)
+                            {
+                                spriteBatch.Draw(FichaCostado, new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
+                                drawed = true;
+                            }
+                        }
+                    }
+                }
+                #endregion
+
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
                 
             }
-
+            drawed = false;
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        private int[] selecRandomImagenes()
+        {            
+            for (int i = 0; i < 8; i++)
+            {
+                rnd = random.Next(1, 16);
+
+                while (NumerosRandomImagen[i] == rnd)
+                {
+                    rnd = random.Next(1, 16);
+                }
+
+                NumerosRandomImagen[i] = rnd;
+            }
+            return NumerosRandomImagen;
+        }
+
+
+        private int[] selecRandomTexto()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                rnd = random.Next(1, 16);
+
+                if (rnd != NumerosRandomImagen[i])
+                {
+                    while (NumerosRandomTexto[i] == rnd)
+                    {
+                        rnd = random.Next(1, 16);
+                    }
+
+                    NumerosRandomTexto[i] = rnd;
+                }
+                else
+                {
+                    rnd = random.Next(1, 16);
+                }                
+            }
+            return NumerosRandomTexto; 
         }
     }
 }
