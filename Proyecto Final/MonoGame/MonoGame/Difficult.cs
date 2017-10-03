@@ -81,6 +81,7 @@ namespace MonoGame
         {
             this.IsMouseVisible = true;
             base.Initialize();
+            spriteBatch.Begin();
 
             #region Guardado de Imagenes
             Conexion.Seleccionar();
@@ -156,11 +157,12 @@ namespace MonoGame
                             while (NumerosYaUsadosImagen[rndImagen] == -1)
                             {
                                 rndImagen = randomImagen.Next(0, 8);
-                            } 
+                            }
+                            spriteBatch.Draw(Imagenes[rndImagen], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
 
-                            //PosicionesFichas[i, j] = Convert.ToInt32(Imagenes[rndImagen]);
 
                             NumerosYaUsadosImagen[i] = -1;
+
                             break;
 
                         case 1://CASO 1: Texto
@@ -170,14 +172,14 @@ namespace MonoGame
                             {
                                 rndTexto = randomTexto.Next(0, 8); //rndTexto es la posicion del vector "Texto" que va en la matriz
                             }
-                            MatrizConImagenes[PosicionesFichas[i,0], PosicionesFichas[i,1]] = Texto[rndTexto];
-                            //
+                            spriteBatch.Draw(Texto[rndTexto], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
 
                             NumerosYaUsadosTexto[rndTexto] = -1;
                             break;
                     }
                 }
-            } 
+            }
+            spriteBatch.End();
         }
 
         protected override void LoadContent()
@@ -257,6 +259,7 @@ namespace MonoGame
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
                 spriteBatch.DrawString(Font, "Memotest! Search each word with its image!", new Vector2(20, 12), Color.Black);
 
+
                 #region 16 Cuadraditos 
                 spriteBatch.Draw(fichaMemo, new Vector2(100/*EJE X*/, 75/*EJE Y*/), Color.White);
                 spriteBatch.Draw(fichaMemo, new Vector2(100, 175), Color.White);
@@ -278,22 +281,42 @@ namespace MonoGame
 
                 #region Animacion de Ficha
                 for (int i = 0; i < 16; i++)
-                {
-                    if(mouseState.LeftButton == ButtonState.Pressed)
+                {                    
+                    if (mouseState.LeftButton == ButtonState.Pressed)
                     {
                         if (Rectangulos[i].Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)//Se pregunta si el mouse se clickeo sobre uno de los rectangulos que estan en la misma posicion que las fichas
                         {
-                            if(!drawed)
+                            if (!drawed)
                             {
                                 spriteBatch.Draw(FichaCostado, new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
-                                drawed = true;
-                                if(mouseState.LeftButton == ButtonState.Released)
+                                drawed = true;                                
+                                if (rndImgTxt == 0)
                                 {
-                                    //Se muestra la parte de atras de la ficha
+                                    /*rndImagen = randomImagen.Next(0, 8);
+
+                                    while (NumerosYaUsadosImagen[rndImagen] == -1)
+                                    {
+                                        rndImagen = randomImagen.Next(0, 8);
+                                    }*/
+                                    spriteBatch.Draw(Imagenes[rndImagen], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
+                                    
+                                    NumerosYaUsadosImagen[rndImagen] = -1;
                                 }
+                                else if (rndImgTxt == 1)
+                                {
+                                    /*rndTexto = randomTexto.Next(0, 8);
+
+                                    while (NumerosYaUsadosTexto[rndTexto] == -1)
+                                    {
+                                        rndTexto = randomTexto.Next(0, 8); //rndTexto es la posicion del vector "Texto" que va en la matriz
+                                    }*/
+                                    spriteBatch.Draw(Texto[rndTexto], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
+
+                                    NumerosYaUsadosTexto[rndTexto] = -1;
+                                }                                
                             }
                         }
-                    }
+                    }                                        
                 }
                 #endregion
 
