@@ -155,57 +155,6 @@ namespace MonoGame
 
         protected override void Update(GameTime gameTime)
         {
-            
-            for (int i = 0; i < VectorGeneral.Length; i++)
-            {
-                //Es cuatro porque la matriz es un cuadrado de 4x4 (posiciones van de 0 a 3 inclusive)
-
-                //Codigo para guardar las imagenes en 8 cuadraditos random de la matriz 
-
-                // Random que elija que posicion del vector texto/imagen va en la posicion Matriz[i,j]
-                // Guardas la posicion del vector texto/imagen en la matriz [i,j]
-
-                
-
-
-                    #region Switch Para ver si es imagen o texto
-                    /* rndImgTxt = randomImgTxt.Next(0, 2);
-                     switch (rndImgTxt)
-                    {
-                        case 0://CASO 0: Imagen
-                            rndImagen = randomImagen.Next(0, 8);
-
-                            while (NumerosYaUsadosImagen[rndImagen] == -1)
-                            {
-                                rndImagen = randomImagen.Next(0, 8);
-                            }
-                            spriteBatch.Draw(Imagenes[rndImagen], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
-
-
-                            NumerosYaUsadosImagen[i] = -1;
-
-                            break;
-
-
-                        case 1://CASO 1: Texto
-                            rndTexto = randomTexto.Next(0, 8);
-
-                            while (NumerosYaUsadosTexto[rndTexto] == -1)
-                            {
-                                rndTexto = randomTexto.Next(0, 8); //rndTexto es la posicion del vector "Texto" que va en la matriz
-                            }
-                            spriteBatch.Draw(Texto[rndTexto], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
-
-                            NumerosYaUsadosTexto[rndTexto] = -1;
-                            break;
-                    }*/
-                    #endregion
-
-
-                
-            }
-            spriteBatch.End();
-
             #region salir
             MouseState mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
@@ -246,17 +195,19 @@ namespace MonoGame
             
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            spriteBatch.End();
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            spriteBatch.Begin();
             MouseState mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
 
             if (!Dibujar)
-            {
-                spriteBatch.Begin();
+            {                
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
                 spriteBatch.DrawString(Font, "Memotest! Search each word with its image!", new Vector2(20, 12), Color.Black);
 
@@ -283,22 +234,25 @@ namespace MonoGame
                 #region Animacion de Ficha
                 for (int i = 0; i < VectorGeneral.Length; i++)
                 {
-                    /*if (mouseState.LeftButton == ButtonState.Pressed)
+                    if (mouseState.LeftButton == ButtonState.Pressed)
                     {
                         if (Rectangulos[i].Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)//Se pregunta si el mouse se clickeo sobre uno de los rectangulos que estan en la misma posicion que las fichas
                         {
                             if (!drawed)
                             {
                                 spriteBatch.Draw(FichaCostado, new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
-                                drawed = true;
-                                spriteBatch.Draw(VectorGeneral[i], new Vector2(PosicionesFichas[i,0], PosicionesFichas[i,1]), Color.White);                                
-                            }
-                        }
-                    }*/
+                                drawed = true;    
+                                if (drawed == true)
+                                {
+                                    spriteBatch.Draw(VectorGeneral[i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
+                                }
+                            }                            
+                        }                        
+                    }                    
 
                     //int rnd = random.Next(0, 16);
-                    spriteBatch.Draw(VectorGeneral[/*rnd*/i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
-                    
+                    //spriteBatch.Draw(VectorGeneral[/*rnd*/i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
+
                 }
                 #endregion
 
