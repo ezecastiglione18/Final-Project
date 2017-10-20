@@ -9,7 +9,8 @@ namespace MonoGame
     class Sports
     {
         public string Nombre { get; set; }
-        public string Ruta { get; set; }
         public int Id { get; set; }
+        public int Identificador { get; set; }
+
     }
 }

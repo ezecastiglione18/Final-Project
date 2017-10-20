@@ -9,7 +9,7 @@
       <Value Profile="(Default)">Z:\Final-Project\Proyecto Final\MonoGame\MonoGame\Content\Animals</Value>
     </Setting>
     <Setting Name="RutaSport" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Final-Project\Proyecto Final\MonoGame\MonoGame\Content</Value>
+      <Value Profile="(Default)">D:\</Value>
     </Setting>
   </Settings>
 </SettingsFile>

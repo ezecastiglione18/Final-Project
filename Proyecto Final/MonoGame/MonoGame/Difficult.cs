@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace MonoGame
 {
@@ -15,6 +16,7 @@ namespace MonoGame
         public Texture2D fichaMemo;
         public Texture2D DSalir;
         public Texture2D salir;
+        private Texture2D Ganar;
         private SpriteFont Font;
         public SpriteBatch spriteBatch;
         Rectangle yes = new Rectangle(273, 305, 135, 117);
@@ -22,47 +24,29 @@ namespace MonoGame
         public bool SalirBool = false;
         public bool Dibujar = false;
         public bool drawed = false;
-        int rnd;
-        int rndTexto;
-        int rndImagen;
-        int rndImgTxt;
-        int ContadorGanaste;
+        bool DibujarSalir = false;
+        bool GanarBool = false;
+        bool DibujarGanar = false;
+        bool YaSePuedeComparar = false;
+        int ContadorGanaste = 0;
+        int ContadorClicks = 0;
         bool played = false;
-        int PosSeleccionadaX;
-        int PosSeleccionadaY;
         Texture2D FichaCostado;
-        Texture2D GIFficha;
         Random random = new Random();
-        Random randomImgTxt = new Random();
-        Random randomImagen = new Random();
-        Random randomTexto = new Random();
         ConexionBDSports Conexion = new ConexionBDSports();
+        List<Texture2D> ListaTexturas = new List<Texture2D>();
+        List<Sports> ListaElementos = new List<Sports>();
 
-        /*public Texture2D baseball;
-        public Texture2D baseballBat;
-        public Texture2D football;
-        public Texture2D pingPong;
-        public Texture2D rugby;
-        public Texture2D tennis;
-        public Texture2D racket;
-        public Texture2D voley;
-        public Texture2D vNet;
-        public Texture2D fGoal;
-        public Texture2D bowling;
-        public Texture2D basketHoop;
-        public Texture2D americanFootball;*/
-
-        public static Texture2D[] Imagenes = new Texture2D[8];
-        public Texture2D[] Texto = new Texture2D[8];
         public Texture2D[,] MatrizConImagenes = new Texture2D[16,2];
         public int[,] PosicionesFichas = new int[16, 2] { { 100, 75 }, { 100, 175 }, { 100, 275 }, { 100, 375 }, { 300, 75 }, { 300, 175 }, { 300, 275 }, { 300, 375 }, { 500, 75 }, { 500, 175 }, { 500, 275 }, { 500, 375 }, { 700, 75 }, { 700, 175 }, { 700, 275 }, { 700, 375 } };
         public Rectangle[] Rectangulos = new Rectangle[16];
-        //public Texture2D[] Fichas = new Texture2D[16];
+        public bool[] RectanguloClickeado = new bool[16];
 
         public Texture2D[] VectorGeneral = new Texture2D[16];
         public int[] PosicionesYaUsadas = new int[16];
 
-
+        Sports FichaSeleccionada1 = new Sports();
+        Sports FichaSeleccionada2 = new Sports();
 
         public Difficult()
         {
@@ -74,67 +58,17 @@ namespace MonoGame
             Content.RootDirectory = "Content";
             IsFixedTimeStep = false;
         }
+        
 
         protected override void Initialize()
         {
             this.IsMouseVisible = true;
             base.Initialize();
-            spriteBatch.Begin();
 
-            #region Guardado de Imagenes
-            Conexion.Seleccionar();
-            FileStream file1 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[0].Ruta, FileMode.Open);// Busco cada imagen que 
-            FileStream file2 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[1].Ruta, FileMode.Open);// se selecciono al azar
-            FileStream file3 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[2].Ruta, FileMode.Open);// y lo guardo en el vector
-            FileStream file4 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[3].Ruta, FileMode.Open);// de imagenes
-            FileStream file5 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[4].Ruta, FileMode.Open);
-            FileStream file6 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[5].Ruta, FileMode.Open);
-            FileStream file7 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[6].Ruta, FileMode.Open);
-            FileStream file8 = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[7].Ruta, FileMode.Open);
-
-            VectorGeneral[0] = Texture2D.FromStream(GraphicsDevice, file1);  //Busco cada imagen que se selecciono al azar y lo guardo
-            VectorGeneral[2] = Texture2D.FromStream(GraphicsDevice, file2);  //en el vector de imagenes
-            VectorGeneral[4] = Texture2D.FromStream(GraphicsDevice, file3);
-            VectorGeneral[6] = Texture2D.FromStream(GraphicsDevice, file4);
-            VectorGeneral[8] = Texture2D.FromStream(GraphicsDevice, file5);
-            VectorGeneral[10] = Texture2D.FromStream(GraphicsDevice, file6);
-            VectorGeneral[12] = Texture2D.FromStream(GraphicsDevice, file7);
-            VectorGeneral[14] = Texture2D.FromStream(GraphicsDevice, file8);
-
-            //CARGA DE RECTANGULOS 
-            for (int i = 0; i < Rectangulos.Length; i++)
+            for (int i = 0; i < RectanguloClickeado.Length; i++)
             {
-                Rectangulos[i] = new Rectangle(PosicionesFichas[i, 0], PosicionesFichas[i, 1], fichaMemo.Width, fichaMemo.Height);
-            }
-
-            #endregion
-
-            #region Guardado de Texto en formato PNG
-            Conexion.Seleccionar();
-            FileStream file1s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[0].Nombre, FileMode.Open);// Busco cada imagen que 
-            FileStream file2s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[1].Nombre, FileMode.Open);// se selecciono al azar
-            FileStream file3s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[2].Nombre, FileMode.Open);// y lo guardo en el vector
-            FileStream file4s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[3].Nombre, FileMode.Open);// de imagenes
-            FileStream file5s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[4].Nombre, FileMode.Open);
-            FileStream file6s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[5].Nombre, FileMode.Open);
-            FileStream file7s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[6].Nombre, FileMode.Open);
-            FileStream file8s = new FileStream(Properties.Settings.Default.RutaSport + "\\" + Conexion.ListaSports[7].Nombre, FileMode.Open);
-
-            VectorGeneral[1] = Texture2D.FromStream(GraphicsDevice, file1s);
-            VectorGeneral[3] = Texture2D.FromStream(GraphicsDevice, file2s);  
-            VectorGeneral[5] = Texture2D.FromStream(GraphicsDevice, file3s);
-            VectorGeneral[7] = Texture2D.FromStream(GraphicsDevice, file4s);
-            VectorGeneral[9] = Texture2D.FromStream(GraphicsDevice, file5s);
-            VectorGeneral[11] = Texture2D.FromStream(GraphicsDevice, file6s);
-            VectorGeneral[13] = Texture2D.FromStream(GraphicsDevice, file7s);
-            VectorGeneral[15] = Texture2D.FromStream(GraphicsDevice, file8s);
-            #endregion
-
-            Sports Ficha1 = new Sports();
-            Sports Ficha2 = new Sports();
-           
-
-            
+                RectanguloClickeado[i] = false;
+            }          
         }
 
         protected override void LoadContent()
@@ -146,6 +80,21 @@ namespace MonoGame
             DSalir = Content.Load<Texture2D>("DSalir");
             salir = Content.Load<Texture2D>("salir");
             FichaCostado = Content.Load<Texture2D>("ParteCostado");
+            Ganar = Content.Load<Texture2D>("Ganar");
+
+            ListaElementos = Conexion.Seleccionar();
+
+
+            //CARGA DE RECTANGULOS 
+            int[] RandomNum = CalcularNumeros();            
+            for (int i = 0; i < Rectangulos.Length; i++)
+            {
+                Rectangulos[RandomNum[i]-1] = new Rectangle(PosicionesFichas[RandomNum[i] - 1, 0], PosicionesFichas[RandomNum[i] - 1, 1], fichaMemo.Width, fichaMemo.Height);
+                FileStream file = new FileStream(Properties.Settings.Default.RutaSport + "\\" + ListaElementos[RandomNum[i] - 1].Nombre, FileMode.Open);
+                Texture2D hola = Texture2D.FromStream(GraphicsDevice, file);
+                ListaTexturas.Add(hola);
+            }
+
         }
 
         protected override void UnloadContent()
@@ -155,12 +104,79 @@ namespace MonoGame
 
         protected override void Update(GameTime gameTime)
         {
-            #region salir
+            spriteBatch.Begin();
             MouseState mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
-            if (mousePosition.X <= 880 && mousePosition.X >= 730 && mousePosition.Y <= 525 && mousePosition.Y >= 450)
+
+            if (GanarBool)
             {
+                spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
+
+                mousePosition = new Point(mouseState.X, mouseState.Y);
+                if (yes.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    var JugarDeNuevo = new Difficult();
+                    JugarDeNuevo.Run();
+                }
+                if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    //Que vuelva a eleccion de nivel
+                    DibujarGanar = false;
+                    DibujarSalir = false;
+                }
+            }
+            else
+            {
+                //TODO EL CODIGO DE COMPARACION VA EN EL ELSE!
                 if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    for (int i = 0; i < ListaElementos.Count; i++)
+                    {
+                        if (ContadorClicks == 1)
+                        {
+                            FichaSeleccionada1.Nombre = ListaElementos[i].Nombre;
+                            FichaSeleccionada1.Id = ListaElementos[i].Id;
+                            FichaSeleccionada1.Identificador = ListaElementos[i].Identificador;
+                        }
+                        else if (ContadorClicks == 2)
+                        {
+                            FichaSeleccionada2.Nombre = ListaElementos[i].Nombre;
+                            FichaSeleccionada2.Id = ListaElementos[i].Id;
+                            FichaSeleccionada2.Identificador = ListaElementos[i].Identificador;
+                            YaSePuedeComparar = true;
+                        }
+                    }
+
+                    if (YaSePuedeComparar)
+                    {
+                        if(FichaSeleccionada1.Identificador == FichaSeleccionada2.Identificador || FichaSeleccionada1.Id == FichaSeleccionada2.Id)
+                        {
+                            //Que desaparezcan, pero por ahora que se pongan en verde
+                            ContadorClicks++;
+                        }
+                        else
+                        {
+                            //Que aparezca de vuelta el rectangulo
+                            //RectanguloClickeado[i] = false; ?????
+                        }
+                    }                    
+                }               
+            }
+
+            #region ganar
+            if (ContadorGanaste == 8)//Pregunta si se encontro todas
+            {
+                GanarBool = true;
+                DibujarGanar = true;                
+            }
+            #endregion
+
+            #region salir
+            MouseState mouseState2 = Mouse.GetState();
+            var mousePosition2 = new Point(mouseState.X, mouseState.Y);
+            if (mousePosition2.X <= 880 && mousePosition2.X >= 730 && mousePosition2.Y <= 525 && mousePosition2.Y >= 450)
+            {
+                if (mouseState2.LeftButton == ButtonState.Pressed)
                 {
                     SalirBool = true;
                     Dibujar = true;
@@ -168,23 +184,21 @@ namespace MonoGame
             }
             if (Dibujar)
             {
-                spriteBatch.Begin();
                 if (!played)
                 {
                     played = true;
                 }
                 spriteBatch.Draw(DSalir, new Rectangle(10, 10, 890, 520), Color.White);
-                spriteBatch.End();
             }
             if (SalirBool)
             {
                 mousePosition = new Point(mouseState.X, mouseState.Y);
-                if (yes.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                if (yes.Contains(mousePosition2) && mouseState2.LeftButton == ButtonState.Pressed)
                 {
                     UnloadContent();
                     Exit();
                 }
-                if (no.Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
+                if (no.Contains(mousePosition2) && mouseState2.LeftButton == ButtonState.Pressed)
                 {
                     SalirBool = false;
                     Dibujar = false;
@@ -207,10 +221,10 @@ namespace MonoGame
             var mousePosition = new Point(mouseState.X, mouseState.Y);
 
             if (!Dibujar)
-            {                
+            {
                 spriteBatch.Draw(background, new Rectangle(0, 0, 900, 530), Color.White);
                 spriteBatch.DrawString(Font, "Memotest! Search each word with its image!", new Vector2(20, 12), Color.Black);
-
+                spriteBatch.Draw(ListaTexturas[0], new Rectangle(Rectangulos[0].X, Rectangulos[0].Y, ListaTexturas[0].Width, ListaTexturas[0].Height), Color.White);
 
                 #region 16 Cuadraditos 
                 spriteBatch.Draw(fichaMemo, new Vector2(100/*EJE X*/, 75/*EJE Y*/), Color.White);
@@ -232,36 +246,71 @@ namespace MonoGame
                 #endregion
 
                 #region Animacion de Ficha
+
                 for (int i = 0; i < VectorGeneral.Length; i++)
                 {
                     if (mouseState.LeftButton == ButtonState.Pressed)
                     {
-                        if (Rectangulos[i].Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)//Se pregunta si el mouse se clickeo sobre uno de los rectangulos que estan en la misma posicion que las fichas
+                        if (Rectangulos[i].Contains(mousePosition))//Se pregunta si el mouse se clickeo sobre uno de los rectangulos que estan en la misma posicion que las fichas
                         {
-                            if (!drawed)
-                            {
-                                spriteBatch.Draw(FichaCostado, new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
-                                drawed = true;    
-                                if (drawed == true)
-                                {
-                                    spriteBatch.Draw(VectorGeneral[i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
-                                }
-                            }                            
+                            RectanguloClickeado[i] = true;                                         
                         }                        
-                    }                    
+                    }
 
-                    //int rnd = random.Next(0, 16);
-                    //spriteBatch.Draw(VectorGeneral[/*rnd*/i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
-
+                    if (RectanguloClickeado[i] == true)
+                    {                        
+                        drawed = true;
+                        spriteBatch.Draw(ListaTexturas[i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
+                    }
                 }
                 #endregion
 
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
-                
             }
+
             drawed = false;
             spriteBatch.End();
             base.Draw(gameTime);
-        }        
+        }
+
+        private int[] CalcularNumeros()
+        {
+            int[] numeros = new int[16];
+            Random r = new Random();
+
+            int auxiliar = 0;
+            int contador = 0;
+
+            for (int i = 0; i < 16; i++)
+            {
+                auxiliar = r.Next(0, 17);
+                bool continuar = false;
+
+                while (!continuar)
+                {
+                    for (int j = 0; j <= contador; j++)
+                    {
+                        if (auxiliar == numeros[j])
+                        {
+                            continuar = true;
+                            j = contador;
+                        }
+                    }
+
+                    if (continuar)
+                    {
+                        auxiliar = r.Next(0, 17);
+                        continuar = false;
+                    }
+                    else
+                    {
+                        continuar = true;
+                        numeros[contador] = auxiliar;
+                        contador++;
+                    }
+                }
+            }
+            return numeros;
+        }
     }
 }
