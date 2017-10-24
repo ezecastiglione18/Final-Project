@@ -127,40 +127,45 @@ namespace MonoGame
             }
             else
             {
-                //TODO EL CODIGO DE COMPARACION VA EN EL ELSE!
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
+                    ContadorClicks++;
+
+                    #region Comparacion
                     for (int i = 0; i < ListaElementos.Count; i++)
                     {
-                        if (ContadorClicks == 1)
+                        if (ContadorClicks == 1 && ListaElementos[i].Clickeado == true)
                         {
                             FichaSeleccionada1.Nombre = ListaElementos[i].Nombre;
                             FichaSeleccionada1.Id = ListaElementos[i].Id;
                             FichaSeleccionada1.Identificador = ListaElementos[i].Identificador;
                         }
-                        else if (ContadorClicks == 2)
+
+                        if (ContadorClicks == 2 && ListaElementos[i].Clickeado == true)
                         {
                             FichaSeleccionada2.Nombre = ListaElementos[i].Nombre;
                             FichaSeleccionada2.Id = ListaElementos[i].Id;
                             FichaSeleccionada2.Identificador = ListaElementos[i].Identificador;
                             YaSePuedeComparar = true;
                         }
-                    }
 
-                    if (YaSePuedeComparar)
-                    {
-                        if(FichaSeleccionada1.Identificador == FichaSeleccionada2.Identificador || FichaSeleccionada1.Id == FichaSeleccionada2.Id)
+                        if (YaSePuedeComparar)
                         {
-                            //Que desaparezcan, pero por ahora que se pongan en verde
-                            ContadorClicks++;
+                            if (FichaSeleccionada1.Identificador == FichaSeleccionada2.Identificador || FichaSeleccionada1.Id == FichaSeleccionada2.Id)
+                            {
+                                ContadorGanaste = ContadorGanaste + 1;
+                                spriteBatch.Draw(ListaTexturas[i], new Vector2(PosicionesFichas[i,0], PosicionesFichas[i,1]), Color.Green);
+                                ContadorClicks = ContadorClicks - 2;
+                            }
+                            else
+                            {
+                                //Que aparezcan las fichas de vuelta
+                                //spriteBatch.Draw(fichaMemo, new Vector2(PosicionesFichas[i,0], PosicionesFichas[i,1]), Color.White);  ???
+                            }
                         }
-                        else
-                        {
-                            //Que aparezca de vuelta el rectangulo
-                            //RectanguloClickeado[i] = false; ?????
-                        }
-                    }                    
-                }               
+                    }
+                    #endregion
+                }
             }
 
             #region ganar
@@ -245,8 +250,6 @@ namespace MonoGame
                 spriteBatch.Draw(fichaMemo, new Vector2(700, 375), Color.White);
                 #endregion
 
-                #region Animacion de Ficha
-
                 for (int i = 0; i < VectorGeneral.Length; i++)
                 {
                     if (mouseState.LeftButton == ButtonState.Pressed)
@@ -261,9 +264,9 @@ namespace MonoGame
                     {                        
                         drawed = true;
                         spriteBatch.Draw(ListaTexturas[i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
+                        ListaElementos[i].Clickeado = true;
                     }
                 }
-                #endregion
 
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
             }
