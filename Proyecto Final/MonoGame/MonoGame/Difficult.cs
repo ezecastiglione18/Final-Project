@@ -37,7 +37,7 @@ namespace MonoGame
         List<Texture2D> ListaTexturas = new List<Texture2D>();
         List<Sports> ListaElementos = new List<Sports>();
 
-        public Texture2D[,] MatrizConImagenes = new Texture2D[16,2];
+        public Texture2D[,] MatrizConImagenes = new Texture2D[16, 2];
         public int[,] PosicionesFichas = new int[16, 2] { { 100, 75 }, { 100, 175 }, { 100, 275 }, { 100, 375 }, { 300, 75 }, { 300, 175 }, { 300, 275 }, { 300, 375 }, { 500, 75 }, { 500, 175 }, { 500, 275 }, { 500, 375 }, { 700, 75 }, { 700, 175 }, { 700, 275 }, { 700, 375 } };
         public Rectangle[] Rectangulos = new Rectangle[16];
         public bool[] RectanguloClickeado = new bool[16];
@@ -58,7 +58,7 @@ namespace MonoGame
             Content.RootDirectory = "Content";
             IsFixedTimeStep = false;
         }
-        
+
 
         protected override void Initialize()
         {
@@ -68,7 +68,7 @@ namespace MonoGame
             for (int i = 0; i < RectanguloClickeado.Length; i++)
             {
                 RectanguloClickeado[i] = false;
-            }          
+            }
         }
 
         protected override void LoadContent()
@@ -86,10 +86,10 @@ namespace MonoGame
 
 
             //CARGA DE RECTANGULOS 
-            int[] RandomNum = CalcularNumeros();            
+            int[] RandomNum = CalcularNumeros();
             for (int i = 0; i < Rectangulos.Length; i++)
             {
-                Rectangulos[RandomNum[i]-1] = new Rectangle(PosicionesFichas[RandomNum[i] - 1, 0], PosicionesFichas[RandomNum[i] - 1, 1], fichaMemo.Width, fichaMemo.Height);
+                Rectangulos[RandomNum[i] - 1] = new Rectangle(PosicionesFichas[RandomNum[i] - 1, 0], PosicionesFichas[RandomNum[i] - 1, 1], fichaMemo.Width, fichaMemo.Height);
                 FileStream file = new FileStream(Properties.Settings.Default.RutaSport + "\\" + ListaElementos[RandomNum[i] - 1].Nombre, FileMode.Open);
                 Texture2D hola = Texture2D.FromStream(GraphicsDevice, file);
                 ListaTexturas.Add(hola);
@@ -127,13 +127,16 @@ namespace MonoGame
             }
             else
             {
-                if (mouseState.LeftButton == ButtonState.Pressed)
-                {
-                    ContadorClicks++;
+                ContadorClicks++;
 
-                    #region Comparacion
-                    for (int i = 0; i < ListaElementos.Count; i++)
+                #region Comparacion
+                for (int i = 0; i < ListaElementos.Count; i++)
+                {
+                    if (Rectangulos[i].Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)//Se pregunta si el mouse se clickeo sobre uno de los rectangulos que estan en la misma posicion que las fichas
                     {
+                        RectanguloClickeado[i] = true;
+                        ListaElementos[i].Clickeado = true;
+
                         if (ContadorClicks == 1 && ListaElementos[i].Clickeado == true)
                         {
                             FichaSeleccionada1.Nombre = ListaElementos[i].Nombre;
@@ -146,33 +149,36 @@ namespace MonoGame
                             FichaSeleccionada2.Nombre = ListaElementos[i].Nombre;
                             FichaSeleccionada2.Id = ListaElementos[i].Id;
                             FichaSeleccionada2.Identificador = ListaElementos[i].Identificador;
-                            YaSePuedeComparar = true;
-                        }
+                            //PROBLEMA: Se usan los dos ListaElementos[i] en ambos casos
 
-                        if (YaSePuedeComparar)
-                        {
                             if (FichaSeleccionada1.Identificador == FichaSeleccionada2.Identificador || FichaSeleccionada1.Id == FichaSeleccionada2.Id)
                             {
-                                ContadorGanaste = ContadorGanaste + 1;
-                                spriteBatch.Draw(ListaTexturas[i], new Vector2(PosicionesFichas[i,0], PosicionesFichas[i,1]), Color.Green);
-                                ContadorClicks = ContadorClicks - 2;
+                                ContadorGanaste++;
+                                //spriteBatch.Draw(ListaTexturas[i], new Vector2(PosicionesFichas[i,0], PosicionesFichas[i,1]), Color.Green);
                             }
                             else
                             {
                                 //Que aparezcan las fichas de vuelta
                                 //spriteBatch.Draw(fichaMemo, new Vector2(PosicionesFichas[i,0], PosicionesFichas[i,1]), Color.White);  ???
+                                //Rectangle FichaErronea = new Rectangle(PosicionesFichas[i, 0], PosicionesFichas[i, 1], fichaMemo.Width, fichaMemo.Height); ???
+                                ListaElementos[i].Clickeado = false;
                             }
+
+                            ContadorClicks = 0;
                         }
                     }
-                    #endregion
                 }
+                #endregion
+
+                YaSePuedeComparar = false;
+
             }
 
             #region ganar
             if (ContadorGanaste == 8)//Pregunta si se encontro todas
             {
                 GanarBool = true;
-                DibujarGanar = true;                
+                DibujarGanar = true;
             }
             #endregion
 
@@ -211,7 +217,7 @@ namespace MonoGame
                 }
             }
             #endregion
-            
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -231,7 +237,7 @@ namespace MonoGame
                 spriteBatch.DrawString(Font, "Memotest! Search each word with its image!", new Vector2(20, 12), Color.Black);
                 spriteBatch.Draw(ListaTexturas[0], new Rectangle(Rectangulos[0].X, Rectangulos[0].Y, ListaTexturas[0].Width, ListaTexturas[0].Height), Color.White);
 
-                #region 16 Cuadraditos 
+                #region 16 Fichas/rectangulos
                 spriteBatch.Draw(fichaMemo, new Vector2(100/*EJE X*/, 75/*EJE Y*/), Color.White);
                 spriteBatch.Draw(fichaMemo, new Vector2(100, 175), Color.White);
                 spriteBatch.Draw(fichaMemo, new Vector2(100, 275), Color.White);
@@ -252,19 +258,10 @@ namespace MonoGame
 
                 for (int i = 0; i < VectorGeneral.Length; i++)
                 {
-                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    if (/*RectanguloClickeado[i] == true &&*/ ListaElementos[i].Clickeado == true)
                     {
-                        if (Rectangulos[i].Contains(mousePosition))//Se pregunta si el mouse se clickeo sobre uno de los rectangulos que estan en la misma posicion que las fichas
-                        {
-                            RectanguloClickeado[i] = true;                                         
-                        }                        
-                    }
-
-                    if (RectanguloClickeado[i] == true)
-                    {                        
                         drawed = true;
                         spriteBatch.Draw(ListaTexturas[i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
-                        ListaElementos[i].Clickeado = true;
                     }
                 }
 
@@ -317,3 +314,4 @@ namespace MonoGame
         }
     }
 }
+
