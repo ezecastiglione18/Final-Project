@@ -5,10 +5,11 @@ using System.IO;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace MonoGame
 {
-    public class Difficult : Game //MEMOTEST
+    public class Difficult : Game
     {
         GraphicsDeviceManager graphics;
         public GraphicsDevice device;
@@ -17,6 +18,7 @@ namespace MonoGame
         public Texture2D DSalir;
         public Texture2D salir;
         private Texture2D Ganar;
+        private Rectangle Cobertor;
         private SpriteFont Font;
         public SpriteBatch spriteBatch;
         Rectangle yes = new Rectangle(273, 305, 135, 117);
@@ -127,51 +129,53 @@ namespace MonoGame
             }
             else
             {
-                ContadorClicks++;
 
                 #region Comparacion
-                for (int i = 0; i < ListaElementos.Count; i++)
+                if (ListaElementos.FindAll(s => s.Clickeado == true).Count < 2)
                 {
-                    if (Rectangulos[i].Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)//Se pregunta si el mouse se clickeo sobre uno de los rectangulos que estan en la misma posicion que las fichas
+                    for (int i = 0; i < ListaElementos.Count; i++)
                     {
-                        RectanguloClickeado[i] = true;
-                        ListaElementos[i].Clickeado = true;
-
-                        if (ContadorClicks == 1 && ListaElementos[i].Clickeado == true)
+                        if (Rectangulos[i].Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)//Se pregunta si el mouse se clickeo sobre uno de los rectangulos que estan en la misma posicion que las fichas
                         {
-                            FichaSeleccionada1.Nombre = ListaElementos[i].Nombre;
-                            FichaSeleccionada1.Id = ListaElementos[i].Id;
-                            FichaSeleccionada1.Identificador = ListaElementos[i].Identificador;
-                        }
-
-                        if (ContadorClicks == 2 && ListaElementos[i].Clickeado == true)
-                        {
-                            FichaSeleccionada2.Nombre = ListaElementos[i].Nombre;
-                            FichaSeleccionada2.Id = ListaElementos[i].Id;
-                            FichaSeleccionada2.Identificador = ListaElementos[i].Identificador;
-                            //PROBLEMA: Se usan los dos ListaElementos[i] en ambos casos
-
-                            if (FichaSeleccionada1.Identificador == FichaSeleccionada2.Identificador || FichaSeleccionada1.Id == FichaSeleccionada2.Id)
+                            if (ListaElementos[i].Clickeado == false)
                             {
-                                ContadorGanaste++;
-                                //spriteBatch.Draw(ListaTexturas[i], new Vector2(PosicionesFichas[i,0], PosicionesFichas[i,1]), Color.Green);
-                            }
-                            else
-                            {
-                                //Que aparezcan las fichas de vuelta
-                                //spriteBatch.Draw(fichaMemo, new Vector2(PosicionesFichas[i,0], PosicionesFichas[i,1]), Color.White);  ???
-                                //Rectangle FichaErronea = new Rectangle(PosicionesFichas[i, 0], PosicionesFichas[i, 1], fichaMemo.Width, fichaMemo.Height); ???
-                                ListaElementos[i].Clickeado = false;
-                            }
+                                RectanguloClickeado[i] = true;
+                                ListaElementos[i].Clickeado = true;
+                                ContadorClicks++;
 
-                            ContadorClicks = 0;
+                                if (ContadorClicks == 1 && ListaElementos[i].Clickeado == true)
+                                {
+                                    FichaSeleccionada1.Nombre = ListaElementos[i].Nombre;
+                                    FichaSeleccionada1.Id = ListaElementos[i].Id;
+                                    FichaSeleccionada1.Identificador = ListaElementos[i].Identificador;
+                                }
+
+                                if (ContadorClicks == 2 && ListaElementos[i].Clickeado == true)
+                                {
+                                    FichaSeleccionada2.Nombre = ListaElementos[i].Nombre;
+                                    FichaSeleccionada2.Id = ListaElementos[i].Id;
+                                    FichaSeleccionada2.Identificador = ListaElementos[i].Identificador;
+                                }
+                            }
+                            //PROBLEMA: No anda el if de abajo
                         }
                     }
                 }
+                else
+                { 
+                    if (FichaSeleccionada1.Identificador == FichaSeleccionada2.Identificador || FichaSeleccionada1.Id == FichaSeleccionada2.Id)
+                    {
+                        ContadorGanaste++;
+                    }
+                    else
+                    {
+                        ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada1.Identificador).ForEach(s=>s.Clickeado = false);//anterior clickeada
+                        ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada2.Identificador).ForEach(s => s.Clickeado = false);
+                    }
+                    ContadorClicks = 0;
+                    Thread.Sleep(1000);                                
+                }                       
                 #endregion
-
-                YaSePuedeComparar = false;
-
             }
 
             #region ganar
@@ -237,31 +241,17 @@ namespace MonoGame
                 spriteBatch.DrawString(Font, "Memotest! Search each word with its image!", new Vector2(20, 12), Color.Black);
                 spriteBatch.Draw(ListaTexturas[0], new Rectangle(Rectangulos[0].X, Rectangulos[0].Y, ListaTexturas[0].Width, ListaTexturas[0].Height), Color.White);
 
-                #region 16 Fichas/rectangulos
-                spriteBatch.Draw(fichaMemo, new Vector2(100/*EJE X*/, 75/*EJE Y*/), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(100, 175), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(100, 275), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(100, 375), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(300, 75), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(300, 175), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(300, 275), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(300, 375), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(500, 75), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(500, 175), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(500, 275), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(500, 375), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(700, 75), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(700, 175), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(700, 275), Color.White);
-                spriteBatch.Draw(fichaMemo, new Vector2(700, 375), Color.White);
-                #endregion
-
-                for (int i = 0; i < VectorGeneral.Length; i++)
+                for (int i = 0; i < ListaElementos.Count; i++)
                 {
-                    if (/*RectanguloClickeado[i] == true &&*/ ListaElementos[i].Clickeado == true)
+                    if (ListaElementos[i].Clickeado == true)
                     {
                         drawed = true;
                         spriteBatch.Draw(ListaTexturas[i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
+                    }
+                    else
+                    {
+                        //Que aparezca la ficha de vuelta
+                        spriteBatch.Draw(fichaMemo, new Vector2(PosicionesFichas[i,0], PosicionesFichas[i,1]), Color.White);
                     }
                 }
 
