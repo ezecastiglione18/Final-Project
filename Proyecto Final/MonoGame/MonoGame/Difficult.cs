@@ -18,18 +18,17 @@ namespace MonoGame
         public Texture2D DSalir;
         public Texture2D salir;
         private Texture2D Ganar;
-        private Rectangle Cobertor;
         private SpriteFont Font;
+        private SoundEffect incorrecto;
+        private SoundEffect correcto;
         public SpriteBatch spriteBatch;
         Rectangle yes = new Rectangle(273, 305, 135, 117);
         Rectangle no = new Rectangle(491, 305, 87, 117);
         public bool SalirBool = false;
         public bool Dibujar = false;
-        public bool drawed = false;
         bool DibujarSalir = false;
         bool GanarBool = false;
         bool DibujarGanar = false;
-        bool YaSePuedeComparar = false;
         int ContadorGanaste = 0;
         int ContadorClicks = 0;
         bool played = false;
@@ -83,6 +82,8 @@ namespace MonoGame
             salir = Content.Load<Texture2D>("salir");
             FichaCostado = Content.Load<Texture2D>("ParteCostado");
             Ganar = Content.Load<Texture2D>("Ganar");
+            correcto = Content.Load<SoundEffect>("Sonidos/Correcto");
+            incorrecto = Content.Load<SoundEffect>("Sonidos/Incorrecto");
 
             ListaElementos = Conexion.Seleccionar();
 
@@ -170,11 +171,15 @@ namespace MonoGame
 
                         ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada1.Identificador).ForEach(s => s.SeEncontroConPareja = true);
                         ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada2.Identificador).ForEach(s => s.SeEncontroConPareja = true);
+
+                        correcto.Play();
                     }
                     else
                     {
                         ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada1.Identificador).ForEach(s => s.Clickeado = false);
                         ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada2.Identificador).ForEach(s => s.Clickeado = false);
+
+                        incorrecto.Play();
                     }
 
                     ContadorClicks = 0;
@@ -184,7 +189,7 @@ namespace MonoGame
             }
 
             #region ganar
-            if (ContadorGanaste == 8)//Pregunta si se encontro todas
+            if (ContadorGanaste == 8) //Si encuentra las 8, es porque gano y encontro todas.
             {
                 GanarBool = true;
                 DibujarGanar = true;
@@ -250,7 +255,6 @@ namespace MonoGame
                 {
                     if (ListaElementos[i].Clickeado == true)
                     {
-                        drawed = true;
                         spriteBatch.Draw(ListaTexturas[i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
                     }
                     else
@@ -258,17 +262,11 @@ namespace MonoGame
                         //Que aparezca la ficha de vuelta
                         spriteBatch.Draw(fichaMemo, new Vector2(PosicionesFichas[i,0], PosicionesFichas[i,1]), Color.White);
                     }
-
-                    if (ListaElementos[i].SeEncontroConPareja == true)
-                    {
-                        spriteBatch.Draw(fichaMemo, new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.Green);
-                    }
                 }
 
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
             }
 
-            drawed = false;
             spriteBatch.End();
             base.Draw(gameTime);
         }
