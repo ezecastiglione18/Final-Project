@@ -12,6 +12,7 @@ namespace MonoGame
         public int Id { get; set; }
         public int Identificador { get; set; }
         public bool Clickeado { get; set; }
+        public bool SeEncontroConPareja { get; set; }
 
     }
 }

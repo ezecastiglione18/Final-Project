@@ -129,7 +129,6 @@ namespace MonoGame
             }
             else
             {
-
                 #region Comparacion
                 if (ListaElementos.FindAll(s => s.Clickeado == true).Count < 2)
                 {
@@ -157,7 +156,6 @@ namespace MonoGame
                                     FichaSeleccionada2.Identificador = ListaElementos[i].Identificador;
                                 }
                             }
-                            //PROBLEMA: No anda el if de abajo
                         }
                     }
                 }
@@ -166,12 +164,19 @@ namespace MonoGame
                     if (FichaSeleccionada1.Identificador == FichaSeleccionada2.Identificador || FichaSeleccionada1.Id == FichaSeleccionada2.Id)
                     {
                         ContadorGanaste++;
+
+                        FichaSeleccionada1.SeEncontroConPareja = true;
+                        FichaSeleccionada2.SeEncontroConPareja = true;
+
+                        ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada1.Identificador).ForEach(s => s.SeEncontroConPareja = true);
+                        ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada2.Identificador).ForEach(s => s.SeEncontroConPareja = true);
                     }
                     else
                     {
-                        ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada1.Identificador).ForEach(s=>s.Clickeado = false);//anterior clickeada
+                        ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada1.Identificador).ForEach(s => s.Clickeado = false);
                         ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada2.Identificador).ForEach(s => s.Clickeado = false);
                     }
+
                     ContadorClicks = 0;
                     Thread.Sleep(1000);                                
                 }                       
@@ -252,6 +257,11 @@ namespace MonoGame
                     {
                         //Que aparezca la ficha de vuelta
                         spriteBatch.Draw(fichaMemo, new Vector2(PosicionesFichas[i,0], PosicionesFichas[i,1]), Color.White);
+                    }
+
+                    if (ListaElementos[i].SeEncontroConPareja == true)
+                    {
+                        spriteBatch.Draw(fichaMemo, new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.Green);
                     }
                 }
 
