@@ -37,14 +37,11 @@ namespace MonoGame
         ConexionBDSports Conexion = new ConexionBDSports();
         List<Texture2D> ListaTexturas = new List<Texture2D>();
         List<Sports> ListaElementos = new List<Sports>();
+        List<Sports> ListaFichasYaEnc = new List<Sports>();
 
-        public Texture2D[,] MatrizConImagenes = new Texture2D[16, 2];
         public int[,] PosicionesFichas = new int[16, 2] { { 100, 75 }, { 100, 175 }, { 100, 275 }, { 100, 375 }, { 300, 75 }, { 300, 175 }, { 300, 275 }, { 300, 375 }, { 500, 75 }, { 500, 175 }, { 500, 275 }, { 500, 375 }, { 700, 75 }, { 700, 175 }, { 700, 275 }, { 700, 375 } };
         public Rectangle[] Rectangulos = new Rectangle[16];
         public bool[] RectanguloClickeado = new bool[16];
-
-        public Texture2D[] VectorGeneral = new Texture2D[16];
-        public int[] PosicionesYaUsadas = new int[16];
 
         Sports FichaSeleccionada1 = new Sports();
         Sports FichaSeleccionada2 = new Sports();
@@ -111,7 +108,7 @@ namespace MonoGame
             MouseState mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
 
-            if (GanarBool)
+            if (GanarBool == true)
             {
                 spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
 
@@ -161,16 +158,15 @@ namespace MonoGame
                     }
                 }
                 else
-                { 
+                {
+                    //Cuando yo clickeo sobre una ficha y veo su FichaSeleccionada.Nombre, no es el mismo que la ficha que se muestra
+                    //como seleccionada ----> PROBLEMA EN VISUALIZACION DE FICHAS, NO EN EL CODIGO!!
+
                     if (FichaSeleccionada1.Identificador == FichaSeleccionada2.Identificador || FichaSeleccionada1.Id == FichaSeleccionada2.Id)
                     {
                         ContadorGanaste++;
-
-                        FichaSeleccionada1.SeEncontroConPareja = true;
-                        FichaSeleccionada2.SeEncontroConPareja = true;
-
-                        ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada1.Identificador).ForEach(s => s.SeEncontroConPareja = true);
-                        ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada2.Identificador).ForEach(s => s.SeEncontroConPareja = true);
+                        
+                        ListaElementos.RemoveAll(s => s.Identificador == FichaSeleccionada1.Identificador);
 
                         correcto.Play();
                     }
