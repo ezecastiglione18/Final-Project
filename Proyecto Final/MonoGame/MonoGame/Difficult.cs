@@ -89,8 +89,8 @@ namespace MonoGame
             int[] RandomNum = CalcularNumeros();
             for (int i = 0; i < Rectangulos.Length; i++)
             {
-                Rectangulos[RandomNum[i] - 1] = new Rectangle(PosicionesFichas[RandomNum[i] - 1, 0], PosicionesFichas[RandomNum[i] - 1, 1], fichaMemo.Width, fichaMemo.Height);
-                FileStream file = new FileStream(Properties.Settings.Default.RutaSport + "\\" + ListaElementos[RandomNum[i] - 1].Nombre, FileMode.Open);
+                Rectangulos[/*RandomNum[i] - 1*/i] = new Rectangle(PosicionesFichas[/*RandomNum[i] - 1, 0*/i,0], PosicionesFichas[/*RandomNum[i] - 1, 1*/i,1], fichaMemo.Width, fichaMemo.Height);
+                FileStream file = new FileStream(Properties.Settings.Default.RutaSport + "\\" + ListaElementos[/*RandomNum[i] - 1*/i].Nombre, FileMode.Open);
                 Texture2D hola = Texture2D.FromStream(GraphicsDevice, file);
                 ListaTexturas.Add(hola);
             }
@@ -162,12 +162,15 @@ namespace MonoGame
                     //Cuando yo clickeo sobre una ficha y veo su FichaSeleccionada.Nombre, no es el mismo que la ficha que se muestra
                     //como seleccionada ----> PROBLEMA EN VISUALIZACION DE FICHAS, NO EN EL CODIGO!!
 
-                    if (FichaSeleccionada1.Identificador == FichaSeleccionada2.Identificador || FichaSeleccionada1.Id == FichaSeleccionada2.Id)
+                    //PROBLEMA TEMPORALMENTE SOLUCIONADO
+
+                    if (FichaSeleccionada1.Identificador == FichaSeleccionada2.Identificador)
                     {
                         ContadorGanaste++;
-                        
-                        ListaElementos.RemoveAll(s => s.Identificador == FichaSeleccionada1.Identificador);
 
+                        ListaElementos.RemoveAll(s => s.Identificador == FichaSeleccionada1.Identificador);
+                        ListaElementos.RemoveAll(s => s.Identificador == FichaSeleccionada2.Identificador);
+                        
                         correcto.Play();
                     }
                     else
@@ -257,12 +260,12 @@ namespace MonoGame
                     {
                         //Que aparezca la ficha de vuelta
                         spriteBatch.Draw(fichaMemo, new Vector2(PosicionesFichas[i,0], PosicionesFichas[i,1]), Color.White);
-                    }
+                    }                
                 }
 
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
             }
-
+            
             spriteBatch.End();
             base.Draw(gameTime);
         }
