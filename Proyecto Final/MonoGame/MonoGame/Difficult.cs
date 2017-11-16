@@ -31,17 +31,17 @@ namespace MonoGame
         bool DibujarGanar = false;
         int ContadorGanaste = 0;
         int ContadorClicks = 0;
+        int IdFicha1;
+        int IdFicha2;
         bool played = false;
         Texture2D FichaCostado;
         Random random = new Random();
         ConexionBDSports Conexion = new ConexionBDSports();
+
         List<Texture2D> ListaTexturas = new List<Texture2D>();
         List<Sports> ListaElementos = new List<Sports>();
-        List<Sports> ListaFichasYaEnc = new List<Sports>();
-
         public int[,] PosicionesFichas = new int[16, 2] { { 100, 75 }, { 100, 175 }, { 100, 275 }, { 100, 375 }, { 300, 75 }, { 300, 175 }, { 300, 275 }, { 300, 375 }, { 500, 75 }, { 500, 175 }, { 500, 275 }, { 500, 375 }, { 700, 75 }, { 700, 175 }, { 700, 275 }, { 700, 375 } };
         public Rectangle[] Rectangulos = new Rectangle[16];
-        public bool[] RectanguloClickeado = new bool[16];
 
         Sports FichaSeleccionada1 = new Sports();
         Sports FichaSeleccionada2 = new Sports();
@@ -62,11 +62,6 @@ namespace MonoGame
         {
             this.IsMouseVisible = true;
             base.Initialize();
-
-            for (int i = 0; i < RectanguloClickeado.Length; i++)
-            {
-                RectanguloClickeado[i] = false;
-            }
         }
 
         protected override void LoadContent()
@@ -127,7 +122,7 @@ namespace MonoGame
             }
             else
             {
-                #region Comparacion
+                #region Comparacion y Asignacion de valores a objetos de tipo Sports
                 if (ListaElementos.FindAll(s => s.Clickeado == true).Count < 2)
                 {
                     for (int i = 0; i < ListaElementos.Count; i++)
@@ -136,7 +131,6 @@ namespace MonoGame
                         {
                             if (ListaElementos[i].Clickeado == false)
                             {
-                                RectanguloClickeado[i] = true;
                                 ListaElementos[i].Clickeado = true;
                                 ContadorClicks++;
 
@@ -145,6 +139,7 @@ namespace MonoGame
                                     FichaSeleccionada1.Nombre = ListaElementos[i].Nombre;
                                     FichaSeleccionada1.Id = ListaElementos[i].Id;
                                     FichaSeleccionada1.Identificador = ListaElementos[i].Identificador;
+                                    IdFicha1 = FichaSeleccionada1.Id;                                    
                                 }
 
                                 if (ContadorClicks == 2 && ListaElementos[i].Clickeado == true)
@@ -152,6 +147,7 @@ namespace MonoGame
                                     FichaSeleccionada2.Nombre = ListaElementos[i].Nombre;
                                     FichaSeleccionada2.Id = ListaElementos[i].Id;
                                     FichaSeleccionada2.Identificador = ListaElementos[i].Identificador;
+                                    IdFicha2 = FichaSeleccionada2.Id;                                    
                                 }
                             }
                         }
@@ -162,16 +158,17 @@ namespace MonoGame
                     //Cuando yo clickeo sobre una ficha y veo su FichaSeleccionada.Nombre, no es el mismo que la ficha que se muestra
                     //como seleccionada ----> PROBLEMA EN VISUALIZACION DE FICHAS, NO EN EL CODIGO!!
 
-                    //PROBLEMA TEMPORALMENTE SOLUCIONADO
-
                     if (FichaSeleccionada1.Identificador == FichaSeleccionada2.Identificador)
                     {
                         ContadorGanaste++;
 
-                        ListaElementos.RemoveAll(s => s.Identificador == FichaSeleccionada1.Identificador);
-                        ListaElementos.RemoveAll(s => s.Identificador == FichaSeleccionada2.Identificador);
-                        
-                        correcto.Play();
+                        ListaElementos.FindAll(s => s.Identificador == IdFicha1).ForEach(s => s.SeEncontroConPareja = true);                        
+
+                        //LO QUE ESTABA ANTES!
+                        /*ListaElementos.RemoveAll(s => s.Identificador == FichaSeleccionada1.Identificador);
+                        ListaElementos.RemoveAll(s => s.Identificador == FichaSeleccionada2.Identificador);*/
+
+                        correcto.Play();                        
                     }
                     else
                     {
@@ -182,7 +179,7 @@ namespace MonoGame
                     }
 
                     ContadorClicks = 0;
-                    Thread.Sleep(1000);                                
+                    Thread.Sleep(1000);
                 }                       
                 #endregion
             }
@@ -254,18 +251,24 @@ namespace MonoGame
                 {
                     if (ListaElementos[i].Clickeado == true)
                     {
-                        spriteBatch.Draw(ListaTexturas[i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
+                        spriteBatch.Draw(ListaTexturas[i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);                       
                     }
                     else
                     {
                         //Que aparezca la ficha de vuelta
-                        spriteBatch.Draw(fichaMemo, new Vector2(PosicionesFichas[i,0], PosicionesFichas[i,1]), Color.White);
-                    }                
+                        spriteBatch.Draw(fichaMemo, new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.White);
+                    }
+                    
+                    //PINTAR FICHA CUANDO SE ENCUENTRA CON PAREJA!
+                    if (ListaElementos[i].SeEncontroConPareja == true)
+                    {
+                        spriteBatch.Draw(ListaTexturas[i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.LightGreen);                
+                    }                    
                 }
 
                 spriteBatch.Draw(salir, new Rectangle(730, 450, 150, 75), Color.White);
             }
-            
+
             spriteBatch.End();
             base.Draw(gameTime);
         }
