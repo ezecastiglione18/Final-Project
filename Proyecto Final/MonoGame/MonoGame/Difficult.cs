@@ -26,24 +26,20 @@ namespace MonoGame
         Rectangle no = new Rectangle(491, 305, 87, 117);
         public bool SalirBool = false;
         public bool Dibujar = false;
-        //bool DibujarSalir = false;
         bool GanarBool = false;
-        //bool DibujarGanar = false;
         int ContadorClicks = 0;
         bool played = false;
         Texture2D FichaCostado;
         Random random = new Random();
         ConexionBDSports Conexion = new ConexionBDSports();
+        Sports FichaSeleccionada1 = new Sports();
+        Sports FichaSeleccionada2 = new Sports();
 
         List<Texture2D> ListaTexturas = new List<Texture2D>();
         List<Sports> ListaElementos = new List<Sports>();
         public int[,] PosicionesFichas = new int[16, 2] { { 100, 75 }, { 100, 175 }, { 100, 275 }, { 100, 375 }, { 300, 75 }, { 300, 175 }, { 300, 275 }, { 300, 375 }, { 500, 75 }, { 500, 175 }, { 500, 275 }, { 500, 375 }, { 700, 75 }, { 700, 175 }, { 700, 275 }, { 700, 375 } };
         public Rectangle[] Rectangulos = new Rectangle[16];
-        public Texture2D[] VectorGeneral = new Texture2D[16];
-
-        Sports FichaSeleccionada1 = new Sports();
-        Sports FichaSeleccionada2 = new Sports();
-
+       
         public Difficult()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -79,11 +75,18 @@ namespace MonoGame
 
             #region Carga de Texturas a Rectangulos            
             int[] RandomNum = CalcularNumeros();
-            for (int i = 0; i < Rectangulos.Length; i++)
+            for (int i = 0; i < RandomNum.Length; i++)
             {
-                Rectangulos[/*RandomNum[i] - 1*/i] = new Rectangle(PosicionesFichas[/*RandomNum[i] - 1*/i, 0], PosicionesFichas[/*RandomNum[i] - 1*/i, 1], fichaMemo.Width, fichaMemo.Height);
-                FileStream file = new FileStream(Properties.Settings.Default.RutaSport + "\\" + ListaElementos[/*RandomNum[i] - 1*/i].Nombre, FileMode.Open);
-                Texture2D hola = Texture2D.FromStream(GraphicsDevice, file);
+                Rectangulos[i] = new Rectangle(PosicionesFichas[i,0], 
+                PosicionesFichas[i, 1], fichaMemo.Width, fichaMemo.Height);
+
+                ListaElementos[i].IdentificadorRandom = ListaElementos[RandomNum[i] - 1].Identificador;
+
+                FileStream file = new FileStream(Properties.Settings.Default.RutaSport + "\\" +
+                    ListaElementos[RandomNum[i] - 1].Nombre, FileMode.Open);
+                //ListaElementos[i].Nombre, FileMode.Open);
+
+            Texture2D hola = Texture2D.FromStream(GraphicsDevice, file);
                 ListaTexturas.Add(hola);
             }
             #endregion
@@ -92,7 +95,7 @@ namespace MonoGame
 
         protected override void UnloadContent()
         {
-            Content.Unload();
+            //Content.Unload();
         }
 
         protected override void Update(GameTime gameTime)
@@ -106,7 +109,7 @@ namespace MonoGame
             {
                 for (int i = 0; i < ListaElementos.Count; i++)
                 {
-                    if (Rectangulos[i].Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)//Se pregunta si el mouse se clickeo sobre uno de los rectangulos que estan en la misma posicion que las fichas
+                    if (Rectangulos[i].Contains(mousePosition) && mouseState.LeftButton == ButtonState.Pressed)
                     {
                         if (ListaElementos[i].Clickeado == false)
                         {
@@ -115,16 +118,22 @@ namespace MonoGame
 
                             if (ContadorClicks == 1 && ListaElementos[i].Clickeado == true)
                             {
+                                FichaSeleccionada1 = new Sports();
+
                                 FichaSeleccionada1.Nombre = ListaElementos[i].Nombre;
                                 FichaSeleccionada1.Id = ListaElementos[i].Id;
                                 FichaSeleccionada1.Identificador = ListaElementos[i].Identificador;
+                                FichaSeleccionada1.IdentificadorRandom = ListaElementos[i].IdentificadorRandom;
                             }
 
                             if (ContadorClicks == 2 && ListaElementos[i].Clickeado == true)
                             {
+                                FichaSeleccionada2 = new Sports();
+
                                 FichaSeleccionada2.Nombre = ListaElementos[i].Nombre;
                                 FichaSeleccionada2.Id = ListaElementos[i].Id;
                                 FichaSeleccionada2.Identificador = ListaElementos[i].Identificador;
+                                FichaSeleccionada2.IdentificadorRandom = ListaElementos[i].IdentificadorRandom;
                             }
                         }
                     }
@@ -132,20 +141,19 @@ namespace MonoGame
             }
             else
             {
-                if (FichaSeleccionada1.Identificador == FichaSeleccionada2.Identificador || FichaSeleccionada1.Id == FichaSeleccionada2.Id)
+                if (FichaSeleccionada1.IdentificadorRandom == FichaSeleccionada2.IdentificadorRandom)
                 {
                     FichaSeleccionada1.SeEncontroConPareja = true;
                     FichaSeleccionada2.SeEncontroConPareja = true;
 
-                    ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada1.Identificador).ForEach(s => s.SeEncontroConPareja = true);
-                    ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada2.Identificador).ForEach(s => s.SeEncontroConPareja = true);
+                    ListaElementos.FindAll(s => s.IdentificadorRandom == FichaSeleccionada1.IdentificadorRandom).ForEach(s => s.SeEncontroConPareja = true);                    
 
                     correcto.Play();
                 }
                 else
                 {
-                    ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada1.Identificador).ForEach(s => s.Clickeado = false);
-                    ListaElementos.FindAll(s => s.Identificador == FichaSeleccionada2.Identificador).ForEach(s => s.Clickeado = false);
+                    ListaElementos.FindAll(s => s.IdentificadorRandom == FichaSeleccionada1.IdentificadorRandom).ForEach(s => s.Clickeado = false);
+                    ListaElementos.FindAll(s => s.IdentificadorRandom == FichaSeleccionada2.IdentificadorRandom).ForEach(s => s.Clickeado = false);
 
                     incorrecto.Play();
                 }
@@ -155,11 +163,6 @@ namespace MonoGame
             }
             #endregion
 
-
-            if (ListaElementos.FindAll(s => s.Lista == true).Count == 16) //Se pintaron de verde las 16 fichas
-            {
-                GanarBool = true;
-            }
 
             #region Salir
             MouseState mouseState2 = Mouse.GetState();
@@ -231,7 +234,6 @@ namespace MonoGame
                     if (ListaElementos[i].SeEncontroConPareja == true)
                     {
                         spriteBatch.Draw(ListaTexturas[i], new Vector2(PosicionesFichas[i, 0], PosicionesFichas[i, 1]), Color.LightSeaGreen);
-                        //ListaElementos.Remove(ListaElementos[i]);
                         ListaElementos[i].Clickeado = false;
                         ListaElementos[i].Lista = true;
                     }
@@ -239,8 +241,7 @@ namespace MonoGame
 
                 #region If que verifica si gano
                 if (ListaElementos.FindAll(s => s.Lista == true).Count == 16)
-                {
-                    Thread.Sleep(1000);
+                {                    
                     spriteBatch.Draw(Ganar, new Rectangle(10, 10, 890, 520), Color.White);
 
                     mousePosition = new Point(mouseState.X, mouseState.Y);

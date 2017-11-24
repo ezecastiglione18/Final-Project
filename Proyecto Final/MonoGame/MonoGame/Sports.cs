@@ -15,5 +15,7 @@ namespace MonoGame
         public bool SeEncontroConPareja { get; set; }
         public bool Lista { get; set; }
 
+        public int IdentificadorRandom {get;set;}
+
     }
 }

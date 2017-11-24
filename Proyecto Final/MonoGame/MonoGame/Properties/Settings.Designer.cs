@@ -49,7 +49,7 @@ namespace MonoGame.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Final-Project\\Proyecto Final\\MonoGame\\MonoGame\\Content")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Z:\\Final-Project\\Proyecto Final\\MonoGame\\MonoGame\\Content")]
         public string RutaSport {
             get {
                 return ((string)(this["RutaSport"]));
